@@ -1,0 +1,7 @@
+Product.id;Product.name;Product.vzp_code;Product.group_code;Unit.name;Product.price;Product.education
+6;Lancety One Touch Delica;0170283;LAD;balení;55,00;5,00
+5;Odbìrové pero One Touch Delica;0170282;OPD;balení;185,00;10,00
+1;plinky;123456;PK;balení;123,00;0,00
+3;Testovací proužky One Touch Ultra;0085215;ULT;balení;305,00;30,00
+2;Testovací proužky One Touch Verio;0151652;VER;balení;305,00;0,00
+4;Testovací proužky One Touch Vita;0085536;VIT;balení;305,00;0,00

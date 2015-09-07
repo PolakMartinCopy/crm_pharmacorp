@@ -1,0 +1,2 @@
+ProductsTransaction.id;Sale.date_day;Sale.date_month;Sale.date_year;Sale.code;BusinessPartner.id;BusinessPartner.name;BusinessPartner.ico;Purchaser.id;Purchaser.name;Product.id;Product.name;Product.vzp_code;Product.group_code;ProductsTransaction.abs_quantity;ProductsTransaction.unit_price;ProductsTransaction.abs_total_price;Unit.shortcut;User.id;TransactionType.id;TransactionType.name;User.last_name
+62;01;09;2015;P201509004;4;Martin Polak;123456;26;Marie Polák;2;Testovací proužky One Touch Verio;0151652;VER;10;305,00;3050,00;bal.;1;3;prodej;Polák

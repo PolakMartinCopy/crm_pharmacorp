@@ -1,0 +1,31 @@
+Purchaser.id;Purchaser.name;BusinessPartner.id;BusinessPartner.name;Address.city;Address.region;Product.id;Product.vzp_code;Product.name;StoreItem.id;StoreItem.quantity;Unit.shortcut;Product.price;StoreItem.item_total_price;Product.group_code
+45;MUDr. David Èervený;21;DIACENTRUM s.r.o.;Praha;;2;0151652;Testovací proužky One Touch Verio;45;120;bal.;305,00;36600,00;PL 02
+45;MUDr. David Èervený;21;DIACENTRUM s.r.o.;Praha;;6;0170283;Lancety One Touch Delica;48;10;bal.;55,00;550,00;LL 01
+45;MUDr. David Èervený;21;DIACENTRUM s.r.o.;Praha;;4;0085536;Testovací proužky One Touch Vita;46;120;bal.;305,00;36600,00;PL 03
+45;MUDr. David Èervený;21;DIACENTRUM s.r.o.;Praha;;3;0085215;Testovací proužky One Touch Ultra;47;10;bal.;305,00;3050,00;PL 01
+43;Mudr. Jana Karasová;22;Dianek s.r.o;Kladno;Kladno;2;0151652;Testovací proužky One Touch Verio;42;382;bal.;305,00;116510,00;PL 02
+43;Mudr. Jana Karasová;22;Dianek s.r.o;Kladno;Kladno;3;0085215;Testovací proužky One Touch Ultra;43;100;bal.;305,00;30500,00;PL 01
+43;Mudr. Jana Karasová;22;Dianek s.r.o;Kladno;Kladno;4;0085536;Testovací proužky One Touch Vita;44;50;bal.;305,00;15250,00;PL 03
+44;MUDr. Lucie Žambochová;20;DiaLea;ostrava;Ostrava;2;0151652;Testovací proužky One Touch Verio;40;250;bal.;305,00;76250,00;PL 02
+44;MUDr. Lucie Žambochová;20;DiaLea;ostrava;Ostrava;4;0085536;Testovací proužky One Touch Vita;41;300;bal.;305,00;91500,00;PL 03
+36;MUDr. Lukáš Motorkáø;18;Dia LUKAS;Ostrava;;2;0151652;Testovací proužky One Touch Verio;37;1250;bal.;305,00;381250,00;PL 02
+36;MUDr. Lukáš Motorkáø;18;Dia LUKAS;Ostrava;;4;0085536;Testovací proužky One Touch Vita;39;300;bal.;305,00;91500,00;PL 03
+36;MUDr. Lukáš Motorkáø;18;Dia LUKAS;Ostrava;;3;0085215;Testovací proužky One Touch Ultra;38;150;bal.;305,00;45750,00;PL 01
+2;Mgr. Radovan Kramáø;4;Martin Polak;Brno - Lesná;Brno;6;0170283;Lancety One Touch Delica;26;1;bal.;55,00;55,00;LL 01
+2;Mgr. Radovan Kramáø;4;Martin Polak;Brno - Lesná;Brno;4;0085536;Testovací proužky One Touch Vita;25;1;bal.;305,00;305,00;PL 03
+2;Mgr. Radovan Kramáø;4;Martin Polak;Brno - Lesná;Brno;3;0085215;Testovací proužky One Touch Ultra;13;10;bal.;305,00;3050,00;PL 01
+2;Mgr. Radovan Kramáø;4;Martin Polak;Brno - Lesná;Brno;2;0151652;Testovací proužky One Touch Verio;12;124;bal.;305,00;37820,00;PL 02
+34;Max Kotkolík;16;Centrum Kotkolika;Ostrava;Ostrava-mìsto;3;0085215;Testovací proužky One Touch Ultra;36;400;bal.;305,00;122000,00;PL 01
+34;Max Kotkolík;16;Centrum Kotkolika;Ostrava;Ostrava-mìsto;2;0151652;Testovací proužky One Touch Verio;34;0;bal.;305,00;0,00;PL 02
+34;Max Kotkolík;16;Centrum Kotkolika;Ostrava;Ostrava-mìsto;4;0085536;Testovací proužky One Touch Vita;35;500;bal.;305,00;152500,00;PL 03
+33;eda Kotkolík;16;Centrum Kotkolika;Ostrava;Ostrava-mìsto;3;0085215;Testovací proužky One Touch Ultra;33;200;bal.;305,00;61000,00;PL 01
+33;eda Kotkolík;16;Centrum Kotkolika;Ostrava;Ostrava-mìsto;2;0151652;Testovací proužky One Touch Verio;31;0;bal.;305,00;0,00;PL 02
+33;eda Kotkolík;16;Centrum Kotkolika;Ostrava;Ostrava-mìsto;4;0085536;Testovací proužky One Touch Vita;32;200;bal.;305,00;61000,00;PL 03
+28;MUDr. Erik Diabetik;14;TEST DIA, s.r.o.;Brno;Brno - mìsto;2;0151652;Testovací proužky One Touch Verio;28;80;bal.;305,00;24400,00;PL 02
+28;MUDr. Erik Diabetik;14;TEST DIA, s.r.o.;Brno;Brno - mìsto;4;0085536;Testovací proužky One Touch Vita;29;180;bal.;305,00;54900,00;PL 03
+28;MUDr. Erik Diabetik;14;TEST DIA, s.r.o.;Brno;Brno - mìsto;3;0085215;Testovací proužky One Touch Ultra;30;-30;bal.;305,00;-9150,00;PL 01
+26;Marie Polák;4;Martin Polak;Mokrá - Horákov;Martin Polák;2;0151652;Testovací proužky One Touch Verio;27;-10;bal.;305,00;-3050,00;PL 02
+22;MUDr. Jana Modrá;15;MUDr. Jana Modrá;Plzeò;Plzeò;2;0151652;Testovací proužky One Touch Verio;15;80;bal.;305,00;24400,00;PL 02
+20;Jana Druhá;14;TEST DIA, s.r.o.;Brno;Brno - mìsto;5;0170282;Odbìrové pero One Touch Delica;24;2;bal.;185,00;370,00;OPL 01
+20;Jana Druhá;14;TEST DIA, s.r.o.;Brno;Brno - mìsto;2;0151652;Testovací proužky One Touch Verio;17;250;bal.;305,00;76250,00;PL 02
+19;MUDr. Jana První;14;TEST DIA, s.r.o.;Brno;Brno - mìsto;2;0151652;Testovací proužky One Touch Verio;20;50;bal.;305,00;15250,00;PL 02

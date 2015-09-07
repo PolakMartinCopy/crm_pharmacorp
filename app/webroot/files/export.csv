@@ -1,0 +1,16 @@
+BusinessPartner.id;BusinessPartner.name;BusinessPartner.degree_before;BusinessPartner.first_name;BusinessPartner.last_name;BusinessPartner.degree_after;BusinessPartner.ico;BusinessPartner.dic;BusinessPartner.email;BusinessPartner.phone;BusinessPartner.note;BusinessPartner.wallet;Address.name;Address.street;Address.number;Address.city;Address.zip;Address.region
+2;Pharmacorp CZ s.r.o.;;;;;29372828;;pharmacorp@pharmacorp.cz;;;0,00;Pharmacorp CZ s.r.o.;Fillova;260/1;Brno;63800;Brno - mìsto
+3;MeaVita s.r.o.;;;;;29248400;;meavita@meavita.cz;;;-17898,00;MeaVita s.r.o.;Fillova;260/1;Brno - Lesná;63800;
+4;Martin Polak;Mgr.;Martin;Polák;;123456;;martin.polak@mokra.cz;723238866;;2641,00;Martin Polak s. r. o.;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov
+6;Diacentrum, s. r.  o. ;;;;;12121212;CZ12121212;dia@qmail.com;777 777 777;novì otevøeno;0,00;Diacentrum, s. r. o.;Zelená;20;Brno;;Brno - mìsto
+7;MedicalCorp CZ s.r.o.;;;;;02646421;;;;;0,00;;Bìhounská;677/15;Brno-støed -  Brno-mìsto;;
+13;Obchodni partner s odberatelem;Mgr.;Obchodni;Partner;;456456;;obchodni@partner.cz;;;0,00;;ulice;321;mesto upravene;;
+14;TEST DIA, s.r.o.;MUDr.;Jana;První;;11111111;;;;;900,00;;Testovací;20;Brno;60200;Brno - mìsto
+15;MUDr. Jana Modrá;MUDr.;Jana;Modrá;;15555555;;;111111111;;0,00;;Modrá;20;Karlovy Vary;20000;Karlovy Vary
+16;Centrum Kotkolika;MUDr.;Jana;Kotkolikova;;23232323;CZ23232323;kot@kot.cz;555555555;;33000,00;;Kotkolíkova;20;Ostrava;78900;Ostrava-mìsto
+17;Lékárna Zlatý orel;Mgr.;Max;Orel;;23212121;CZ21212121;orel@orel.cz;;;0,00;;U orla;20;Ostrava;;Ostrava-mìsto
+18;Dia LUKAS;MUDr.;Lukáš;Motorkáø;;33333333;CZ33333333;motorkar@moto.cz;999999999;;3000,00;;Louka;20;Ostrava;70000;
+19;Dia Daniela;MUDr.;Daniela;Èerná;;33332121;CZ33332121;dani@dani.cz;777770000;;0,00;;Pražská;20;Praha;;Hlavní mìsto Praha
+20;DiaLea;MUDr.;Lucie;Žambochová;;159159159;CZ159159159;zamba@zamba.cz;777777777;otevøeno jen pondìlí až støeda;0,00;;nám.V.Nováka;541;ostrava;70800;Ostrava
+21;DIACENTRUM s.r.o.;MUDr.;Josef;Novák;CSc.;1234567;CZ;josef.novak@diacentrum.cz;123456789;;0,00;;Nová;1449;Praha;10000;Praha
+22;Dianek s.r.o;Mudr.;Jana;Karasová;;66666666;cz666666;dianek.karasova@centrum.cz;42155525;;0,00;;U dvora;12;Kladno;41522;Kladno

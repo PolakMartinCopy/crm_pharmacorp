@@ -1,0 +1,2 @@
+Contract.id;Contract.begin_date;Contract.end_date;Contract.mont;Contract.year;Contract.amount;Contract.amount_vat;Contract.vat
+11;02.09.2015;04.09.2015;10;2015;9000;11500;15

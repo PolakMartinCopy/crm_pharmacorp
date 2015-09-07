@@ -38,7 +38,7 @@ $admins = array('213.194.204.132', '85.132.201.158', '85.132.202.160');
 Configure::write('debug', 0);
 
 if (in_array($_SERVER['REMOTE_ADDR'], $admins)) {
-	Configure::write('debug', 2);
+	Configure::write('debug', 0);
 }
 
 

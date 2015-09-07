@@ -1,8 +1,6 @@
-/app/config
 /app/tmp
-/plugins
-/vendors
 /.buildpath
 /.project
 /.settings/org.eclipse.php.core.prefs
 /.settings/org.eclipse.wst.common.project.facet.core.xml
+/app/config/database.php

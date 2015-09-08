@@ -12,24 +12,16 @@
 <?php echo $form->create('ContactPerson', array('url' => array('controller' => 'contact_people', 'action' => 'add') + $this->passedArgs)); ?>
 <script>
 	$(document).ready(function(){
-		data = <?php echo $purchasers?>;
-		$('input.ContactPersonPurchaserName').each(function() {
-			var autoCompelteElement = this;
-			var formElementName = $(this).attr('name');
-			var formElementId = $(this).attr('id');
-			var hiddenElementID  = 'ContactPersonPurchaserId';
-			var hiddenElementName = 'data[ContactPerson][purchaser_id]';
-			/* create new hidden input with name of orig input */
-			$(this).after("<input type=\"hidden\" name=\"" + hiddenElementName + "\" id=\"" + hiddenElementID + "\" />");
-			$(this).autocomplete({
-				source: data, 
-				select: function(event, ui) {
-					var selectedObj = ui.item;
-					$(autoCompelteElement).val(selectedObj.label);
-					$('#'+hiddenElementID).val(selectedObj.value);
-					return false;
-				}
-			});
+		$('#ContactPersonPurchaserName').autocomplete({
+			delay: 500,
+			minLength: 2,
+			source: '/user/purchasers/autocomplete_list',
+			select: function(event, ui) {
+				purchaserId = ui.item.value;
+				$('#ContactPersonPurchaserName').val(ui.item.label);
+				$('#ContactPersonPurchaserId').val(ui.item.value);
+				return false;
+			}
 		});
 
 		$("#ContactPersonBirthday").datepicker({
@@ -44,14 +36,10 @@
 	<tr>
 		<th>Odběratel<sup>*</sup></th>
 		<td colspan="7"><?php
-			if (isset($purchaser_id)) {
-				echo $form->input('ContactPerson.purchaser_id', array('options' => $purchasers, 'selected' => $purchaser_id, 'empty' => false, 'label' => false, 'disabled' => true));
-				echo $form->hidden('ContactPerson.purchaser_id', array('value' => $purchaser_id));
-			} else {
-				echo $form->input('ContactPerson.purchaser_name', array('label' => false, 'type' => 'text', 'class' => 'ContactPersonPurchaserName'));
-				echo $form->error('ContactPerson.purchaser_id');
-			}
-	?></td>
+			echo $form->input('ContactPerson.purchaser_name', array('label' => false, 'type' => 'text', 'class' => 'BusinessSessionPurchaserName', 'size' => 70));
+			echo $form->hidden('ContactPerson.purchaser_id');
+			echo $form->error('ContactPerson.purchaser_id');
+		?></td>
 	<tr>
 		<th>Titul před</th>
 		<td><?php echo $this->Form->input('ContactPerson.degree_before', array('label' => false, 'size' => 10))?></td>

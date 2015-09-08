@@ -1,23 +1,15 @@
 <script>
 	$(document).ready(function(){
-		data = <?php echo $purchasers?>;
-		$('input.ContactPersonPurchaserName').each(function() {
-			var autoCompelteElement = this;
-			var formElementName = $(this).attr('name');
-			var formElementId = $(this).attr('id');
-			var hiddenElementID  = 'ContactPersonPurchaserId';
-			var hiddenElementName = 'data[ContactPerson][purchaser_id]';
-			/* create new hidden input with name of orig input */
-			$(this).after("<input type=\"hidden\" name=\"" + hiddenElementName + "\" id=\"" + hiddenElementID + "\" />");
-			$(this).autocomplete({
-				source: data, 
-				select: function(event, ui) {
-					var selectedObj = ui.item;
-					$(autoCompelteElement).val(selectedObj.label);
-					$('#'+hiddenElementID).val(selectedObj.value);
-					return false;
-				}
-			});
+		$('#ContactPersonPurchaserName').autocomplete({
+			delay: 500,
+			minLength: 2,
+			source: '/user/purchasers/autocomplete_list',
+			select: function(event, ui) {
+				purchaserId = ui.item.value;
+				$('#ContactPersonPurchaserName').val(ui.item.label);
+				$('#ContactPersonPurchaserId').val(ui.item.value);
+				return false;
+			}
 		});
 
 		$("#ContactPersonBirthday").datepicker({

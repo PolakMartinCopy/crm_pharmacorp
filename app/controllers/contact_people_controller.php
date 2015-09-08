@@ -155,19 +155,8 @@ class ContactPeopleController extends AppController {
 			));
 			$this->set('purchaser', $thePurchaser);
 			
-			$purchasers = Set::combine($purchasers, '{n}.Purchaser.id', '{n}.Purchaser.name');
-			$this->set('purchasers', $purchasers);
 			$this->left_menu_list = array('purchasers', 'purchaser_detailed');
 			$this->set('active_tab', 'purchasers');
-		} else {
-			$autocomplete_purchasers = array();
-			foreach ($purchasers as $purchaser) {
-				$autocomplete_purchasers[] = array(
-					'label' => $this->ContactPerson->Purchaser->autocomplete_field_info($purchaser['Purchaser']['id']),
-					'value' => $purchaser['Purchaser']['id']
-				);
-			}
-			$this->set('purchasers', json_encode($autocomplete_purchasers));
 		}
 		
 		if (isset($this->data)) {
@@ -204,6 +193,7 @@ class ContactPeopleController extends AppController {
 		} else {
 			if (isset($thePurchaser)) {
 				$this->data['ContactPerson']['purchaser_name'] = $this->ContactPerson->Purchaser->autocomplete_field_info($thePurchaser['Purchaser']['id']);
+				$this->data['ContactPerson']['purchaser_id'] = $thePurchaser['Purchaser']['id'];
 			}
 		}
 	}
@@ -262,21 +252,6 @@ class ContactPeopleController extends AppController {
 		
 		$user_id = $this->user['User']['id'];
 		
-		$purchasers = $this->ContactPerson->Purchaser->find('all', array(
-			'conditions' => $purchasers_conditions,
-			'order' => array('name' => 'asc'),
-			'contain' => array()
-		));
-
-		$autocomplete_purchasers = array();
-		foreach ($purchasers as $purchaser) {
-			$autocomplete_purchasers[] = array(
-				'label' => $this->ContactPerson->Purchaser->autocomplete_field_info($purchaser['Purchaser']['id']),
-				'value' => $purchaser['Purchaser']['id']
-			);
-		}
-		$this->set('purchasers', json_encode($autocomplete_purchasers));
-		
 		if (isset($this->data)) {
 			$data = $this->data;
 			if (empty($this->data['ContactPerson']['purchaser_id']) && !empty($this->data['ContactPerson']['purchaser_id_old'])) {
@@ -331,6 +306,7 @@ class ContactPeopleController extends AppController {
 		} else {
 			$this->data = $contact_person;
 			$this->data['ContactPerson']['purchaser_name'] = $this->ContactPerson->Purchaser->autocomplete_field_info($contact_person['ContactPerson']['purchaser_id']);
+			$this->data['ContactPerson']['birthday'] = db2cal_date($this->data['ContactPerson']['birthday']);
 		}
 	}
 	

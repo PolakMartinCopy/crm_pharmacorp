@@ -91,6 +91,8 @@ class Contract extends AppModel {
 		),
 	);
 	
+	var $one_line = 'TRIM(CONCAT(Contract.street, " ", Contract.number, ", ", Contract.zip, " ", Contract.city))';
+	
 	var $vat = 15;
 	
 	var $export_file = 'files/contracts.csv';

@@ -106,6 +106,53 @@ class ContractsController extends AppController {
 		$this->set('user', $this->user);
 	}
 	
+	function user_pdf($id = null) {
+		// nastavim akci pro presmerovani
+		$redirect = array('controller' => 'contracts', 'action' => 'index') + $this->passedArgs;
+		if (isset($this->params['named']['back_link'])) {
+			$redirect = base64_decode($this->params['named']['back_link']);
+			if (is_serialized($redirect)) {
+				$redirect = unserialize($redirect);
+			}
+		} elseif (isset($this->params['named']['contact_person_id'])) {
+			$redirect = array('controller' => 'contact_people', 'action' => 'view', $this->params['named']['contact_person_id'], 'tab' => 'XXX');
+		} elseif (isset($this->params['named']['business_partner_id'])) {
+			$redirect = array('controller' => 'business_partners', 'action' => 'index') + $this->passedArgs;
+			$this->set('business_partner_id', $business_partner_id);
+		}
+		$this->set('redirect', $redirect);
+		
+		if (!$id) {
+			$this->Session->setFlash('Není zadáno, kterou dohodu chcete zobrazit');
+			$this->redirect($redirect);
+		}
+		
+		$conditions = array('Contract.id' => $id);
+		if ($this->user['User']['user_type_id'] == 3) {
+			$conditions['Contract.user_id'] = $this->user['User']['id'];
+		}
+		
+		$this->Contract->virtualFields['one_line'] = $this->Contract->one_line;
+		$contract = $this->Contract->find('first', array(
+			'conditions' => $conditions,
+			'contain' => array(
+				'ContactPerson' => array(
+					'Address'
+				),
+				'ContractType'
+			)
+		));
+		unset($this->Contract->ContactPerson->Address->virtualFields['one_line']);
+// /debug($contract); die();
+		if (empty($contract)) {
+			$this->Session->setFlash('Dohoda, kterou chcete upravit, neexistuje');
+			$this->redirect($redirect);
+		}
+		
+		$this->set('contract', $contract);
+		$this->layout = 'pdf';
+	}
+	
 	function user_add() {
 		// nastavim akci pro presmerovani
 		$redirect = array('controller' => 'contracts', 'action' => 'index') + $this->passedArgs;
@@ -224,6 +271,9 @@ class ContractsController extends AppController {
 				$this->data['Contract']['city'] = $contact_person['Address']['city'];
 				$this->data['Contract']['zip'] = $contact_person['Address']['zip'];
 			}
+			
+			$this->data['Contract']['amount_vat'] = ceil(price_vat($this->data['Contract']['amount'], $this->data['Contract']['vat']));
+			
 			if ($this->Contract->saveAll($this->data)) {
 				$this->Session->setFlash('Dohoda byla upravena');
 				$this->redirect($redirect);

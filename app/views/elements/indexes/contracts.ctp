@@ -31,6 +31,9 @@
 		<td><?php echo ($contract['Contract']['confirmed'] ? 'ano' : 'ne') ?></td>
 		<td><?php
 			$links = array();
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Contracts/user_pdf')) {
+				$links[] = $this->Html->link('PDF', array('controller' => 'contracts', 'action' => 'pdf', $contract['Contract']['id'], 'back_link' => isset($back_link) ? $back_link : base64_encode($_SERVER['REQUEST_URI'])));
+			}
 			if (!$contract['Contract']['confirm_requirement'] && !$contract['Contract']['confirmed']) {
 				$links[] = $this->Html->link('Upravit', array('controller' => 'contracts', 'action' => 'edit', $contract['Contract']['id'], 'back_link' => isset($back_link) ? $back_link : base64_encode($_SERVER['REQUEST_URI'])));
 				$links[] = $this->Html->link('Smazat', array('controller' => 'contracts', 'action' => 'delete', $contract['Contract']['id'], 'back_link' => isset($back_link) ? $back_link : base64_encode($_SERVER['REQUEST_URI'])), array(), 'Opravdu chcete dohodu smazat?');

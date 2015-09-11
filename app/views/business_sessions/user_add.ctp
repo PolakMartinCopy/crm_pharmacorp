@@ -221,11 +221,12 @@ function educationRow(count) {
 		</td>
 	</tr>
 	<tr>
-		<th>Datum uskutečnění</th>
-		<td colspan="5">
-			<?php echo $form->input('BusinessSession.date', array('type' => 'text', 'label' => false, 'div' => false))?>
-			<?php echo $form->input('BusinessSession.time', array('type' => 'time', 'timeFormat' => '24', 'label' => false))?>
-		</td>
+		<th>Datum</th>
+		<td><?php echo $form->input('BusinessSession.date', array('type' => 'text', 'label' => false, 'div' => false))?></td>
+		<th>Od</th>
+		<td><?php echo $form->input('BusinessSession.time', array('type' => 'time', 'timeFormat' => '24', 'label' => false))?></td>
+		<th>Do</th>
+		<td><?php echo $form->input('BusinessSession.end_time', array('type' => 'time', 'timeFormat' => '24', 'label' => false))?></td>
 	</tr>
 	<tr>
 		<th>Typ jednání</th>

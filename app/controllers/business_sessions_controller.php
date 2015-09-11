@@ -594,6 +594,18 @@ class BusinessSessionsController extends AppController {
 		
 		if (isset($this->data)) {
 			$data = $this->data;
+			
+			if (isset($this->data['BusinessSessionsCost'])) {
+				foreach ($this->data['BusinessSessionsCost'] as $index => $cost) {
+					if (empty($cost['name']) && empty($cost['price']) && empty($cost['quantity'])) {
+						unset($this->data['BusinessSessionsCost'][$index]);
+					}
+				}
+				if (empty($this->data['BusinessSessionsCost'])) {
+					unset($this->data['BusinessSessionsCost']);
+				}
+			}
+			
 			$this->data['BusinessSession']['date'] = cal2db_date($this->data['BusinessSession']['date']);
 			$this->data['BusinessSession']['date'] = array_merge($this->data['BusinessSession']['date'], $this->data['BusinessSession']['time']);
 

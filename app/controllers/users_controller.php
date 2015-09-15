@@ -242,6 +242,73 @@ class UsersController extends AppController {
 		$this->redirect(array('controller' => 'users', 'action' => 'login'));
 	}
 	
+	function user_business_plan($id = null) {
+		// nastavim akci pro presmerovani
+		$redirect = array('controller' => 'users', 'action' => 'index') + $this->passedArgs;
+		if (isset($this->params['named']['back_link'])) {
+			$redirect = base64_decode($this->params['named']['back_link']);
+			if (is_serialized($redirect)) {
+				$redirect = unserialize($redirect);
+			}
+		}
+		$this->set('redirect', $redirect);
+		
+		if ($this->user['User']['user_type_id'] == 3 && $id != $this->user['User']['id']) {
+			$this->Session->setFlash('Neoprávněný přístup');
+			$this->redirect($redirect);
+		}
+		
+		if (!$id) {
+			$this->Session->setFlash('Není zvolen uživatel pro zobrazení plánu.');
+			$this->redirect($redirect);
+		}
+		
+		$this->User->virtualFields['full_name'] = $this->User->full_name;
+		$user = $this->User->find('first', array(
+			'conditions' => array('User.id' => $id),
+			'contain' => array()
+		));
+		unset($this->User->virtualFields['full_name']);
+		
+		if (empty($user)) {
+			$this->Session->setFlash('Požadovaný uživatel neexistuje.');
+			$this->redirect($redirect);
+		}
+		
+		$this->set('user', $user);
+		
+		// manager nemuze videt admina
+		if ($this->user['User']['user_type_id'] == 2 && $user['User']['user_type_id'] == 1) {
+			$this->Session->setFlash('Neoprávněný přístup. Nemáte právo upravovat zvoleného uživatele.');
+			$this->redirect($redirect);
+		}
+		
+		// podle data chci vypsat obchodni jednani daneho uzivatele na dany den
+		if (!isset($this->data['BusinessSession']['date'])) {
+			$this->data['BusinessSession']['date'] = date('d.m.Y');
+		}
+		
+		list($day, $month, $year) = explode('.', $this->data['BusinessSession']['date']);
+		$this->set(compact('year', 'month', 'day'));
+
+		$this->User->BusinessSession->virtualFields['start_time'] = 'TIME(BusinessSession.date)';
+		$business_sessions = $this->User->BusinessSession->find('all', array(
+			'conditions' => array(
+				'DATE(BusinessSession.date)' => $year . '-' . $month . '-' . $day,
+				'BusinessSession.user_id' => $id
+			),
+			'contain' => array(
+				'Purchaser' => array(
+					'BusinessPartner'
+				)
+			),
+			'order' => array('BusinessSession.start_time' => 'asc'),
+		));
+
+		$events = $this->User->BusinessSession->cake2fullcalendar($business_sessions);
+		$this->set('events', json_encode($events));
+	}
+	
 	/**
 	 * 
 	 * ADMIN uzivateli vygeneruje heslo
@@ -488,6 +555,7 @@ class UsersController extends AppController {
 		$this->Acl->allow('user', 'controllers/Users/user_login');
 		$this->Acl->allow('user', 'controllers/Users/user_logout');
 		$this->Acl->allow('user', 'controllers/Users/user_edit');
+		$this->Acl->allow('user', 'controllers/Users/user_business_plan');
 		$this->Acl->deny('user', 'controllers/UserRegions');
 		$this->Acl->allow('user', 'controllers/UserRegions/user_index');
 		

@@ -55,6 +55,7 @@ class BusinessSession extends AppModel {
 			array('field' => $this->Purchaser->virtualFields['name'], 'position' => '[0][\'' .  $this->Purchaser->virtualFields['name'] . '\']', 'alias' => 'Purchaser.name', 'escape_quotes' => false),
 			array('field' => 'BusinessSession.id', 'position' => '["BusinessSession"]["id"]', 'alias' => 'BusinessSession.id'),
 			array('field' => 'BusinessSession.date', 'position' => '["BusinessSession"]["date"]', 'alias' => 'BusinessSession.date'),
+			array('field' => 'BusinessSession.end_time', 'position' => '["BusinessSession"]["end_time"]', 'alias' => 'BusinessSession.end_time'),
 			array('field' => 'BusinessSession.created', 'position' => '["BusinessSession"]["created"]', 'alias' => 'BusinessSession.created'),
 			array('field' => 'BusinessSessionType.name', 'position' => '["BusinessSessionType"]["name"]', 'alias' => 'BusinessSessionType.name'),
 			array('field' => 'BusinessSessionState.name', 'position' => '["BusinessSessionState"]["name"]', 'alias' => 'BusinessSessionState.name'),
@@ -277,5 +278,40 @@ class BusinessSession extends AppModel {
 
 		fclose($file);
 		return true;
+	}
+	
+	function cake2fullcalendar($business_sessions) {
+		$events = array();
+		if (!empty($business_sessions)) {
+			foreach ($business_sessions as $business_session) {
+				$title = $business_session['Purchaser']['BusinessPartner']['name'] . ' - ' . $business_session['Purchaser']['name'];
+				list($start_date, $start_time) = explode(' ', $business_session['BusinessSession']['date']);
+				list($start_year, $start_month, $start_day) = explode('-', $start_date);
+				list($start_hour, $start_min, $pom) = explode(':', $start_time);
+				
+				
+				$end_hour = null;
+				$end_time = null;
+				if (!empty($business_session['BusinessSession']['end_time'])) {
+					list($end_hour, $end_time, $pom) = explode(':', $business_session['BusinessSession']['end_time']);
+				}
+				$events[] = array(
+					'id' => $business_session['BusinessSession']['id'],
+					'title' => $title,
+					'start_year' => $start_year,
+					'start_month' => $start_month,
+					'start_day' => $start_day,
+					'start_hour' => $start_hour,
+					'start_min' => $start_min,
+					'end_year' => $start_year,
+					'end_month' => $start_month,
+					'end_day' => $start_day,
+					'end_hour' => $end_hour,
+					'end_min' => $end_time,
+					'all_day' => false
+				);
+			}
+		}
+		return $events;
 	}
 }

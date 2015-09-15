@@ -289,3 +289,7 @@ div.calendar.orange table .cal a{background-image:url(../images/orange/backgroun
 .error-message {
 	color: #F00;
 }
+
+.fc-event:hover {
+	background-color: #7A9CAD
+}

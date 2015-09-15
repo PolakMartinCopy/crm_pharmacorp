@@ -1,11 +1,11 @@
 <table class="top_heading">
 	<tr>
 		<th><?php echo $paginator->sort('ID', 'BusinessSession.id')?></th>
-		<th><?php echo $paginator->sort('Datum jednání', 'BusinessSession.date')?></th>
+		<th><?php echo $paginator->sort('Datum', 'BusinessSession.date')?></th>
+		<th><?php echo $this->Paginator->sort('Čas konce', 'BusinessSession.end_time')?></th>
 		<th><?php echo $paginator->sort('Odběratel', 'BusinessSession.purchaser_name')?></th>
 		<th><?php echo $paginator->sort('Typ jednání', 'BusinessSessionType.name')?></th>
 		<th><?php echo $paginator->sort('Stav jednání', 'BusinessSessionState.name')?></th>
-		<th><?php echo $paginator->sort('Datum vložení', 'BusinessSession.created')?></th>
 		<th><?php echo $paginator->sort('Založil', 'User.last_name')?></th>
 		<th>&nbsp;</th>
 	</tr>
@@ -17,10 +17,10 @@
 	<tr<?php echo $odd?>>
 		<td><?php echo $business_session['BusinessSession']['id']?></td>
 		<td><?php echo $business_session['BusinessSession']['date']?></td>
+		<td><?php echo $business_session['BusinessSession']['end_time']?></td>
 		<td><?php echo $html->link($business_session['BusinessSession']['purchaser_name'], array('controller' => 'purchasers', 'action' => 'view', $business_session['Purchaser']['id'], 'tab' => 8))?></td>
 		<td><?php echo $business_session['BusinessSessionType']['name']?></td>
 		<td><?php echo $business_session['BusinessSessionState']['name']?></td>
-		<td><?php echo $business_session['BusinessSession']['created']?></td>
 		<td><?php echo $business_session['User']['last_name']?></td>
 		<td class="actions"><?php 
 			$links = array();

@@ -88,11 +88,13 @@ if (empty($users)) {
 		<td><?php echo $html->link($user['User']['email'], 'mailto:' . $user['User']['email'])?></td>
 		<td><?php echo $user['User']['login']?></td>
 		<td><?php echo $user['UserType']['name']?></td>
-		<td class="actions">
-			<?php echo $html->link('Upravit', array('controller' => 'users', 'action' => 'edit', $user['User']['id']))?>
-			<?php echo $html->link('Smazat', array('controller' => 'users', 'action' => 'delete', $user['User']['id']), null, 'Opravdu chcete uživatele ' . $user['User']['first_name'] . ' ' . $user['User']['last_name'] . ' smazat?')?>
-			<?php //echo $html->link('Heslo', array('controller' => 'users', 'action' => 'generate_password', $user['User']['id']), null, 'Opravdu chcete uživateli ' . $user['User']['first_name'] . ' ' . $user['User']['last_name'] . ' změnit heslo?')?>
-		</td>
+		<td class="actions"><?php 
+			$links = array();
+			$links[] = $html->link('Plán obchodních aktivit', array('controller' => 'users', 'action' => 'business_plan', $user['User']['id']));
+			$links[] = $html->link('Upravit', array('controller' => 'users', 'action' => 'edit', $user['User']['id']));
+			$links[] = $html->link('Smazat', array('controller' => 'users', 'action' => 'delete', $user['User']['id']), null, 'Opravdu chcete uživatele ' . $user['User']['first_name'] . ' ' . $user['User']['last_name'] . ' smazat?');
+			echo implode('&nbsp;| ', $links);
+		?></td>
 	</tr>
 <?php } ?>
 </table>

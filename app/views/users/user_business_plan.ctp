@@ -26,14 +26,14 @@ $(function() {
 		var event = {
 			id: item.id,
 		    title:  item.title,
-		    start: new Date(item.start_year, item.start_month, item.start_day, item.start_hour, item.start_min),
-		    end: new Date(item.end_year, item.end_month, item.end_day, item.end_hour, item.end_min),
+		    start: new Date(item.start_year, (item.start_month-1), item.start_day, item.start_hour, item.start_min),
+		    end: new Date(item.end_year, (item.end_month-1), item.end_day, item.end_hour, item.end_min),
 		    allDay: item.all_day
 		};
 		events.push(event);
 	});
 	
-	var date = new Date(<?php echo $year?>, <?php echo $month?>, <?php echo $day?>);
+	var date = new Date(<?php echo $year?>, <?php echo $month-1?>, <?php echo $day?>);
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
@@ -50,8 +50,8 @@ $(function() {
 		defaultView: 'agendaDay',
 		monthNames: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
 		monthNamesShort: ['Led', 'Úno', 'Bře', 'Dub', 'Kvě', 'Čer', 'Čvc', 'Srp', 'Zář', 'Říj', 'Lis', 'Pro'],
-		dayNames: ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle'],
-		dayNamesShort: ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'],
+		dayNames: ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'],
+		dayNamesShort: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
 		timeFormat: 'H:mm', // uppercase H for 24-hour clock
 		axisFormat: 'H:mm', // uppercase H for 24-hour clock
 		allDaySlot: false,
@@ -72,7 +72,6 @@ $(function() {
 		prevDate.setDate(date.getDate()-1);
 		var day = prevDate.getDate();
 		var monthIndex = prevDate.getMonth();
-		monthIndex = monthIndex + 1;
 		var month = monthIndex.toString();
 		if (month.length == 1) {
 			month = '0' + month;
@@ -89,7 +88,6 @@ $(function() {
 
 		var day = nextDate.getDate();
 		var monthIndex = nextDate.getMonth();
-		monthIndex = monthIndex + 1;
 		var month = monthIndex.toString();
 		if (month.length == 1) {
 			month = '0' + month;

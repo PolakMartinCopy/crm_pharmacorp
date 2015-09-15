@@ -70,7 +70,11 @@ $(function() {
 	$('.fc-button-prev').click(function(e){
 		var prevDate = new Date();
 		prevDate.setDate(date.getDate()-1);
-		var day = prevDate.getDate();
+		var dayIndex = prevDate.getDate();
+		var day = dayIndex.toString();
+		if (day.length == 1) {
+			day = '0' + day;
+		}
 		var monthIndex = prevDate.getMonth();
 		monthIndex = monthIndex + 1;
 		var month = monthIndex.toString();
@@ -86,8 +90,11 @@ $(function() {
 	$('.fc-button-next').click(function(e) {
 		var nextDate = new Date();
 		nextDate.setDate(date.getDate()+1);
-
-		var day = nextDate.getDate();
+		var dayIndex = nextDate.getDate();
+		var day = dayIndex.toString();
+		if (day.length == 1) {
+			day = '0' + day;
+		}
 		var monthIndex = nextDate.getMonth();
 		monthIndex = monthIndex + 1;
 		var month = monthIndex.toString();

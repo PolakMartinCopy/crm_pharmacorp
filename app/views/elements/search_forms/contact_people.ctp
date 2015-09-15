@@ -46,6 +46,10 @@
 			<td><?php echo $form->input('ContactPersonSearch.ContactPerson.email', array('label' => false))?></td>
 		</tr>
 		<tr>
+			<th>Obchodník</th>
+			<td colspan="5"><?php echo $form->input('ContactPersonSearch.Purchaser.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
+		</tr>
+		<tr>
 			<td colspan="6"><?php
 					$reset_url = $_SERVER['REQUEST_URI'];
 					if ($this->params['action'] == 'user_index' && empty($this->params['named'])) {

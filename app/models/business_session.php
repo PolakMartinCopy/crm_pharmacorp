@@ -112,6 +112,9 @@ class BusinessSession extends AppModel {
 		if ( !empty($data['BusinessSession']['description']) ){
 			$conditions[] = 'BusinessSession.description LIKE \'%%' . $data['BusinessSession']['description'] . '%%\'';
 		}
+		if (!empty($data['BusinessSession']['user_id'])) {
+			$conditions[] = 'BusinessSession.user_id = ' . $data['BusinessSession']['user_id'];
+		}
 		
 		return $conditions;
 	}

@@ -77,6 +77,10 @@ class ContactPeopleController extends AppController {
 		
 		$back_link = array('controller' => 'contact_people', 'action' => 'index') + $this->passedArgs;
 		$this->set('back_link', base64_encode(serialize($back_link)));
+		
+		// seznam uzivatelu pro select ve filtru
+		$users = $this->ContactPerson->Purchaser->User->users_filter_list($this->user['User']['user_type_id']);
+		$this->set('users', $users);
 	}
 	
 	function user_view($id = null) {

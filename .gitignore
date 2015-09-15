@@ -5,3 +5,4 @@
 /.settings/org.eclipse.wst.common.project.facet.core.xml
 /app/config/database.php
 /.settings/org.eclipse.core.resources.prefs
+/app/webroot/files/export.csv

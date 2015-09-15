@@ -40,6 +40,10 @@
 			<td><?php echo $form->input('BusinessSessionSearch.BusinessSession.business_session_type_id', array('options' => $business_session_types, 'empty' => true, 'label' => false))?></td>
 		</tr>
 		<tr>
+			<th>Obchodník</th>
+			<td colspan="5"><?php echo $form->input('BusinessSessionSearch.BusinessSession.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
+		</tr>
+		<tr>
 			<td colspan="6">
 				<?php
 					$reset_url = $_SERVER['REQUEST_URI'];

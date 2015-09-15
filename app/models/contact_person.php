@@ -227,6 +227,9 @@ class ContactPerson extends AppModel {
 		if (!empty($data['ContactPerson']['email'])) {
 			$conditions[] = 'ContactPerson.email LIKE \'%%' . $data['ContactPerson']['email'] . '%%\'';
 		}
+		if (!empty($data['Purchaser']['user_id'])) {
+			$conditions['Purchaser.user_id'] = $data['Purchaser']['user_id'];
+		}
 		
 		return $conditions;
 	}

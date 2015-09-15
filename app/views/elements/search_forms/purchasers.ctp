@@ -34,6 +34,10 @@
 			<td><?php echo $form->input('PurchaserSearch.Address.region', array('label' => false))?></td>
 		</tr>
 		<tr>
+			<th>Obchodník</th>
+			<td colspan="5"><?php echo $form->input('PurchaserSearch.Purchaser.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
+		</tr>
+		<tr>
 			<td colspan="6">
 				<?php
 					$reset_url = $url;

@@ -94,6 +94,10 @@ class BusinessPartnersController extends AppController {
 		$this->set('find', $find);
 		
 		$this->set('export_fields', $this->BusinessPartner->export_fields);
+		
+		// seznam uzivatelu pro select ve filtru
+		$users = $this->BusinessPartner->Purchaser->User->users_filter_list($this->user['User']['user_type_id']);
+		$this->set('users', $users);
 	}
 	
 	function user_view($id = null) {
@@ -129,6 +133,10 @@ class BusinessPartnersController extends AppController {
 		
 		list($seat_address, $delivery_address, $invoice_address) = $this->BusinessPartner->Address->get_addresses($id);
 		$this->set('seat_address', $seat_address);
+		
+		// seznam uzivatelu pro select ve filtru
+		$users = $this->BusinessPartner->Purchaser->User->users_filter_list($this->user['User']['user_type_id']);
+		$this->set('users', $users);
 		
 		// ODBERATELE TOHOTO OBCHODNIHO PARTNERA
 		$purchasers_conditions = array(

@@ -151,16 +151,7 @@ class TransactionsController extends AppController {
 		$this->set('export_fields', $export_fields);
 		
 		// seznam uzivatelu pro select ve filtru
-		$users_conditions = array();
-		if ($this->user['User']['user_type_id'] == 3) {
-			$users_conditions = array('User.id' => $this->user['User']['id']);
-		}
-		$users = $this->$model->User->find('all', array(
-			'conditions' => $users_conditions,
-			'contain' => array(),
-			'fields' => array('User.id', 'User.first_name', 'User.last_name')
-		));
-		$users = Set::combine($users, '{n}.User.id', array('{0} {1}', '{n}.User.first_name', '{n}.User.last_name'));
+		$users = $this->$model->User->users_filter_list($this->user['User']['user_type_id']);
 		$this->set('users', $users);
 		
 		$this->render('/transactions/user_index');

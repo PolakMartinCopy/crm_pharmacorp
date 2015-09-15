@@ -82,6 +82,10 @@ class BusinessSessionsController extends AppController {
 		$back_link = array('controller' => 'business_sessions', 'action' => 'index') + $this->passedArgs;
 		$back_link = base64_encode(serialize($back_link));
 		$this->set('back_link', $back_link);
+		
+		// seznam uzivatelu pro select ve filtru
+		$users = $this->BusinessSession->User->users_filter_list($this->user['User']['user_type_id']);
+		$this->set('users', $users);
 	}
 	
 	function user_view($id = null) {

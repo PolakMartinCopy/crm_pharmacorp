@@ -83,6 +83,10 @@ class PurchasersController extends AppController {
 		$this->set('find', $find);
 		
 		$this->set('export_fields', $this->Purchaser->export_fields);
+		
+		// seznam uzivatelu pro select ve filtru
+		$users = $this->Purchaser->User->users_filter_list($this->user['User']['user_type_id']);
+		$this->set('users', $users);
 	}
 	
 	function user_view($id = null) {
@@ -263,6 +267,10 @@ class PurchasersController extends AppController {
 		$business_sessions_back_link = array('controller' => 'purchasers', 'action' => 'view', $purchaser['Purchaser']['id'], 'tab' => 8) + $this->passedArgs;
 		$business_sessions_back_link = base64_encode(serialize($business_sessions_back_link));
 		$this->set('business_sessions_back_link', $business_sessions_back_link);
+		
+		// seznam uzivatelu pro select ve filtru
+		$users = $this->Purchaser->BusinessSession->User->users_filter_list($this->user['User']['user_type_id']);
+		$this->set('users', $users);
 		
 		// DOKUMENTY ODBERATELE
 		$documents_conditions = '';

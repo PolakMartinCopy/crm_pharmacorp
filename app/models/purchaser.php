@@ -113,6 +113,9 @@ class Purchaser extends AppModel {
 		if ( !empty($data['Address']['region']) ){
 			$conditions[] = 'Address.region LIKE \'%%' . $data['Address']['region'] . '%%\'';
 		}
+		if (!empty($data['Purchaser']['user_id'])) {
+			$conditions['Purchaser.user_id'] = $data['Purchaser']['user_id'];
+		}
 	
 		return $conditions;
 	}

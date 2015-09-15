@@ -183,4 +183,20 @@ class User extends AppModel {
 		
 		return $conditions;
 	}
+	
+	function users_filter_list($user_type_id) {
+		// seznam uzivatelu pro select ve filtru
+		$users_conditions = array();
+		if ($user_type_id == 3) {
+			$users_conditions = array('User.id' => $this->user['User']['id']);
+		}
+		$users = $this->find('all', array(
+			'conditions' => $users_conditions,
+			'contain' => array(),
+			'fields' => array('User.id', 'User.first_name', 'User.last_name'),
+			'order' => array('User.last_name' => 'asc')
+		));
+		$users = Set::combine($users, '{n}.User.id', array('{0} {1}', '{n}.User.first_name', '{n}.User.last_name'));
+		return $users;
+	}
 }

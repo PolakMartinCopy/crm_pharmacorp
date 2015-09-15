@@ -67,7 +67,7 @@ class BusinessPartner extends AppModel {
 		array('field' => 'Address.region', 'position' => '["Address"]["region"]', 'alias' => 'Address.region'),
 	);
 	
-	function do_form_search($conditions, $data){
+	function do_form_search($conditions, $data) {
 		if ( !empty($data['BusinessPartner']['name']) ){
 			$conditions[] = 'BusinessPartner.name LIKE \'%%' . $data['BusinessPartner']['name'] . '%%\'';
 		}
@@ -86,6 +86,10 @@ class BusinessPartner extends AppModel {
 		if ( !empty($data['Address']['region']) ){
 			$conditions[] = 'Address.region LIKE \'%%' . $data['Address']['region'] . '%%\'';
 		}
+		if (!empty($data['Purchaser']['user_id'])) {
+			$conditions['Purchaser.user_id'] = $data['Purchaser']['user_id'];
+		}
+		
 		return $conditions;
 	}
 	

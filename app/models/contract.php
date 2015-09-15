@@ -169,5 +169,43 @@ class Contract extends AppModel {
 		}
 		return $conditions;
 	}
+	
+	// datum splatnosti je 10. den mesice, ktery nasleduje po tom, pro ktery byla dohoda vyhotovena
+	function due_date($id) {
+		$contract = $this->find('first', array(
+			'conditions' => array('Contract.id' => $id),
+			'contain' => array(),
+			'fields' => array('Contract.id', 'Contract.month', 'Contract.year')
+		));
+		$month = $contract['Contract']['month'];
+		if (strlen($month) == 1) {
+			$month = '0' . $month;
+		}
+		$date = $contract['Contract']['year'] . '-' . $month . '-10';
+		$date = date('d.m.Y', strtotime('+1 month' , strtotime($date)));
+		return $date;
+	}
+	
+	// datum splatnosti je posledni den mesice, pro ktery byla dohoda vyhotovena
+	function signature_date($id) {
+		$contract = $this->find('first', array(
+			'conditions' => array('Contract.id' => $id),
+			'contain' => array(),
+			'fields' => array('Contract.id', 'Contract.month', 'Contract.year')
+		));
+		
+		$month = $contract['Contract']['month'];
+		if (strlen($month) == 1) {
+			$month = '0' . $month;
+		}
+		// prvni den v mesici
+		$first_day_date = $contract['Contract']['year'] . '-' . $month . '-01';
+		// pocet dni v mesici
+		$number_of_days = $maxDays=date('t', strtotime($first_day_date));
+
+		$date = $contract['Contract']['year'] . '-' . $month . '-' . $number_of_days;
+		$date = date('d.m.Y', strtotime($date));
+		return $date;
+	}
 }
 ?>

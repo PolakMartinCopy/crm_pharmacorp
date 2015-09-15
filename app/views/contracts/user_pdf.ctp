@@ -92,7 +92,7 @@ $tcpdf->Cell(190, 3, "", 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'B', 8);
 $tcpdf->Cell(20, 0, '6)', 0, 0, 'L', false);
-$tcpdf->MultiCell(170, 0, 'Odměna je splatná po provedení pracovního úkolu do: ', 0, 'L', 0, 1);
+$tcpdf->MultiCell(170, 0, 'Odměna je splatná po provedení pracovního úkolu do: ' . $contract['Contract']['due_date'], 0, 'L', 0, 1);
 
 // mezera
 $tcpdf->Cell(190, 3, "", 0, 1, 'L', false);
@@ -119,7 +119,7 @@ $tcpdf->MultiCell(170, 0, 'Tato dohoda je sepsána ve dvou vyhotoveních, z nich
 $tcpdf->Cell(190, 15, "", 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'B', 8);
-$tcpdf->Cell(20, 0, 'V Brně dne: ', 0, 0, 'L', false);
+$tcpdf->Cell(20, 0, 'V Brně dne: ' . $contract['Contract']['signature_date'], 0, 0, 'L', false);
 
 // mezera
 $tcpdf->Cell(190, 15, "", 0, 1, 'L', false);

@@ -136,18 +136,22 @@ class ContractsController extends AppController {
 		$contract = $this->Contract->find('first', array(
 			'conditions' => $conditions,
 			'contain' => array(
-				'ContactPerson' => array(
-					'Address'
-				),
+				'ContactPerson',
 				'ContractType'
 			)
 		));
-		unset($this->Contract->ContactPerson->Address->virtualFields['one_line']);
-// /debug($contract); die();
+		unset($this->Contract->virtualFields['one_line']);
+
 		if (empty($contract)) {
 			$this->Session->setFlash('Dohoda, kterou chcete upravit, neexistuje');
 			$this->redirect($redirect);
 		}
+
+		// vygeneruju datum splatnosti dohody (desaty den nasledujiciho mesice)
+		$contract['Contract']['due_date'] = $this->Contract->due_date($contract['Contract']['id']);
+		
+		// vygeneruju datum podpisu dohody
+		$contract['Contract']['signature_date'] = $this->Contract->signature_date($contract['Contract']['id']);
 		
 		$this->set('contract', $contract);
 		$this->layout = 'pdf';

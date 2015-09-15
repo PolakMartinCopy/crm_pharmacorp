@@ -72,6 +72,7 @@ $(function() {
 		prevDate.setDate(date.getDate()-1);
 		var day = prevDate.getDate();
 		var monthIndex = prevDate.getMonth();
+		monthIndex = monthIndex + 1;
 		var month = monthIndex.toString();
 		if (month.length == 1) {
 			month = '0' + month;
@@ -88,6 +89,7 @@ $(function() {
 
 		var day = nextDate.getDate();
 		var monthIndex = nextDate.getMonth();
+		monthIndex = monthIndex + 1;
 		var month = monthIndex.toString();
 		if (month.length == 1) {
 			month = '0' + month;

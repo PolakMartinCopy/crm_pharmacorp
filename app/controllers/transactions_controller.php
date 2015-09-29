@@ -135,8 +135,10 @@ class TransactionsController extends AppController {
 		unset($this->$model->virtualFields['purchaser_name']);
 		$this->set('transactions', $transactions);
 		
-		$this->set('find', $this->paginate);
-		// vyhledam transakce podle zadanych parametru
+		$find = $this->paginate;
+		unset($find['limit']);
+		unset($find['fields']);
+		$this->set('find', $find);
 
 		// nastaveni textu (pohled je pro dodaci listy i prodeje stejny)
 		$header = 'pohyby';

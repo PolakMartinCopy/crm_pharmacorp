@@ -153,7 +153,7 @@ class TransactionsController extends AppController {
 		$this->set('export_fields', $export_fields);
 		
 		// seznam uzivatelu pro select ve filtru
-		$users = $this->$model->User->users_filter_list($this->user['User']['user_type_id']);
+		$users = $this->$model->User->users_filter_list($this->user['User']['user_type_id'], $this->user['User']['id']);
 		$this->set('users', $users);
 		
 		$this->render('/transactions/user_index');

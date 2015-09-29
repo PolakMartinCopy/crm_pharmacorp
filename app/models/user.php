@@ -184,11 +184,11 @@ class User extends AppModel {
 		return $conditions;
 	}
 	
-	function users_filter_list($user_type_id) {
+	function users_filter_list($user_type_id, $id) {
 		// seznam uzivatelu pro select ve filtru
 		$users_conditions = array();
 		if ($user_type_id == 3) {
-			$users_conditions = array('User.id' => $this->user['User']['id']);
+			$users_conditions = array('User.id' => $id);
 		}
 		$users = $this->find('all', array(
 			'conditions' => $users_conditions,

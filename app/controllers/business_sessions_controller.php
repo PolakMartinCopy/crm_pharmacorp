@@ -84,7 +84,7 @@ class BusinessSessionsController extends AppController {
 		$this->set('back_link', $back_link);
 		
 		// seznam uzivatelu pro select ve filtru
-		$users = $this->BusinessSession->User->users_filter_list($this->user['User']['user_type_id']);
+		$users = $this->BusinessSession->User->users_filter_list($this->user['User']['user_type_id'], $this->user['User']['id']);
 		$this->set('users', $users);
 	}
 	

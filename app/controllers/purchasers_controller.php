@@ -85,7 +85,7 @@ class PurchasersController extends AppController {
 		$this->set('export_fields', $this->Purchaser->export_fields);
 		
 		// seznam uzivatelu pro select ve filtru
-		$users = $this->Purchaser->User->users_filter_list($this->user['User']['user_type_id']);
+		$users = $this->Purchaser->User->users_filter_list($this->user['User']['user_type_id'], $this->user['User']['id']);
 		$this->set('users', $users);
 	}
 	
@@ -269,7 +269,7 @@ class PurchasersController extends AppController {
 		$this->set('business_sessions_back_link', $business_sessions_back_link);
 		
 		// seznam uzivatelu pro select ve filtru
-		$users = $this->Purchaser->BusinessSession->User->users_filter_list($this->user['User']['user_type_id']);
+		$users = $this->Purchaser->BusinessSession->User->users_filter_list($this->user['User']['user_type_id'], $this->user['User']['id']);
 		$this->set('users', $users);
 		
 		// DOKUMENTY ODBERATELE

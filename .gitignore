@@ -6,3 +6,4 @@
 /app/config/database.php
 /.settings/org.eclipse.core.resources.prefs
 /app/webroot/files/export.csv
+/app/webroot/files/delivery_notes.csv

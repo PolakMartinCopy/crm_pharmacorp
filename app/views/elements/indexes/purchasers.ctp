@@ -28,7 +28,9 @@
 			$links = array();
 			$links[] = $html->link('Detail', array('controller' => 'purchasers', 'action' => 'view', $purchaser['Purchaser']['id']));
 			$links[] = $html->link('Upravit', array('controller' => 'purchasers', 'action' => 'edit', $purchaser['Purchaser']['id'], 'back_link' => $back_link));
-			$links[] = $html->link('Smazat', array('controller' => 'purchasers', 'action' => 'delete', $purchaser['Purchaser']['id'], 'back_link' => $back_link), null, 'Opravdu chcete smazat odběratele se vším, co k němu náleží?');
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Purchasers/user_delete')) {
+				$links[] = $html->link('Smazat', array('controller' => 'purchasers', 'action' => 'delete', $purchaser['Purchaser']['id'], 'back_link' => $back_link), null, 'Opravdu chcete smazat odběratele se vším, co k němu náleží?');
+			}
 			
 			echo implode('&nbsp;| ', $links)
 		?></td>

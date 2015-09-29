@@ -568,6 +568,9 @@ class UsersController extends AppController {
 //		$this->Acl->deny('user', 'controllers/BusinessPartnerNotes');
 		// zakazu menit uzivatele u odberatele
 		$this->Acl->deny('user', 'controllers/Purchasers/user_edit_user');
+		// zakazu uzivateli mazat odberatele
+		$this->Acl->deny('user', 'controllers/Purchasers/user_delete');
+		
 		$this->Acl->deny('user', 'controllers/BusinessSessions/user_delete');
 		
 		// uzivatel nema pristup do ciselniku zbozi

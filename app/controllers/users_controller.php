@@ -292,17 +292,31 @@ class UsersController extends AppController {
 
 		$conditions = array(
 			'DATE(BusinessSession.date)' => $year . '-' . $month . '-' . $day,
-			'BusinessSession.user_id' => $id
+			'BusinessSession.user_id' => $id,
+			'Purchaser.active' => true,
+			'BusinessPartner.active' => true
 		);
 		$this->User->BusinessSession->virtualFields['start_time'] = 'TIME(BusinessSession.date)';
+		$this->User->BusinessSession->virtualFields['purchaser_name'] = $this->User->BusinessSession->Purchaser->virtualFields['name'];
 		$business_sessions = $this->User->BusinessSession->find('all', array(
 			'conditions' => $conditions,
-			'contain' => array(
-				'Purchaser' => array(
-					'BusinessPartner'
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'purchasers',
+					'alias' => 'Purchaser',
+					'type' => 'LEFT',
+					'conditions' => array('Purchaser.id = BusinessSession.purchaser_id')
+				),
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'LEFT',
+					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
 				)
 			),
 			'order' => array('BusinessSession.start_time' => 'asc'),
+			'fields' => array('*')
 		));
 		$events = $this->User->BusinessSession->cake2fullcalendar($business_sessions);
 		$this->set('events', json_encode($events));

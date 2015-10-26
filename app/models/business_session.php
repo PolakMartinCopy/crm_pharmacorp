@@ -287,7 +287,7 @@ class BusinessSession extends AppModel {
 		$events = array();
 		if (!empty($business_sessions)) {
 			foreach ($business_sessions as $business_session) {
-				$title = $business_session['Purchaser']['BusinessPartner']['name'] . ' - ' . $business_session['Purchaser']['name'];
+				$title = $business_session['BusinessPartner']['name'] . ' - ' . $business_session['BusinessSession']['purchaser_name'];
 				list($start_date, $start_time) = explode(' ', $business_session['BusinessSession']['date']);
 				list($start_year, $start_month, $start_day) = explode('-', $start_date);
 				list($start_hour, $start_min, $pom) = explode(':', $start_time);

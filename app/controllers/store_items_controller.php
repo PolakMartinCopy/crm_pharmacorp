@@ -16,9 +16,9 @@ class StoreItemsController extends AppController {
 			$this->redirect(array('controller' => 'store_items', 'action' => 'index'));
 		}
 		
-		$conditions = array();
+		$conditions = array('Purchaser.active' => true, 'BusinessPartner.active' => true);
 		if ($this->user['User']['user_type_id'] == 3) {
-			$conditions = array('Purchaser.user_id' => $this->user['User']['id']);
+			$conditions = array_merge($conditions, array('Purchaser.user_id' => $this->user['User']['id']));
 		}
 		
 		// pokud chci vysledky vyhledavani

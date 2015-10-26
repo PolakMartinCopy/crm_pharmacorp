@@ -22,7 +22,7 @@ class TransactionsController extends AppController {
 			$this->redirect(array('controller' => $this->params['controller'], 'action' => 'index'));
 		}
 		
-		$conditions = array();
+		$conditions = array('Purchaser.active' => true, 'BusinessPartner.active' => true);
 		if ($this->user['User']['user_type_id'] == 3) {
 			$conditions['Purchaser.user_id'] = $this->user['User']['id'];
 		}

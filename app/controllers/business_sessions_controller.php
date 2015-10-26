@@ -24,7 +24,7 @@ class BusinessSessionsController extends AppController {
 	function user_index() {
 		$user_id = $this->user['User']['id'];
 		
-		$conditions = array();
+		$conditions = array('Purchaser.active = 1', 'BusinessPartner.active = 1');
 		
 		if (isset($this->params['named']['reset']) && $this->params['named']['reset'] == 'business_sessions') {
 			$this->Session->delete('Search.BusinessSessionSearch');
@@ -59,6 +59,14 @@ class BusinessSessionsController extends AppController {
 				'BusinessSessionState',
 				'BusinessSessionType',
 				'User',
+			),
+			'joins' => array(
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'LEFT',
+					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
+				),
 			),
 			'order' => $order,
 			'fields' => array('*'),
@@ -120,10 +128,10 @@ class BusinessSessionsController extends AppController {
 			$costs_conditions = $this->BusinessSession->BusinessSessionsCost->do_form_search($costs_conditions, $this->data['BusinessSessionsCostForm']);
 		}
 
+		$this->BusinessSession->virtualFields['purchaser_name'] = $this->BusinessSession->Purchaser->virtualFields['name'];
 		$business_session = $this->BusinessSession->find('first', array(
-			'conditions' => array('BusinessSession.id' => $id),
+			'conditions' => array('BusinessSession.id' => $id, 'Purchaser.active' => true, 'BusinessPartner.active' => true),
 			'contain' => array(
-				'Purchaser',
 				'User',
 				'BusinessSessionState',
 				'BusinessSessionType',
@@ -131,8 +139,24 @@ class BusinessSessionsController extends AppController {
 					'conditions' => $costs_conditions,
 					'CostType'
 				)
-			)
+			),
+			'joins' => array(
+				array(
+					'table' => 'purchasers',
+					'alias' => 'Purchaser',
+					'type' => 'LEFT',
+					'conditions' => array('Purchaser.id = BusinessSession.purchaser_id')
+				),
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'LEFT',
+					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
+				),
+			),
+			'fields' => array('*')
 		));
+		unset($this->BusinessSession->virtual_fields['purchaser_name']);
 		
 		if (empty($business_session)) {
 			$this->Session->setFlash('Zvolené obchodní jednání neexistuje');

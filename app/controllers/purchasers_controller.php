@@ -19,7 +19,7 @@ class PurchasersController extends AppController {
 	function beforeFilter(){
 		parent::beforeFilter();
 		$this->set('active_tab', 'purchasers');
-		$this->Auth->allow('store_items', 'repair');
+		$this->Auth->allow('store_items');
 	}
 	
 	function beforeRender(){
@@ -1183,24 +1183,6 @@ class PurchasersController extends AppController {
 		
 		echo json_encode($res); die();
 	}
-	
-	function repair() {
-		$purchasers = $this->Purchaser->find('all', array(
-			'conditions' => array(
-				'Purchaser.name' => '',
-				'Purchaser.active' => true
-			),
-			'contain' => array(
-				'BusinessSession',
-				'ContactPerson'
-			)
-		));
 
-		foreach ($purchasers as $purchaser) {
-			$purchaser['Purchaser']['active'] = false;
-			$this->Purchaser->save($purchaser);
-		}
-		die('hotovo');
-	}
 }
 ?>

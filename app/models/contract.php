@@ -94,6 +94,10 @@ class Contract extends AppModel {
 	);
 	
 	var $one_line = 'TRIM(CONCAT(Contract.street, " ", Contract.number, ", ", Contract.zip, " ", Contract.city))';
+	var $street_info = 'TRIM(CONCAT(Contract.street, " ", Contract.number))';
+	var $vat_money = 'Contract.amount_vat - Contract.amount';
+	var $strips_count = 'ROUND(Contract.amount_vat/30)';
+	var $price_per_hour = 'ROUND(Contract.amount_vat/25)';
 	
 	var $vat = 15;
 	
@@ -101,13 +105,21 @@ class Contract extends AppModel {
 	
 	var $export_fields = array(
 		array('field' => 'Contract.id', 'position' => '["Contract"]["id"]', 'alias' => 'Contract.id'),
-		array('field' => 'Contract.begin_date', 'position' => '["Contract"]["begin_date"]', 'alias' => 'Contract.begin_date'),
-		array('field' => 'Contract.end_date', 'position' => '["Contract"]["end_date"]', 'alias' => 'Contract.end_date'),
-		array('field' => 'Contract.month', 'position' => '["Contract"]["month"]', 'alias' => 'Contract.mont'),
-		array('field' => 'Contract.year', 'position' => '["Contract"]["year"]', 'alias' => 'Contract.year'),
-		array('field' => 'Contract.amount', 'position' => '["Contract"]["amount"]', 'alias' => 'Contract.amount'),
-		array('field' => 'Contract.amount_vat', 'position' => '["Contract"]["amount_vat"]', 'alias' => 'Contract.amount_vat'),
-		array('field' => 'Contract.vat', 'position' => '["Contract"]["vat"]', 'alias' => 'Contract.vat'),
+		array('field' => 'User.first_name', 'position' => '["User"]["first_name"]', 'alias' => 'OZ'),
+		array('field' => 'ContactPerson.first_name', 'position' => '["ContactPerson"]["first_name"]', 'alias' => 'Jméno'),
+		array('field' => 'ContactPerson.last_name', 'position' => '["ContactPerson"]["last_name"]', 'alias' => 'Příjmení'),
+		array('field' => 'Contract.birthday', 'position' => '["Contract"]["birthday"]', 'alias' => 'Datum narození'),
+		array('field' => 'Contract.birth_certificate_number', 'position' => '["Contract"]["birth_certificate_number"]', 'alias' => 'Rodné číslo'),
+		array('field' => 'Contract.street_info', 'position' => '["Contract"]["street_info"]', 'alias' => 'Bydliště'),
+		array('field' => 'Contract.city', 'position' => '["Contract"]["city"]', 'alias' => 'Město'),
+		array('field' => 'Contract.zip', 'position' => '["Contract"]["zip"]', 'alias' => 'PSČ'),
+		array('field' => 'Contract.bank_account', 'position' => '["Contract"]["bank_account"]', 'alias' => 'Číslo účtu'),
+		array('field' => 'Contract.month', 'position' => '["Contract"]["month"]', 'alias' => 'Období'),
+		array('field' => 'Contract.amount_vat', 'position' => '["Contract"]["amount_vat"]', 'alias' => 'Odměna'),
+		array('field' => 'Contract.amount', 'position' => '["Contract"]["amount"]', 'alias' => 'Vyplatit'),
+		array('field' => 'Contract.vat_money', 'position' => '["Contract"]["vat_money"]', 'alias' => 'Daň'),
+		array('field' => 'Contract.strips_count', 'position' => '["Contract"]["strips_count"]', 'alias' => ' Počet proužků'),
+		array('field' => 'Contract.price_per_hour', 'position' => '["Contract"]["price_per_hour"]', 'alias' => 'Cena za hodinu'),
 	);
 	
 	function afterFind($results) {

@@ -40,9 +40,12 @@ class AppController extends Controller {
 	function user_xls_export() {
 		$model = $this->modelNames[0];
 		$data = unserialize($this->data['CSV']['data']);
-
 		$export_fields = unserialize($this->data['CSV']['fields']);
-		$this->$model->xls_export($data, $export_fields);
+		$virtual_fields = array();
+		if (isset($this->data['CSV']['virtual_fields'])) {
+			$virtual_fields = unserialize($this->data['CSV']['virtual_fields']);
+		}
+		$this->$model->xls_export($data, $export_fields, $virtual_fields);
 		$this->redirect('/' . $this->$model->export_file);
 	}
 	

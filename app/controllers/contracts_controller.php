@@ -85,10 +85,21 @@ class ContractsController extends AppController {
 		unset($this->$model->virtualFields['contact_person_name']);
 		$this->set('contracts', $contracts);
 		
-		$this->set('find', $this->paginate);
+		$find = $this->paginate;
+		unset($find['limit']);
+		
+		$this->set('find', $find);
 		
 		$export_fields = $this->$model->export_fields;
 		$this->set('export_fields', $export_fields);
+		
+		$virtual_fields = array(
+			'street_info' => $this->$model->street_info,
+			'vat_money' => $this->$model->vat_money,
+			'strips_count' => $this->$model->strips_count,
+			'price_per_hour' => $this->$model->price_per_hour
+		);
+		$this->set('virtual_fields', $virtual_fields);
 		
 		// seznam uzivatelu pro select ve filtru
 		$users_conditions = array();

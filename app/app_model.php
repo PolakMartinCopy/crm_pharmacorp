@@ -45,51 +45,43 @@ class AppModel extends Model {
 	 * provadi export dat, pouzije zadany find a data zapise do xls
 	 * @param array $find
 	 */
-	function xls_export($find, $export_fields) {
+	function xls_export($find, $export_fields, $virtualFields = array()) {
 		// pole kde jsou data typu datetim
 		$datetime_fields = array(
-			'BusinessSession.date',
+/*			'BusinessSession.date',
 			'BusinessSession.created',
 			'Imposition.created',
-			'Offer.created'
+			'Offer.created'*/
 		);
 		
 		// pole kde jsou data typu date
 		$date_fields = array(
-			'Solution.accomplishment_date',
+/*			'Solution.accomplishment_date',
 			'Cost.date',
 			'DeliveryNote.date',
 			'Sale.date',
-			'Transaction.date'
+			'Transaction.date'*/
+		);
+		
+		$month_fields = array(
+			'["Contract"]["month"]'
 		);
 		
 		// exportuju udaj o tom, ktera pole jsou soucasti vystupu
 		$find['fields'] = Set::extract('/field', $export_fields);
 
 		// vyhledam data podle zadanych kriterii
+		if (!empty($virtualFields)) {
+			foreach ($virtualFields as  $key => $value) {
+				$this->virtualFields[$key] = $value;
+			}
+		}
 		$data = $this->find('all', $find);
+
 		$file = fopen($this->export_file, 'w');
 
 		// zjistim aliasy, pod kterymi se vypisuji atributy v csv souboru
 		$aliases = Set::extract('/alias', $export_fields);
-		
-		// rozdelim datetime a date pole zvlast do sloupcu den, mesic, rok
-		$res_aliases = array();
-		foreach ($aliases as $alias) {
-			if (in_array($alias, $datetime_fields)) {
-				$res_aliases[] = $alias . '_day';
-				$res_aliases[] = $alias . '_month';
-				$res_aliases[] = $alias . '_year';
-				$res_aliases[] = $alias . '_time';
-			} elseif (in_array($alias, $date_fields)) {
-				$res_aliases[] = $alias . '_day';
-				$res_aliases[] = $alias . '_month';
-				$res_aliases[] = $alias . '_year';
-			} else {
-				$res_aliases[] = $alias;
-			}
-		}
-		$aliases = $res_aliases;
 
 		$line = implode(';', $aliases);
 		// do souboru zapisu hlavicku csv (nazvy sloupcu)
@@ -112,21 +104,19 @@ class AppModel extends Model {
 				}
 
 				eval("\$result = ". $expression . ";");
-				// rozdelim datetime zvlast na sloupce den, mesic, rok
-				if (preg_match('/(....)-(..)-(..) (.+)/', $result, $matches)) {
-					$results[] = $matches[3];
-					$results[] = $matches[2];
-					$results[] = $matches[1];
-					$results[] = $matches[4];
-				// rozdelim date zvlast na sloupce den, mesic, rok
-				} elseif (preg_match('/(....)-(..)-(..)/', $result, $matches)) {
-					$results[] = $matches[3];
-					$results[] = $matches[2];
-					$results[] = $matches[1];
+				
+				if (in_array($position, $month_fields)) {
+					$months = months();
+					$result = $months[$result];
 				} else {
+					// prevedu sloupce s datetime
+					$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2}) (.+)$/', '$3.$2.$1 $4', $result);
+					// prevedu sloupce s datem
+					$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2})$/', '$3.$2.$1', $result);
+					// nahradim desetinnou tecku carkou
 					$result = preg_replace('/^(-?\d+)\.(\d+)$/', '$1,$2', $result);
-					$results[] = $result;
 				}
+				$results[] = $result;
 			}
 			$line = implode(';', $results);
 

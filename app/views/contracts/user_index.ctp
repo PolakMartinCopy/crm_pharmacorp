@@ -1,10 +1,10 @@
 <h1>Dohody</h1>
 <?php
 	echo $this->element('search_forms/contracts');
-
 	echo $form->create('CSV', array('url' => array('controller' => 'contracts', 'action' => 'xls_export')));
 	echo $form->hidden('data', array('value' => serialize($find)));
 	echo $form->hidden('fields', array('value' => serialize($export_fields)));
+	echo $form->hidden('virtual_fields', array('value' => serialize($virtual_fields)));
 	echo $form->submit('CSV');
 	echo $form->end();
 ?>

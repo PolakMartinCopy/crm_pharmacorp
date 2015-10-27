@@ -85,7 +85,11 @@ $tcpdf->Cell(190, 3, "", 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'B', 8);
 $tcpdf->Cell(20, 0, '5)', 0, 0, 'L', false);
-$tcpdf->MultiCell(170, 0, 'Odměna za provedení pracovního úkolu bude činit maximálně: ' . $contract['Contract']['amount_vat'] . ' Kč vč. DPH (' . $contract['Contract']['amount'] . ' Kč bez DPH)', 0, 'L', 0, 1);
+$amount_info = $contract['Contract']['amount_vat'] . ' Kč';
+if ($contract['Contract']['vat']) {
+	$amount_info .= ' vč. DPH (' . $contract['Contract']['amount'] . ' Kč bez DPH)';
+}
+$tcpdf->MultiCell(170, 0, 'Odměna za provedení pracovního úkolu bude činit maximálně: ' . $amount_info, 0, 'L', 0, 1);
 
 // mezera
 $tcpdf->Cell(190, 3, "", 0, 1, 'L', false);

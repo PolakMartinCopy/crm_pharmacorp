@@ -5,7 +5,7 @@
 		<th><?php echo $this->Paginator->sort('Datum uk.', 'Contract.end_date')?></th>
 		<th><?php echo $this->Paginator->sort('Měsíc', 'Contract.month')?></th>
 		<th><?php echo $this->Paginator->sort('Rok', 'Contract.year')?></th>
-		<th><?php echo $this->Paginator->sort('Částka vč DPH', 'Contract.amount_vat')?></th>
+		<th><?php echo $this->Paginator->sort('Částka', 'Contract.amount_vat')?></th>
 		<th><?php echo $this->Paginator->sort('Osoba', 'Contract.contact_person_name')?></th>
 		<th><?php echo $this->Paginator->sort('Zadal', 'User.last_name')?></th>
 		<th><?php echo $this->Paginator->sort('Schváleno', 'Contract.confirmed')?></th>

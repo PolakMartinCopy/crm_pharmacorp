@@ -3,7 +3,7 @@
 	<li><?php echo $html->link('Zpět na seznam plateb dohod', array('controller' => 'contract_payments', 'action' => 'index'))?></li>
 </ul>
 
-<?php echo $form->create('ContractPayment', array('url' => array('controller' => 'contract_payments', 'action' => 'add')))?>
+<?php echo $form->create('ContractPayment')?>
 <table class="left_heading">
 	<tr>
 		<th>Název</th>

@@ -563,6 +563,7 @@ class UsersController extends AppController {
 		$this->Acl->deny('manager', 'controllers/CostTypes');
 		$this->Acl->deny('manager', 'controllers/ContractTypes');
 		$this->Acl->deny('manager', 'controllers/ContractPayments');
+		$this->Acl->deny('manager', 'controllers/ContractTaxes');
 		
 		$this->Acl->allow('user', 'controllers');
 		$this->Acl->deny('user', 'controllers/Users');
@@ -615,6 +616,7 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/CostTypes');
 		$this->Acl->deny('user', 'controllers/ContractTypes');
 		$this->Acl->deny('user', 'controllers/ContractPayments');
+		$this->Acl->deny('user', 'controllers/ContractTaxes');
 		
 		// zakazu uzivatelum mazat obchodni partnery
 		$this->Acl->deny('user', 'controllers/BusinessPartners/user_delete');

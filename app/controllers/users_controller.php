@@ -1,4 +1,4 @@
-<?php
+	<?php
 class UsersController extends AppController {
 	var $name = 'Users';
 	
@@ -562,6 +562,7 @@ class UsersController extends AppController {
 		$this->Acl->deny('manager', 'controllers/PurchaserTypes');
 		$this->Acl->deny('manager', 'controllers/CostTypes');
 		$this->Acl->deny('manager', 'controllers/ContractTypes');
+		$this->Acl->deny('manager', 'controllers/ContractPayments');
 		
 		$this->Acl->allow('user', 'controllers');
 		$this->Acl->deny('user', 'controllers/Users');
@@ -613,6 +614,7 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/PurchaserTypes');
 		$this->Acl->deny('user', 'controllers/CostTypes');
 		$this->Acl->deny('user', 'controllers/ContractTypes');
+		$this->Acl->deny('user', 'controllers/ContractPayments');
 		
 		// zakazu uzivatelum mazat obchodni partnery
 		$this->Acl->deny('user', 'controllers/BusinessPartners/user_delete');

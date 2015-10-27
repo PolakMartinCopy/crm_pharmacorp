@@ -16,4 +16,5 @@
 	<li><?php echo $this->Html->link('Typy odběratelů', array('controller' => 'purchaser_types', 'action' => 'index'))?></li>
 	<li><?php echo $this->Html->link('Typy nákladů', array('controller' => 'cost_types', 'action' => 'index'))?></li>
 	<li><?php echo $this->Html->link('Typy dohod', array('controller' => 'contract_types', 'action' => 'index'))?></li>
+	<li><?php echo $this->Html->link('Platby dohod', array('controller' => 'contract_payments', 'action' => 'index'))?></li>
 </ul>

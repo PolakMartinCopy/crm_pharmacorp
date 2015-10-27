@@ -8,7 +8,9 @@ class Contract extends AppModel {
 		'ContractType',
 		'ContactPerson',
 		'User',
-		'BusinessSession'
+		'BusinessSession',
+		'ContractPayment',
+		'ContractTax'
 	);
 	
 	var $validate = array(
@@ -37,15 +39,15 @@ class Contract extends AppModel {
 			)
 		),
 		'bank_account' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty',
+			'notEmptyIfTransfer' => array(
+				'rule' => array('notEmptyBankAccoutIfTransfer'),
 				'message' => 'Zadejte číslo bankovního účtu'
 			)		
 		),
-		'amount' => array(
+		'amount_vat' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte výši odměny bez DPH',
+				'message' => 'Zadejte výši odměny s DPH',
 				'last' => true
 			),
 			'range' => array(
@@ -206,6 +208,12 @@ class Contract extends AppModel {
 		$date = $contract['Contract']['year'] . '-' . $month . '-' . $number_of_days;
 		$date = date('d.m.Y', strtotime($date));
 		return $date;
+	}
+	
+	function notEmptyBankAccoutIfTransfer() {
+		$isTransfer = (isset($this->data['Contract']['contract_payment_id']) && $this->data['Contract']['contract_payment_id'] == 1);
+		$hasBankAccount = (isset($this->data['Contract']['bank_account']) && !empty($this->data['Contract']['bank_account']));
+		return !$isTransfer || $hasBankAccount;
 	}
 }
 ?>

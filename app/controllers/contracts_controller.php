@@ -172,8 +172,13 @@ class ContractsController extends AppController {
 			$this->set('business_partner_id', $this->params['named']['business_partner_id']);
 		}
 		$this->set('redirect', $redirect);
+		
+		$contract_taxes = $this->Contract->ContractTax->find('list', array(
+				'conditions' => array('ContractTax.active' => true)
+		));
 
 		if (isset($this->data)) {
+			$this->data['Contract']['vat'] = $contract_taxes[$this->data['Contract']['contract_tax_id']];
 			// nastaveni dat
 			$this->data['Contract']['user_id'] = $this->user['User']['id'];
 			$this->data['Contract']['confirmed'] = false;
@@ -209,7 +214,8 @@ class ContractsController extends AppController {
 		$contract_types = $this->Contract->ContractType->find('list', array(
 			'fields' => array('ContractType.id', 'ContractType.name')
 		));
-		$this->set('contract_types', $contract_types);
+		$contract_payments = $this->Contract->ContractPayment->find('list');
+		$this->set(compact('contract_types', 'contract_payments', 'contract_taxes'));
 		$this->set('user', $this->user);
 		$this->set('vat', $this->Contract->vat);
 		$this->set('months', months());
@@ -261,6 +267,10 @@ class ContractsController extends AppController {
 			$this->redirect($redirect);
 		}
 		
+		$contract_taxes = $this->Contract->ContractTax->find('list', array(
+			'conditions' => array('ContractTax.active' => true)
+		));
+		
 		if (isset($this->data)) {
 			// pokud jsem zmenil kontaktni osobu
 			if ($this->data['Contract']['contact_person_id'] != $contract['Contract']['contact_person_id']) {
@@ -276,6 +286,7 @@ class ContractsController extends AppController {
 				$this->data['Contract']['zip'] = $contact_person['Address']['zip'];
 			}
 			
+			$this->data['Contract']['vat'] = $contract_taxes[$this->data['Contract']['contract_tax_id']];
 			$this->data['Contract']['amount'] = floor(price_wout_vat($this->data['Contract']['amount_vat'], $this->data['Contract']['vat']));
 			
 			if ($this->Contract->saveAll($this->data)) {
@@ -288,12 +299,14 @@ class ContractsController extends AppController {
 			$this->data = $contract;
 			$this->data['Contract']['vat_vis'] = $this->data['Contract']['vat'];
 			$this->data['Contract']['contact_person_name'] = $this->Contract->ContactPerson->autocomplete_field_info($this->data['Contract']['contact_person_id']);
+			$this->data['Contract']['contract_tax_id'] = array_search($this->data['Contract']['vat'], $contract_taxes);
 		}
 		
 		$contract_types = $this->Contract->ContractType->find('list', array(
 			'fields' => array('ContractType.id', 'ContractType.name')
 		));
-		$this->set('contract_types', $contract_types);
+		$contract_payments = $this->Contract->ContractPayment->find('list');
+		$this->set(compact('contract_types', 'contract_payments', 'contract_taxes'));
 		$this->set('user', $this->user);
 		$this->set('months', months());
 	}

@@ -73,8 +73,10 @@
 		<td colspan="3"><?php echo $this->Form->input('Contract.contract_type_id', array('label' => false, 'options' => $contract_types, 'empty' => false))?></td>
 	</tr>
 	<tr>
+		<th>Platba</th>
+		<td><?php echo $this->Form->input('Contract.contract_payment_id', array('label' => false, 'options' => $contract_payments, 'empty' => false))?></td>
 		<th>Číslo bank. účtu</th>
-		<td colspan="3"><?php echo $this->Form->input('Contract.bank_account', array('label' => false))?></td>
+		<td><?php echo $this->Form->input('Contract.bank_account', array('label' => false))?></td>
 	</tr>
 	<tr>
 		<th>Datum zahájení</th>
@@ -92,10 +94,7 @@
 		<th>Částka vč. DPH</th>
 		<td><?php echo $this->Form->input('Contract.amount_vat', array('label' => false, 'size' => 5, 'after' => '&nbsp;Kč'))?></td>
 		<th>Daň</th>
-		<td><?php
-			echo $this->Form->input('Contract.vat_vis', array('label' => false, 'size' => 3, 'after' => '&nbsp;%', 'disabled' => true));
-			echo $this->Form->hidden('Contract.vat');
-		?></td>
+		<td><?php echo $this->Form->input('Contract.contract_tax_id', array('label' => false, 'options' => $contract_taxes, 'empty' => false, 'after' => '&nbsp;%'));?></td>
 	</tr>
 </table>
 <?php echo $this->Form->hidden('Contract.id')?>

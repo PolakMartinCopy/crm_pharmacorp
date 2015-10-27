@@ -178,7 +178,7 @@ class ContractsController extends AppController {
 			$this->data['Contract']['user_id'] = $this->user['User']['id'];
 			$this->data['Contract']['confirmed'] = false;
 			$this->data['Contract']['confirm_requirement'] = false;
-			$this->data['Contract']['amount_vat'] = ceil(price_vat($this->data['Contract']['amount'], $this->data['Contract']['vat']));
+			$this->data['Contract']['amount'] = floor(price_wout_vat($this->data['Contract']['amount_vat'], $this->data['Contract']['vat']));
 			// doplnim adresu
 			$contact_person_id = $this->data['Contract']['contact_person_id'];
 			$contact_person = $this->Contract->ContactPerson->find('first', array(
@@ -191,7 +191,7 @@ class ContractsController extends AppController {
 			$this->data['Contract']['number'] = $contact_person['Address']['number'];
 			$this->data['Contract']['city'] = $contact_person['Address']['city'];
 			$this->data['Contract']['zip'] = $contact_person['Address']['zip'];
-			
+
 			if ($this->Contract->saveAll($this->data)) {
 				$this->Session->setFlash('Dohoda byla uložena');
 				$this->redirect($redirect);
@@ -276,7 +276,7 @@ class ContractsController extends AppController {
 				$this->data['Contract']['zip'] = $contact_person['Address']['zip'];
 			}
 			
-			$this->data['Contract']['amount_vat'] = ceil(price_vat($this->data['Contract']['amount'], $this->data['Contract']['vat']));
+			$this->data['Contract']['amount'] = floor(price_wout_vat($this->data['Contract']['amount_vat'], $this->data['Contract']['vat']));
 			
 			if ($this->Contract->saveAll($this->data)) {
 				$this->Session->setFlash('Dohoda byla upravena');

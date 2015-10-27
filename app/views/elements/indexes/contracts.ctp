@@ -5,7 +5,7 @@
 		<th><?php echo $this->Paginator->sort('Datum uk.', 'Contract.end_date')?></th>
 		<th><?php echo $this->Paginator->sort('Měsíc', 'Contract.month')?></th>
 		<th><?php echo $this->Paginator->sort('Rok', 'Contract.year')?></th>
-		<th><?php echo $this->Paginator->sort('Částka', 'Contract.amount')?></th>
+		<th><?php echo $this->Paginator->sort('Částka vč DPH', 'Contract.amount_vat')?></th>
 		<th><?php echo $this->Paginator->sort('Osoba', 'Contract.contact_person_name')?></th>
 		<th><?php echo $this->Paginator->sort('Zadal', 'User.last_name')?></th>
 		<th><?php echo $this->Paginator->sort('Schváleno', 'Contract.confirmed')?></th>
@@ -25,7 +25,7 @@
 			echo $months[$contract['Contract']['month']];
 		?></td>
 		<td><?php echo $contract['Contract']['year']?></td>
-		<td align="right"><?php echo $contract['Contract']['amount']?></td>
+		<td align="right"><?php echo $contract['Contract']['amount_vat']?></td>
 		<td><?php echo $this->Html->link($contract['Contract']['contact_person_name'], array('controller' => 'contact_people', 'action' => 'view', $contract['Contract']['contact_person_id']))?></td>
 		<td><?php echo $contract['User']['last_name']?>
 		<td><?php echo ($contract['Contract']['confirmed'] ? 'ano' : 'ne') ?></td>

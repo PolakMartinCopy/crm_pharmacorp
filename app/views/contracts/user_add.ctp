@@ -129,8 +129,8 @@
 		<td><?php echo $this->Form->input('Contract.year', array('label' => false, 'size' => 5))?></td>
 	</tr>
 	<tr>
-		<th>Částka</th>
-		<td><?php echo $this->Form->input('Contract.amount', array('label' => false, 'size' => 5, 'after' => '&nbsp;Kč'))?></td>
+		<th>Částka vč. DPH</th>
+		<td><?php echo $this->Form->input('Contract.amount_vat', array('label' => false, 'size' => 5, 'after' => '&nbsp;Kč'))?></td>
 		<th>Daň</th>
 		<td><?php
 			echo $this->Form->input('Contract.vat_vis', array('label' => false, 'value' => $vat, 'size' => 3, 'after' => '&nbsp;%', 'disabled' => true));

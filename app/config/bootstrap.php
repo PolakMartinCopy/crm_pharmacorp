@@ -289,7 +289,7 @@ function price_vat($price, $vat) {
 }
 
 function price_wout_vat($price_vat, $vat) {
-	$price = (100 * $price_vat) / (100 + $vat);
+	$price = $price_vat - ($price_vat * $vat / 100);
 
 	return $price;
 }

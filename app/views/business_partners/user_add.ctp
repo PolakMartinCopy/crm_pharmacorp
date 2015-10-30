@@ -61,6 +61,7 @@
 		<th>Okres</th>
 		<td colspan="7"><?php echo $form->input('Address.0.region', array('label' => false, 'size' => 30))?></td>
 	</tr>
+<?php if ($user['User']['id'] != 18) { ?>	
 	<tr>
 		<td colspan="8">Odběratel</td>
 	</tr>
@@ -68,6 +69,7 @@
 		<th colspan="4">Vytvořit odběratele se stejnými hodnotami</th>
 		<td colspan="4"><?php echo $form->input('Purchaser.same', array('label' => false, 'type' => 'checkbox'))?></td>
 	</tr>
+<?php } ?>
 </table>
 
 <?php

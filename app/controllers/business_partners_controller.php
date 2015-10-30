@@ -310,7 +310,7 @@ class BusinessPartnersController extends AppController {
 				
 				if ($this->BusinessPartner->saveAll($this->data, array('validate' => 'first')) || (isset($business_partner) && !empty($business_partner))) {
 					
-					if ($this->data['Purchaser']['same']) {
+					if (isset($this->data['Purchaser']['same']) && $this->data['Purchaser']['same']) {
 						$purchaser = array(
 							'Purchaser' => array(
 								'name' => $this->data['BusinessPartner']['name'],
@@ -383,6 +383,8 @@ class BusinessPartnersController extends AppController {
 			}
 			$this->data['Purchaser']['same'] = false;	
 		}
+		
+		$this->set('user', $this->user);
 	}
 	
 	function user_ares_search() {

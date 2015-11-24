@@ -69,6 +69,12 @@ class PurchasersController extends AppController {
 					'alias' => 'BusinessPartner',
 					'type' => 'LEFT',
 					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
+				),
+				array(
+					'table' => 'users',
+					'alias' => 'User',
+					'type' => 'LEFT',
+					'conditions' => array('Purchaser.user_id = User.id')
 				)
 			)
 		);

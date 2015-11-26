@@ -31,6 +31,9 @@
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/products/index')) { ?>
 	<li><?php echo $this->Html->link('Zboží', array('controller' => 'products', 'action' => 'index'), array('class' => ($active_tab == 'products' ? 'active' : '')))?></li>
 <?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessionCostItems/user_index')) { ?>
+	<li><?php echo $this->Html->link('Náklady', array('controller' => 'business_session_cost_items', 'action' => 'index'), array('class' => ($active_tab == 'business_session_cost_items' ? 'active' : '')))?></li>
+<?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/users/user_setting')) { ?>
 		<li><?php echo $html->link('Nastavení', array('controller' => 'anniversary_types', 'action' => 'index'), array('class' => ($active_tab == 'settings' ? 'active' : '')))?></li>
 <?php } ?>

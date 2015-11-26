@@ -6,7 +6,8 @@ class BusinessSessionsCost extends AppModel {
 	
 	var $belongsTo = array(
 		'BusinessSession',
-		'CostType'
+		'CostType',
+		'BusinessSessionCostItem'
 	);
 	
 	var $validate = array(
@@ -42,6 +43,42 @@ class BusinessSessionsCost extends AppModel {
 		if (array_key_exists('price', $this->data['BusinessSessionsCost'])) {
 			$this->data['BusinessSessionsCost']['price'] = str_replace(',', '.', $this->data['BusinessSessionsCost']['price']);
 		}
+		
+		// musim odecist pocet ze skladu
+		if (
+			array_key_exists('business_session_cost_item_id', $this->data['BusinessSessionsCost'])
+			&& array_key_exists('quantity', $this->data['BusinessSessionsCost'])
+		) {
+			$cost_item_id = $this->data['BusinessSessionsCost']['business_session_cost_item_id'];
+			$cost_item = $this->BusinessSessionCostItem->find('first', array(
+				'conditions' => array('BusinessSessionCostItem.id' => $cost_item_id),
+				'contain' => array(),
+				'fields' => array('BusinessSessionCostItem.id', 'BusinessSessionCostItem.quantity')
+			));
+			if (!empty($cost_item)) {
+				$cost_item['BusinessSessionCostItem']['quantity'] -= $this->data['BusinessSessionsCost']['quantity'];
+				$this->BusinessSessionCostItem->save($cost_item);
+			}
+		}
+		return true;
+	}
+	
+	// musim si zapamatovat, co mazu, abych to mohl po smazani odecist ze skladu odberatele
+	function beforeDelete() {
+		$cost = $this->find('first', array(
+			'conditions' => array('BusinessSessionsCost.id' => $this->id),
+			'contain' => array(
+				'BusinessSessionCostItem' => array(
+					'fields' => array('BusinessSessionCostItem.id', 'BusinessSessionCostItem.quantity')
+				)
+			),
+		));
+		
+		if (isset($cost['BusinessSessionCostItem']['id'])) {
+			$cost['BusinessSessionCostItem']['quantity'] += $cost['BusinessSessionsCost']['quantity'];
+			return $this->BusinessSessionCostItem->save($cost);
+		} 
+	
 		return true;
 	}
 	

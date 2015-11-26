@@ -591,6 +591,10 @@ class UsersController extends AppController {
 		
 		// uzivatel nema pristup do ciselniku zbozi
 		$this->Acl->deny('user', 'controllers/Products');
+		// uzivatel nema pristup do ciselniku nakladu
+		$this->Acl->deny('user', 'controllers/BusinessSessionCostItems');
+		// jen k vyberu daneho nakladu podle nazvu
+		$this->Acl->allow('user', 'controllers/BusinessSessionCostItems/user_autocomplete_list');
 		
 		// uzivatel nemuze vytvaret dodaci listy ani poukazy
 		$this->Acl->deny('user', 'controllers/DeliveryNotes/user_add');

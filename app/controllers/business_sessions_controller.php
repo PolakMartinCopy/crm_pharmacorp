@@ -622,7 +622,7 @@ class BusinessSessionsController extends AppController {
 		
 		if (isset($this->data)) {
 			$data = $this->data;
-			
+
 			if (isset($this->data['BusinessSessionsCost'])) {
 				foreach ($this->data['BusinessSessionsCost'] as $index => $cost) {
 					if (empty($cost['name']) && empty($cost['price']) && empty($cost['quantity'])) {
@@ -681,7 +681,17 @@ class BusinessSessionsController extends AppController {
 			$datasource = $this->BusinessSession->getDataSource();
 			$datasource->begin($this->BusinessSession);
 			// smazu vsechny puvodni naklady
-			if ($this->BusinessSession->BusinessSessionsCost->deleteAll(array('BusinessSessionsCost.business_session_id' => $id))) {
+			$costs_to_del = $this->BusinessSession->BusinessSessionsCost->find('all', array(
+				'conditions' => array('BusinessSessionsCost.business_session_id' => $id),
+				'contain' => array(),
+				'fields' => array('BusinessSessionsCost.id')
+			));
+			$cost_deleted = true;
+			foreach ($costs_to_del as $cost_to_del) {
+				$cost_deleted = $cost_deleted && $this->BusinessSession->BusinessSessionsCost->delete($cost_to_del['BusinessSessionsCost']['id']);
+			}
+
+			if ($cost_deleted) {
 				// saveallem ulozim vsechno zaraz
 				if ($this->BusinessSession->saveAll($this->data)) {
 					$datasource->commit($this->BusinessSession);

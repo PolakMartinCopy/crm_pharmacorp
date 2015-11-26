@@ -26,6 +26,23 @@
 				return false;
 			}
 		});
+
+		$('table').delegate('.BusinessSessionsCostName', 'focusin', function() {
+			if ($(this).is(':data(autocomplete)')) return;
+			$(this).autocomplete({
+				delay: 500,
+				minLength: 2,
+				source: '/user/business_session_cost_items/autocomplete_list',
+				select: function(event, ui) {
+					var tableRow = $(this).closest('tr');
+					var count = tableRow.attr('rel');
+					$(this).val(ui.item.label);
+					$('#BusinessSessionsCost' + count + 'BusinessSessionCostItemId').val(ui.item.value);
+					$('#BusinessSessionsCost' + count + 'Price').val(ui.item.price);
+					return false;
+				}
+			});
+		});
 		
 		var rowCount = 1;
 <?php if (isset($this->data['ProductsTransaction']) && !empty($this->data['ProductsTransaction'])) { ?>
@@ -135,7 +152,10 @@
 function productRow(count) {
 	count++;
 	var rowData = '<tr rel="' + count + '">';
-	rowData += '<td colspan="2"><input name="data[BusinessSessionsCost][' + count + '][name]" type="text" class="BusinessSessionsCost" size="30" id="BusinessSessionsCost' + count + 'Name" /></td>';
+	rowData += '<td colspan="2">';
+	rowData += '<input name="data[BusinessSessionsCost][' + count + '][name]" type="text" class="BusinessSessionsCostName" size="30" id="BusinessSessionsCost' + count + 'Name" />';
+	rowData += '<input type="hidden" name="data[BusinessSessionsCost][' + count + '][business_session_cost_item_id]" id="BusinessSessionsCost' + count + 'BusinessSessionCostItemId">';
+	rowData += '</td>';
 	rowData += '<td><select name="data[BusinessSessionsCost][' + count + '][cost_type_id]" id="BusinessSessionsCost' + count + 'CostTypeId">';
 	<?php foreach ($cost_types as $index => $name) { ?>
 	rowData += '<option value="<?php echo $index?>"><?php echo $name ?></option>';
@@ -248,16 +268,22 @@ function educationRow(count) {
 	</tr>
 	<?php if (empty($this->data['BusinessSessionsCost'])) { ?>
 	<tr rel="0">
-		<td colspan="2"><?php echo $this->Form->input('BusinessSessionsCost.0.name', array('label' => false, 'class' => 'BusinessSessionsCostName', 'size' => 30))?></td>
+		<td colspan="2"><?php
+			echo $this->Form->input('BusinessSessionsCost.0.name', array('label' => false, 'class' => 'BusinessSessionsCostName', 'size' => 30));
+			echo $this->Form->hidden('BusinessSessionsCost.0.business_session_cost_item_id', array('label' => false));
+		?></td>
 		<td><?php echo $this->Form->input('BusinessSessionsCost.0.cost_type_id', array('label' => false, 'options' => $cost_types, 'empty' => false))?></td>
 		<td align="right"><?php echo $this->Form->input('BusinessSessionsCost.0.quantity', array('label' => false, 'size' => 3))?></td>
 		<td align="right"><?php echo $this->Form->input('BusinessSessionsCost.0.price', array('label' => false, 'size' => 5))?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td align="right"><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
 	</tr>
 	<?php } else { ?>
 	<?php 	foreach ($this->data['BusinessSessionsCost'] as $index => $data) { ?>
 	<tr rel="<?php echo $index?>">
-		<td colspan="2"><?php echo $this->Form->input('BusinessSessionsCost.' . $index . '.name', array('label' => false, 'class' => 'BusinessSessionsCostName', 'size' => 30))?></td>
+		<td colspan="2"><?php
+			echo $this->Form->input('BusinessSessionsCost.' . $index . '.name', array('label' => false, 'class' => 'BusinessSessionsCostName', 'size' => 30));
+			echo $this->Form->hidden('BusinessSessionsCost.' . $index . '.business_session_cost_item_id', array('label' => false));
+		?></td>
 		<td><?php echo $this->Form->input('BusinessSessionsCost.' . $index . '.cost_type_id', array('label' => false, 'options' => $cost_types, 'empty' => false))?></td>
 		<td align="right"><?php echo $this->Form->input('BusinessSessionsCost.' . $index . '.quantity', array('label' => false, 'size' => 3))?></td>
 		<td align="right"><?php echo $this->Form->input('BusinessSessionsCost.' . $index . '.price', array('label' => false, 'size' => 5))?></td>

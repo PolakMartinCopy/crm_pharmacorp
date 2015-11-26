@@ -17,6 +17,12 @@ class BusinessSessionsCost extends AppModel {
 				'message' => 'Zadejte název nákladu'
 			)
 		),
+		'business_session_cost_item_id' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Vyberte náklad z nabízených'
+			)
+		),
 		'quantity' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',

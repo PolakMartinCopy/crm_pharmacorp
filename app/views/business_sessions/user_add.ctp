@@ -270,6 +270,7 @@ function educationRow(count) {
 	<tr rel="0">
 		<td colspan="2"><?php
 			echo $this->Form->input('BusinessSessionsCost.0.name', array('label' => false, 'class' => 'BusinessSessionsCostName', 'size' => 30));
+			echo $this->Form->error('BusinessSessionsCost.0.business_session_cost_item_id');
 			echo $this->Form->hidden('BusinessSessionsCost.0.business_session_cost_item_id', array('label' => false));
 		?></td>
 		<td><?php echo $this->Form->input('BusinessSessionsCost.0.cost_type_id', array('label' => false, 'options' => $cost_types, 'empty' => false))?></td>
@@ -282,6 +283,7 @@ function educationRow(count) {
 	<tr rel="<?php echo $index?>">
 		<td colspan="2"><?php
 			echo $this->Form->input('BusinessSessionsCost.' . $index . '.name', array('label' => false, 'class' => 'BusinessSessionsCostName', 'size' => 30));
+			echo $this->Form->error('BusinessSessionsCost.' . $index . '.business_session_cost_item_id');
 			echo $this->Form->hidden('BusinessSessionsCost.' . $index . '.business_session_cost_item_id', array('label' => false));
 		?></td>
 		<td><?php echo $this->Form->input('BusinessSessionsCost.' . $index . '.cost_type_id', array('label' => false, 'options' => $cost_types, 'empty' => false))?></td>

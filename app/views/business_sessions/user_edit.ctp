@@ -40,6 +40,11 @@
 					$('#BusinessSessionsCost' + count + 'BusinessSessionCostItemId').val(ui.item.value);
 					$('#BusinessSessionsCost' + count + 'Price').val(ui.item.price);
 					return false;
+				},
+				change: function(event, ui) {
+					var tableRow = $(this).closest('tr');
+					var count = tableRow.attr('rel');
+					$('#BusinessSessionsCost' + count + 'BusinessSessionCostItemId').val(null);
 				}
 			});
 		});

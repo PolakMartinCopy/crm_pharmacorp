@@ -30,6 +30,7 @@
 		$('table').delegate('.BusinessSessionsCostName', 'focusin', function() {
 			if ($(this).is(':data(autocomplete)')) return;
 			$(this).autocomplete({
+				state: 'notSelected',
 				delay: 500,
 				minLength: 2,
 				source: '/user/business_session_cost_items/autocomplete_list',
@@ -39,12 +40,15 @@
 					$(this).val(ui.item.label);
 					$('#BusinessSessionsCost' + count + 'BusinessSessionCostItemId').val(ui.item.value);
 					$('#BusinessSessionsCost' + count + 'Price').val(ui.item.price);
+					$(this).autocomplete('option', {state: 'selected'});
 					return false;
 				},
 				change: function(event, ui) {
-					var tableRow = $(this).closest('tr');
-					var count = tableRow.attr('data-cost-count');
-					$('#BusinessSessionsCost' + count + 'BusinessSessionCostItemId').val(null);
+					if ($(this).autocomplete('option', 'state') != 'selected') {
+						var tableRow = $(this).closest('tr');
+						var count = tableRow.attr('data-cost-count');
+						$('#BusinessSessionsCost' + count + 'BusinessSessionCostItemId').val(null);
+					}
 				}
 			});
 		});

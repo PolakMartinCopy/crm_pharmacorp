@@ -48,24 +48,24 @@ class BusinessPartner extends AppModel {
 	
 	var $export_fields = array(
 		array('field' => 'BusinessPartner.id', 'position' => '["BusinessPartner"]["id"]', 'alias' => 'BusinessPartner.id'),
+		array('field' => 'User.first_name', 'position' => '["User"]["first_name"]', 'alias' => 'User.first_name'),
 		array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
 		array('field' => 'BusinessPartner.degree_before', 'position' => '["BusinessPartner"]["degree_before"]', 'alias' => 'BusinessPartner.degree_before'),
 		array('field' => 'BusinessPartner.first_name', 'position' => '["BusinessPartner"]["first_name"]', 'alias' => 'BusinessPartner.first_name'),
 		array('field' => 'BusinessPartner.last_name', 'position' => '["BusinessPartner"]["last_name"]', 'alias' => 'BusinessPartner.last_name'),
-		array('field' => 'BusinessPartner.degree_after', 'position' => '["BusinessPartner"]["degree_after"]', 'alias' => 'BusinessPartner.degree_after'),
 		array('field' => 'BusinessPartner.ico', 'position' => '["BusinessPartner"]["ico"]', 'alias' => 'BusinessPartner.ico'),
-		array('field' => 'BusinessPartner.dic', 'position' => '["BusinessPartner"]["dic"]', 'alias' => 'BusinessPartner.dic'),
 		array('field' => 'BusinessPartner.email', 'position' => '["BusinessPartner"]["email"]', 'alias' => 'BusinessPartner.email'),
 		array('field' => 'BusinessPartner.phone', 'position' => '["BusinessPartner"]["phone"]', 'alias' => 'BusinessPartner.phone'),
 		array('field' => 'BusinessPartner.note', 'position' => '["BusinessPartner"]["note"]', 'alias' => 'BusinessPartner.note'),
 		array('field' => 'BusinessPartner.wallet', 'position' => '["BusinessPartner"]["wallet"]', 'alias' => 'BusinessPartner.wallet'),
-		array('field' => 'Address.name', 'position' => '["Address"]["name"]', 'alias' => 'Address.name'),
 		array('field' => 'Address.street', 'position' => '["Address"]["street"]', 'alias' => 'Address.street'),
 		array('field' => 'Address.number', 'position' => '["Address"]["number"]', 'alias' => 'Address.number'),
 		array('field' => 'Address.city', 'position' => '["Address"]["city"]', 'alias' => 'Address.city'),
 		array('field' => 'Address.zip', 'position' => '["Address"]["zip"]', 'alias' => 'Address.zip'),
 		array('field' => 'Address.region', 'position' => '["Address"]["region"]', 'alias' => 'Address.region'),
 	);
+	
+	var $export_file = 'files/business_partners.csv';
 	
 	function do_form_search($conditions, $data) {
 		if ( !empty($data['BusinessPartner']['name']) ){

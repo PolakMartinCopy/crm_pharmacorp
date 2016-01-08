@@ -47,7 +47,7 @@ class BusinessPartner extends AppModel {
 	);
 	
 	var $export_fields = array(
-		array('field' => 'BusinessPartner.id', 'position' => '["BusinessPartner"]["id"]', 'alias' => 'BusinessPartner.id'),
+		array('field' => 'DISTINCT BusinessPartner.id', 'position' => '["BusinessPartner"]["id"]', 'alias' => 'BusinessPartner.id'),
 		array('field' => 'User.first_name', 'position' => '["User"]["first_name"]', 'alias' => 'User.first_name'),
 		array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
 		array('field' => 'BusinessPartner.degree_before', 'position' => '["BusinessPartner"]["degree_before"]', 'alias' => 'BusinessPartner.degree_before'),

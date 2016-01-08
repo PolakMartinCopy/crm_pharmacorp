@@ -50,6 +50,8 @@ class BusinessSession extends AppModel {
 	
 	var $virtualFields = array('short_desc' => 'LEFT(BusinessSession.description, 150)');
 	
+	var $export_file = 'files/business_sessions.csv';
+	
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 			$this->export_fields = $export_fields = array(

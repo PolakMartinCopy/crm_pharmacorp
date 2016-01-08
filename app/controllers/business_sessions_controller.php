@@ -48,7 +48,7 @@ class BusinessSessionsController extends AppController {
 		}
 		
 		if ($this->user['User']['user_type_id'] == 3) {
-			$conditions[] = '(BusinessSession.user_id = ' . $user_id . ' OR BusinessSessionsUser.user_id = ' . $user_id . ')';
+			$conditions[] = '(BusinessSession.admin_user_id = ' . $user_id . ' OR BusinessSessionsUser.user_id = ' . $user_id . ')';
 		}
 
 		$this->BusinessSession->virtualFields['purchaser_name'] = $this->BusinessSession->Purchaser->virtualFields['name'];
@@ -163,7 +163,7 @@ class BusinessSessionsController extends AppController {
 			$this->redirect($this->index_link);
 		}
 		
-		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['user_id'])) {
+		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['admin_user_id'])) {
 			$this->Session->setFlash('Neoprávněný přístup. Nemáte právo zobrazit informace o tomto obchodním jednání.');
 			$this->redirect($this->index_link);
 		}
@@ -521,7 +521,7 @@ class BusinessSessionsController extends AppController {
 				$this->data['BusinessSession']['date'] = array_merge($this->data['BusinessSession']['date'], $this->data['BusinessSession']['time']);
 			}
 
-			$this->data['BusinessSession']['user_id'] = $this->user['User']['id'];
+			$this->data['BusinessSession']['admin_user_id'] = $this->data['BusinessSession']['user_id'] = $this->user['User']['id'];
 			$this->data['BusinessSession']['business_session_state_id'] = 1;
 			
 			if (!$this->data['BusinessSession']['is_education']) {
@@ -529,7 +529,7 @@ class BusinessSessionsController extends AppController {
 			} else {
 				foreach ($this->data['Contract'] as &$contract) {
 					// nastaveni dat
-					$contract['user_id'] = $this->user['User']['id'];
+					$contract['admin_user_id'] = $contract['user_id'] = $this->user['User']['id'];
 					$contract['confirmed'] = false;
 					$contract['confirm_requirement'] = false;
 					$contract['amount_vat'] = ceil(price_vat($contract['amount'], $contract['vat']));
@@ -594,7 +594,7 @@ class BusinessSessionsController extends AppController {
 			$this->redirect($this->index_link);
 		}
 		
-		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['user_id'])) {
+		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['admin_user_id'])) {
 			$this->Session->setFlash('Neoprávněný přístup. Nemáte právo upravit toto jednání.');
 			$this->redirect($this->index_link);
 		}
@@ -658,7 +658,7 @@ class BusinessSessionsController extends AppController {
 					$is_editable = (!(isset($contract['confirmed']) && $contract['confirmed']) && !(isset($contract['confirm_requirement']) && $contract['confirm_requirement']));
 					if ($is_editable) {
 						// nastaveni dat
-						$contract['user_id'] = $this->user['User']['id'];
+						$contract['admin_user_id'] = $contract['user_id'] = $this->user['User']['id'];
 						$contract['confirmed'] = false;
 						$contract['confirm_requirement'] = false;
 						$contract['amount_vat'] = ceil(price_vat($contract['amount'], $contract['vat']));
@@ -752,7 +752,7 @@ class BusinessSessionsController extends AppController {
 			$this->redirect($this->index_link);
 		}
 		
-		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['user_id'])) {
+		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['admin_user_id'])) {
 			$this->Session->setFlash('Neoprávněný přístup. Nemáte právo pozvat kontaktní osoby na toto jednání.');
 			$this->redirect($this->index_link);
 		}
@@ -813,7 +813,7 @@ class BusinessSessionsController extends AppController {
 			$this->redirect($redirect);
 		}
 		
-		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['user_id'])) {
+		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['admin_user_id'])) {
 			$this->Session->setFlash('Neoprávněný přístup. Nemůžete uzavřít toto obchodní jednání.');
 			$this->redirect($this->index_link);
 		}
@@ -854,7 +854,7 @@ class BusinessSessionsController extends AppController {
 			$this->redirect($redirect);
 		}
 		
-		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['user_id'])) {
+		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['admin_user_id'])) {
 			$this->Session->setFlash('Neoprávněný přístup. Nemůžete stornovat toto obchodní jednání.');
 			$this->redirect($redirect);
 		}
@@ -879,7 +879,7 @@ class BusinessSessionsController extends AppController {
 			'contain' => array()
 		));
 
-		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['user_id'])) {
+		if (!$this->BusinessSession->checkUser($this->user, $business_session['BusinessSession']['admin_user_id'])) {
 			$this->Session->setFlash('Neoprávněný přístup. Nemůžete smazat toto obchodní jednání.');
 			$this->redirect($this->index_link);
 		}

@@ -48,6 +48,8 @@ class BusinessSession extends AppModel {
 		)
 	);
 	
+	var $virtualFields = array('short_desc' => 'LEFT(BusinessSession.description, 150)');
+	
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 			$this->export_fields = $export_fields = array(
@@ -75,47 +77,38 @@ class BusinessSession extends AppModel {
 	}
 	
 	function do_form_search($conditions, $data) {
-
 		if ( !empty($data['Purchaser']['name']) ){
-			$conditions[] = 'Purchaser.name LIKE \'%%' . $data['Purchaser']['name'] . '%%\'';
+			$conditions[] = $this->Purchaser->virtualFields['name'] . ' LIKE \'%%' . $data['Purchaser']['name'] . '%%\'';
 		}
-		
+		if ( !empty($data['Address']['street']) ){
+			$conditions[] = 'Address.street LIKE \'%%' . $data['Address']['street'] . '%%\'';
+		}
+		if ( !empty($data['Address']['city']) ){
+			$conditions[] = 'Address.city LIKE \'%%' . $data['Address']['city'] . '%%\'';
+		}
+		if ( !empty($data['Purchaser']['icz']) ){
+			$conditions[] = 'Purchaser.icz LIKE \'%%' . $data['Purchaser']['icz'] . '%%\'';
+		}
+		if ( !empty($data['Purchaser']['category']) ){
+			$conditions[] = 'Purchaser.category LIKE \'%%' . $data['Purchaser']['category'] . '%%\'';
+		}
 		if ( !empty($data['BusinessSession']['date_from']) ){
 			$date_from = explode('.', $data['BusinessSession']['date_from']);
-			$date_from = $date_from[2] . '-' . $date_from[1] . '-' . $date_from[0] . ' 00:00:00';
-			$conditions[] = 'BusinessSession.date > \'' . $date_from . '\'';
+			$date_from = $date_from[2] . '-' . $date_from[1] . '-' . $date_from[0];
+			$conditions[] = 'DATE(BusinessSession.date) >= \'' . $date_from . '\'';
 		}
-		
 		if ( !empty($data['BusinessSession']['date_to']) ){
 			$date_to = explode('.', $data['BusinessSession']['date_to']);
-			$date_to = $date_to[2] . '-' . $date_to[1] . '-' . $date_to[0] . ' 00:00:00';
-			$conditions[] = 'BusinessSession.date < \'' . $date_to . '\'';
+			$date_to = $date_to[2] . '-' . $date_to[1] . '-' . $date_to[0];
+			$conditions[] = 'DATE(BusinessSession.date) <= \'' . $date_to . '\'';
 		}
-		
-		if ( !empty($data['BusinessSession']['created_from']) ){
-			$created_from = explode('.', $data['BusinessSession']['created_from']);
-			$created_from = $created_from[2] . '-' . $created_from[1] . '-' . $created_from[0] . ' 00:00:00';
-			$conditions[] = 'BusinessSession.created > \'' . $created_from . '\'';
-		}
-		
-		if ( !empty($data['BusinessSession']['created_to']) ){
-			$created_to = explode('.', $data['BusinessSession']['created_to']);
-			$created_to = $created_to[2] . '-' . $created_to[1] . '-' . $created_to[0] . ' 00:00:00';
-			$conditions[] = 'BusinessSession.created < \'' . $created_to . '\'';
-		}
-		
-		
-		if ( !empty($data['BusinessSession']['business_session_type_id']) ){
-			$conditions[] = 'BusinessSession.business_session_type_id = \'' . $data['BusinessSession']['business_session_type_id'] . '\'';
-		}
-		
-		if ( !empty($data['BusinessSession']['description']) ){
-			$conditions[] = 'BusinessSession.description LIKE \'%%' . $data['BusinessSession']['description'] . '%%\'';
+		if (!empty($data['BusinessSession']['business_session_type_id'])) {
+			$conditions[] = 'BusinessSession.business_session_type_id = ' . $data['BusinessSession']['business_session_type_id'];
 		}
 		if (!empty($data['BusinessSession']['user_id'])) {
 			$conditions[] = 'BusinessSession.user_id = ' . $data['BusinessSession']['user_id'];
 		}
-		
+	
 		return $conditions;
 	}
 	
@@ -132,7 +125,8 @@ class BusinessSession extends AppModel {
 			business_sessions AS BusinessSession LEFT JOIN
 			business_sessions_users AS BusinessSessionsUser ON (BusinessSession.id = BusinessSessionsUser.business_session_id) LEFT JOIN
 			purchasers AS Purchaser ON (Purchaser.id = BusinessSession.purchaser_id) LEFT JOIN
-			business_partners AS BusinessPartner ON (Purchaser.business_partner_id = BusinessPartner.id)
+			business_partners AS BusinessPartner ON (Purchaser.business_partner_id = BusinessPartner.id) LEFT JOIN
+			addresses AS Address ON (Address.purchaser_id = Purchaser.id)
 		WHERE ' . $conditions;
 
 		return $query;

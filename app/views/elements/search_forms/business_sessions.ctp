@@ -17,16 +17,16 @@
 		<tr>
 			<th>Název</th>
 			<td><?php echo $form->input('BusinessSessionSearch.Purchaser.name', array('label' => false))?></td>
+			<th>Ulice</th>
+			<td><?php echo $form->input('BusinessSessionSearch.Address.street', array('label' => false))?></td>
+			<th>Město</th>
+			<td><?php echo $form->input('BusinessSessionSearch.Address.city', array('label' => false))?></td>
+		</tr>
+		<tr>
 			<th>IČZ</th>
 			<td><?php echo $form->input('BusinessSessionSearch.Purchaser.icz', array('label' => false))?></td>
 			<th>Kategorie</th>
-			<td><?php echo $form->input('BusinessSessionSearch.Purchaser.category', array('label' => false))?></td>
-		</tr>
-		<tr>
-			<th>Email</th>
-			<td><?php echo $form->input('BusinessSessionSearch.Purchaser.email', array('label' => false))?></td>
-			<th>Telefon</th>
-			<td colspan="3"><?php echo $form->input('BusinessSessionSearch.Purchaser.phone', array('label' => false))?></td>
+			<td colspan="3"><?php echo $form->input('BusinessSessionSearch.Purchaser.category', array('label' => false))?></td>
 		</tr>
 		<tr>
 			<td colspan="6">Obchodní jednání</td>

@@ -140,7 +140,7 @@ class ContractsController extends AppController {
 		
 		$conditions = array('Contract.id' => $id);
 		if ($this->user['User']['user_type_id'] == 3) {
-			$conditions['Contract.user_id'] = $this->user['User']['id'];
+			$conditions['Contract.admin_user_id'] = $this->user['User']['id'];
 		}
 		
 		$this->Contract->virtualFields['one_line'] = $this->Contract->one_line;
@@ -154,7 +154,7 @@ class ContractsController extends AppController {
 		unset($this->Contract->virtualFields['one_line']);
 
 		if (empty($contract)) {
-			$this->Session->setFlash('Dohoda, kterou chcete upravit, neexistuje');
+			$this->Session->setFlash('Dohoda, kterou chcete zobrazit, neexistuje');
 			$this->redirect($redirect);
 		}
 
@@ -191,7 +191,7 @@ class ContractsController extends AppController {
 		if (isset($this->data)) {
 			$this->data['Contract']['vat'] = $contract_taxes[$this->data['Contract']['contract_tax_id']];
 			// nastaveni dat
-			$this->data['Contract']['user_id'] = $this->user['User']['id'];
+			$this->data['Contract']['admin_user_id'] = $this->data['Contract']['user_id'] = $this->user['User']['id'];
 			$this->data['Contract']['confirmed'] = false;
 			$this->data['Contract']['confirm_requirement'] = false;
 			$this->data['Contract']['amount'] = floor(price_wout_vat($this->data['Contract']['amount_vat'], $this->data['Contract']['vat']));
@@ -255,7 +255,7 @@ class ContractsController extends AppController {
 		
 		$conditions = array('Contract.id' => $id);
 		if ($this->user['User']['user_type_id'] == 3) {
-			$conditions['Contract.user_id'] = $this->user['User']['id'];
+			$conditions['Contract.admin_user_id'] = $this->user['User']['id'];
 		}
 		
 		$contract = $this->Contract->find('first', array(
@@ -345,7 +345,7 @@ class ContractsController extends AppController {
 		
 		$conditions = array('Contract.id' => $id);
 		if ($this->user['User']['user_type_id'] == 3) {
-			$conditions['Contract.user_id'] = $this->user['User']['id'];
+			$conditions['Contract.admin_user_id'] = $this->user['User']['id'];
 		}
 		
 		if (!$this->Contract->hasAny($conditions)) {
@@ -390,7 +390,7 @@ class ContractsController extends AppController {
 		
 		$conditions = array('Contract.id' => $id);
 		if ($this->user['User']['user_type_id'] == 3) {
-			$conditions['Contract.user_id'] = $this->user['User']['id'];
+			$conditions['Contract.admin_user_id'] = $this->user['User']['id'];
 		}
 		
 		if (!$this->Contract->hasAny($conditions)) {
@@ -435,7 +435,7 @@ class ContractsController extends AppController {
 		
 		$conditions = array('Contract.id' => $id);
 		if ($this->user['User']['user_type_id'] == 3) {
-			$conditions['Contract.user_id'] = $this->user['User']['id'];
+			$conditions['Contract.admin_user_id'] = $this->user['User']['id'];
 		}
 
 		$contract = $this->Contract->find('first', array(
@@ -449,6 +449,7 @@ class ContractsController extends AppController {
 		}
 		
 		$contract['Contract']['confirmed'] = true;
+		$contract['Contract']['confirm_user_id'] = $this->user['User']['id'];
 		
 		$datasource = $this->Contract->getDataSource($this->Contract);
 		$datasource->begin($this->Contract);
@@ -491,7 +492,7 @@ class ContractsController extends AppController {
 		
 		$conditions = array('Contract.id' => $id);
 		if ($this->user['User']['user_type_id'] == 3) {
-			$conditions['Contract.user_id'] = $this->user['User']['id'];
+			$conditions['Contract.admin_user_id'] = $this->user['User']['id'];
 		}
 		
 		$contract = $this->Contract->find('first', array(

@@ -28,8 +28,8 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $business_session['BusinessSession']['id']?></td>
 			</tr>
 			<tr>
-				<th>Obchodní partner</th>
-				<td><?php echo $html->link($business_session['BusinessSession']['purchaser_name'], array('controller' => 'business_partners', 'action' => 'view', $business_session['Purchaser']['id']))?></td>
+				<th>Odběratel</th>
+				<td><?php echo $html->link($business_session['BusinessSession']['purchaser_name'], array('controller' => 'purchasers', 'action' => 'view', $business_session['Purchaser']['id']))?></td>
 			</tr>
 			<tr>
 				<th>Uživatel</th>

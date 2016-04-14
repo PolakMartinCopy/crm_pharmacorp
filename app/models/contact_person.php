@@ -16,7 +16,8 @@ class ContactPerson extends AppModel {
 		'Anniversary' => array(
 			'dependent' => true
 		),
-		'BusinessSessionsContactPerson' // kontaktni osoba prizvana na jednani
+		'BusinessSessionsContactPerson', // kontaktni osoba prizvana na jednani,
+		'Contract' // dohody se vystavuji na kontaktni osoby
 	);
 	
 	var $validate = array(
@@ -50,22 +51,27 @@ class ContactPerson extends AppModel {
 		'name' => 'TRIM(CONCAT(ContactPerson.degree_before, " ", ContactPerson.first_name, " ", ContactPerson.last_name, " ", ContactPerson.degree_after))'
 	);
 	
+	var $export_file = 'contact_people.csv';
+	
 	
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 		$this->export_fields = array(
-			array('field' => 'Purchaser.id', 'position' => '["Purchaser"]["id"]', 'alias' => 'Purchaser.id'),
-			array('field' => $this->Purchaser->virtualFields['name'], 'position' => '[0][\'' .  $this->Purchaser->virtualFields['name'] . '\']', 'alias' => 'Purchaser.name', 'escape_quotes' => false),
 			array('field' => 'ContactPerson.id', 'position' => '["ContactPerson"]["id"]', 'alias' => 'ContactPerson.id'),
+			array('field' => 'User.first_name', 'position' => '["User"]["first_name"]', 'alias' => 'User.first_name'),
+			array('field' => $this->Purchaser->virtualFields['name'], 'position' => '[0][\'' .  $this->Purchaser->virtualFields['name'] . '\']', 'alias' => 'Purchaser.name', 'escape_quotes' => false),
 			array('field' => 'ContactPerson.first_name', 'position' => '["ContactPerson"]["first_name"]', 'alias' => 'ContactPerson.first_name'),
 			array('field' => 'ContactPerson.last_name', 'position' => '["ContactPerson"]["last_name"]', 'alias' => 'ContactPerson.last_name'),
 			array('field' => 'ContactPerson.degree_before', 'position' => '["ContactPerson"]["degree_before"]', 'alias' => 'ContactPerson.degree_before'),
-			array('field' => 'ContactPerson.degree_after', 'position' => '["ContactPerson"]["degree_after"]', 'alias' => 'ContactPerson.degree_after'),
 			array('field' => 'ContactPerson.phone', 'position' => '["ContactPerson"]["phone"]', 'alias' => 'ContactPerson.phone'),
 			array('field' => 'ContactPerson.cellular', 'position' => '["ContactPerson"]["cellular"]', 'alias' => 'ContactPerson.cellular'),
 			array('field' => 'ContactPerson.email', 'position' => '["ContactPerson"]["email"]', 'alias' => 'ContactPerson.email'),
-			array('field' => 'ContactPerson.note', 'position' => '["ContactPerson"]["note"]', 'alias' => 'ContactPerson.note'),
-			array('field' => 'ContactPerson.active', 'position' => '["ContactPerson"]["active"]', 'alias' => 'ContactPerson.active')
+			array('field' => 'ContactPerson.birthday', 'position' => '["ContactPerson"]["birthday"]', 'alias' => 'ContactPerson.birthday'),
+			array('field' => 'ContactPerson.birth_certificate_number', 'position' => '["ContactPerson"]["birth_certificate_number"]', 'alias' => 'ContactPerson.birth_certificate_number'),
+			array('field' => 'ContactPersonAddress.street', 'position' => '["ContactPersonAddress"]["street"]', 'alias' => 'ContactPersonAddress.street'),
+			array('field' => 'ContactPersonAddress.number', 'position' => '["ContactPersonAddress"]["number"]', 'alias' => 'ContactPersonAddress.number'),
+			array('field' => 'ContactPersonAddress.city', 'position' => '["ContactPersonAddress"]["city"]', 'alias' => 'ContactPersonAddress.city'),
+			array('field' => 'ContactPersonAddress.region', 'position' => '["ContactPersonAddress"]["region"]', 'alias' => 'ContactPersonAddress.region'),
 		);
 	}
 	
@@ -116,28 +122,34 @@ class ContactPerson extends AppModel {
 			}
 			$results['salutation'] = $salutation;
 		} else {
-			foreach ($results as $index => $result) {
-				if (!isset($result['ContactPerson'])) {
-					break;
+			if (is_array($results)) {
+				foreach ($results as $index => $result) {
+					if (!isset($result['ContactPerson'])) {
+						break;
+					}
+					$salutation = '';
+					if (!empty($result['ContactPerson']['last_name'])) {
+						$salutation = $result['ContactPerson']['last_name'];					
+					}
+					if (!empty($result['ContactPerson']['first_name'])) {
+						$salutation = $result['ContactPerson']['first_name'] . ' ' . $salutation;
+					}
+					if (!empty($result['ContactPerson']['prefix'])) {
+						$salutation = $result['ContactPerson']['prefix'] . ' ' . $salutation;
+					}
+					$results[$index]['ContactPerson']['salutation'] = $salutation;
 				}
-				$salutation = '';
-				if (!empty($result['ContactPerson']['last_name'])) {
-					$salutation = $result['ContactPerson']['last_name'];					
-				}
-				if (!empty($result['ContactPerson']['first_name'])) {
-					$salutation = $result['ContactPerson']['first_name'] . ' ' . $salutation;
-				}
-				if (!empty($result['ContactPerson']['prefix'])) {
-					$salutation = $result['ContactPerson']['prefix'] . ' ' . $salutation;
-				}
-				$results[$index]['ContactPerson']['salutation'] = $salutation;
 			}
 		}
 		return $results;
 	}
 	
 	function autocomplete_list($user, $term = null, $business_partner_id = null, $purchaser_id = null) {
-		$conditions = array('ContactPerson.active' => true);
+		$conditions = array(
+			'ContactPerson.active' => true,
+			'Purchaser.active' => true,
+			'BusinessPartner.active' => true
+		);
 		if ($user['User']['user_type_id'] == 3) {
 			$conditions = array('Purchaser.user_id' => $user['User']['id']);
 		}
@@ -153,8 +165,22 @@ class ContactPerson extends AppModel {
 
 		$contact_people = $this->find('all', array(
 			'conditions' => $conditions,
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'purchasers',
+					'alias' => 'Purchaser',
+					'type' => 'LEFT',
+					'conditions' => array('Purchaser.id = ContactPerson.purchaser_id')
+				),
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'LEFT',
+					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
+				)
+			),
 			'order' => array('ContactPerson.name' => 'asc'),
-			'contain' => array('Purchaser'),
 			'fields' => array('ContactPerson.id', 'ContactPerson.name', 'Purchaser.*')
 		));
 
@@ -198,19 +224,13 @@ class ContactPerson extends AppModel {
 	
 	function do_form_search($conditions, $data) {
 		if (!empty($data['Purchaser']['name'])) {
-			$conditions[] = 'Purchaser.name LIKE \'%%' . $data['Purchaser']['name'] . '%%\'';
+			$conditions[] = $this->Purchaser->virtualFields['name'] . ' LIKE \'%%' . $data['Purchaser']['name'] . '%%\'';
 		}
-		if (!empty($data['Purchaser']['icz'])) {
-			$conditions[] = 'Purchaser.icz LIKE \'%%' . $data['Purchaser']['icz'] . '%%\'';
+		if (!empty($data['PurchaserAddress']['street'])) {
+			$conditions[] = 'PurchaserAddress.street LIKE \'%%' . $data['PurchaserAddress']['street'] . '%%\'';
 		}
-		if (!empty($data['Purchaser']['category'])) {
-			$conditions[] = 'Purchaser.category LIKE \'%%' . $data['Purchaser']['category'] . '%%\'';
-		}
-		if (!empty($data['Purchaser']['email'])) {
-			$conditions[] = 'Purchaser.email LIKE \'%%' . $data['Purchaser']['email'] . '%%\'';
-		}
-		if (!empty($data['Purchaser']['phone'])) {
-			$conditions[] = 'Purchaser.phone LIKE \'%%' . $data['Purchaser']['phone'] . '%%\'';
+		if (!empty($data['PurchaserAddress']['city'])) {
+			$conditions[] = 'PurchaserAddress.city LIKE \'%%' . $data['PurchaserAddress']['city'] . '%%\'';
 		}
 		if (!empty($data['ContactPerson']['first_name'])) {
 			$conditions[] = 'ContactPerson.first_name LIKE \'%%' . $data['ContactPerson']['first_name'] . '%%\'';
@@ -218,17 +238,11 @@ class ContactPerson extends AppModel {
 		if (!empty($data['ContactPerson']['last_name'])) {
 			$conditions[] = 'ContactPerson.last_name LIKE \'%%' . $data['ContactPerson']['last_name'] . '%%\'';
 		}
-		if (!empty($data['ContactPerson']['phone'])) {
-			$conditions[] = 'ContactPerson.phone LIKE \'%%' . $data['ContactPerson']['phone'] . '%%\'';
+		if (!empty($data['ContactPersonAddress']['street'])) {
+			$conditions[] = 'ContactPersonAddress.street LIKE \'%%' . $data['ContactPersonAddress']['street'] . '%%\'';
 		}
-		if (!empty($data['ContactPerson']['cellular'])) {
-			$conditions[] = 'ContactPerson.cellular LIKE \'%%' . $data['ContactPerson']['cellular'] . '%%\'';
-		}
-		if (!empty($data['ContactPerson']['email'])) {
-			$conditions[] = 'ContactPerson.email LIKE \'%%' . $data['ContactPerson']['email'] . '%%\'';
-		}
-		if (!empty($data['Purchaser']['user_id'])) {
-			$conditions['Purchaser.user_id'] = $data['Purchaser']['user_id'];
+		if (!empty($data['ContactPersonAddress']['city'])) {
+			$conditions[] = 'ContactPersonAddress.city LIKE \'%%' . $data['ContactPersonAddress']['city'] . '%%\'';
 		}
 		
 		return $conditions;
@@ -256,5 +270,23 @@ class ContactPerson extends AppModel {
 		));
 		
 		return $business_partner;
+	}
+	
+	function get_purchaser($id) {
+		$purchaser = $this->find('first', array(
+			'conditions' => array('ContactPerson.id' => $id),
+			'contain' => array(),
+			'fields' => array('Purchaser.*'),
+			'joins' => array(
+				array(
+					'table' => 'purchasers',
+					'alias' => 'Purchaser',
+					'type' => 'inner',
+					'conditions' => array('Purchaser.id = ContactPerson.purchaser_id')
+				)
+			)
+		));
+	
+		return $purchaser;
 	}
 }

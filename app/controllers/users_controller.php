@@ -564,6 +564,10 @@ class UsersController extends AppController {
 		$this->Acl->deny('manager', 'controllers/ContractTypes');
 		$this->Acl->deny('manager', 'controllers/ContractPayments');
 		$this->Acl->deny('manager', 'controllers/ContractTaxes');
+		// zakazu moznost prepocitat ucet odberatele
+		$this->Acl->deny('manager', 'controllers/Purchasers/user_recount_wallet');
+		$this->Acl->deny('manager', 'controllers/Purchasers/user_recount_all_wallets');
+		$this->Acl->deny('manager', 'controllers/BusinessPartners/user_wallet_test');
 		
 		$this->Acl->allow('user', 'controllers');
 		$this->Acl->deny('user', 'controllers/Users');
@@ -586,6 +590,10 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/Purchasers/user_edit_user');
 		// zakazu uzivateli mazat odberatele
 		$this->Acl->deny('user', 'controllers/Purchasers/user_delete');
+		// zakazu moznost prepocitat ucet odberatele
+		$this->Acl->deny('user', 'controllers/Purchasers/user_recount_wallet');
+		$this->Acl->deny('user', 'controllers/Purchasers/user_recount_all_wallets');
+		$this->Acl->deny('user', 'controllers/BusinessPartners/user_wallet_test');
 		
 		$this->Acl->deny('user', 'controllers/BusinessSessions/user_delete');
 		

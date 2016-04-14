@@ -65,6 +65,7 @@ class Purchaser extends AppModel {
 		array('field' => 'Purchaser.name', 'position' => '["Purchaser"]["name"]', 'alias' => 'Purchaser.name'),
 		array('field' => 'Purchaser.email', 'position' => '["Purchaser"]["email"]', 'alias' => 'Purchaser.email'),
 		array('field' => 'Purchaser.phone', 'position' => '["Purchaser"]["phone"]', 'alias' => 'Purchaser.phone'),
+		array('field' => 'Purchaser.wallet', 'position' => '["Purchaser"]["wallet"]', 'alias' => 'Purchaser.wallet'),
 		array('field' => 'Address.street', 'position' => '["Address"]["street"]', 'alias' => 'Address.street'),
 		array('field' => 'Address.number', 'position' => '["Address"]["number"]', 'alias' => 'Address.number'),
 		array('field' => 'Address.city', 'position' => '["Address"]["city"]', 'alias' => 'Address.city'),
@@ -83,6 +84,106 @@ class Purchaser extends AppModel {
 			return $this->save($save);
 		}
 		return false;
+	}
+	
+	function wallet_transaction($id, $amount) {
+		$purchaser = $this->find('first', array(
+			'conditions' => array('Purchaser.id' => $id),
+			'contain' => array(),
+			'fields' => array('Purchaser.id', 'Purchaser.wallet')
+		));
+	
+		if (empty($purchaser)) {
+			return false;
+		}
+	
+		$wallet = $purchaser['Purchaser']['wallet'] + $amount;
+		
+		return $this->setWallet($id, $wallet);
+	}
+	
+	function setWallet($id, $wallet) {
+		$save = array(
+			'Purchaser' => array(
+				'id' => $id,
+				'wallet' => $wallet
+			)
+		);
+		
+		return $this->save($save);		
+	}
+	
+	function recountAllWallets() {
+		$purchasers = $this->find('all', array(
+//			'conditions' => array('Purchaser.active' => true),
+			'contain' => array(),
+			'fields' => array('Purchaser.id')
+		));
+		
+		foreach ($purchasers as $purchaser) {
+			$this->recountWallet($purchaser['Purchaser']['id']);
+		}
+		return true;
+	}
+	
+	// prepocita stav penezenky odberatele
+	function recountWallet($id = null) {
+		if (!$id) {
+			return false;
+		}
+
+		$wallet = 0;
+		// prictu hodnoty poukazu
+		$sales = $this->getSales($id);
+//		debug($sales);
+		foreach ($sales as $sale) {
+			$wallet += $this->Sale->getPrice($sale['Sale']['id']);
+		}
+//		debug($wallet);
+		// odectu hodnoty schvalenych dohod
+		$contracts = $this->getContracts($id);
+//		debug($contracts);
+		foreach ($contracts as $contract) {
+			$wallet -= $contract['Contract']['amount'];
+		}
+//		debug($wallet);
+		return $this->setWallet($id, $wallet);
+	}
+	
+	function getSales($id) {
+		$this->Sale->virtualFields = array();
+		$sales = $this->Sale->find('all', array(
+			'conditions' => array('Sale.purchaser_id' => $id),
+			'contain' => array()
+		));
+		
+		return $sales;
+	}
+	
+	function getContracts($id, $onlyConfirmed = true) {
+		$contracts = $this->find('all', array(
+			'conditions' => array(
+				'Purchaser.id' => $id,
+				'Contract.confirmed' => true
+			),
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'contact_people',
+					'alias' => 'ContactPerson',
+					'type' => 'INNER',
+					'conditions' => array('ContactPerson.purchaser_id = Purchaser.id')
+				),
+				array(
+					'table' => 'contracts',
+					'alias' => 'Contract',
+					'type' => 'INNER',
+					'conditions' => array('Contract.contact_person_id = ContactPerson.id')
+				)
+			),
+			'fields' => array('Contract.*')
+		));
+		return $contracts;
 	}
 	
 	function do_form_search($conditions, $data){

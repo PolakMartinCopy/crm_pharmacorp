@@ -17,16 +17,14 @@
 		<tr>
 			<th>Název</th>
 			<td><?php echo $form->input('ContactPersonSearch.Purchaser.name', array('label' => false))?></td>
-			<th>IČZ</th>
-			<td><?php echo $form->input('ContactPersonSearch.Purchaser.icz', array('label' => false))?></td>
-			<th>Kategorie</th>
-			<td><?php echo $form->input('ContactPersonSearch.Purchaser.category', array('label' => false))?></td>
+			<th>Ulice</th>
+			<td><?php echo $form->input('ContactPersonSearch.PurchaserAddress.street', array('label' => false))?></td>
+			<th>Město</th>
+			<td><?php echo $form->input('ContactPersonSearch.PurchaserAddress.city', array('label' => false))?></td>
 		</tr>
 		<tr>
-			<th>Email</th>
-			<td><?php echo $form->input('ContactPersonSearch.Purchaser.email', array('label' => false))?></td>
-			<th>Telefon</th>
-			<td colspan="3"><?php echo $form->input('ContactPersonSearch.Purchaser.phone', array('label' => false))?></td>
+			<th>Obchodník</th>
+			<td colspan="5"><?php echo $form->input('ContactPersonSearch.Purchaser.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
 		</tr>
 		<tr>
 			<td colspan="6">Kontaktní osoba</td>
@@ -38,16 +36,10 @@
 			<td colspan="3"><?php echo $form->input('ContactPersonSearch.ContactPerson.last_name', array('label' => false))?></td>
 		</tr>
 		<tr>
-			<th>Telefon</th>
-			<td><?php echo $form->input('ContactPersonSearch.ContactPerson.phone', array('label' => false))?></td>
-			<th>Mobil</th>
-			<td><?php echo $form->input('ContactPersonSearch.ContactPerson.cellular', array('label' => false))?></td>
-			<th>Email</th>
-			<td><?php echo $form->input('ContactPersonSearch.ContactPerson.email', array('label' => false))?></td>
-		</tr>
-		<tr>
-			<th>Obchodník</th>
-			<td colspan="5"><?php echo $form->input('ContactPersonSearch.Purchaser.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
+			<th>Ulice</th>
+			<td><?php echo $form->input('ContactPersonSearch.ContactPersonAddress.street', array('label' => false))?></td>
+			<th>Město</th>
+			<td colspan="3"><?php echo $form->input('ContactPersonSearch.ContactPersonAddress.city', array('label' => false))?></td>
 		</tr>
 		<tr>
 			<td colspan="6"><?php

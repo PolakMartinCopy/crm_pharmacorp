@@ -57,7 +57,6 @@ class BusinessPartner extends AppModel {
 		array('field' => 'BusinessPartner.email', 'position' => '["BusinessPartner"]["email"]', 'alias' => 'BusinessPartner.email'),
 		array('field' => 'BusinessPartner.phone', 'position' => '["BusinessPartner"]["phone"]', 'alias' => 'BusinessPartner.phone'),
 		array('field' => 'BusinessPartner.note', 'position' => '["BusinessPartner"]["note"]', 'alias' => 'BusinessPartner.note'),
-		array('field' => 'BusinessPartner.wallet', 'position' => '["BusinessPartner"]["wallet"]', 'alias' => 'BusinessPartner.wallet'),
 		array('field' => 'Address.street', 'position' => '["Address"]["street"]', 'alias' => 'Address.street'),
 		array('field' => 'Address.number', 'position' => '["Address"]["number"]', 'alias' => 'Address.number'),
 		array('field' => 'Address.city', 'position' => '["Address"]["city"]', 'alias' => 'Address.city'),
@@ -142,28 +141,6 @@ class BusinessPartner extends AppModel {
 		}
 		
 		return $business_partner['BusinessPartner']['name'] . ', ' . $business_partner['Address'][0]['street'] . ' ' . $business_partner['Address'][0]['number'] . ', ' . $business_partner['Address'][0]['city'] . ', ' . $business_partner['Address'][0]['zip'];
-	}
-	
-	function wallet_transaction($id, $amount) {
-		$business_partner = $this->find('first', array(
-			'conditions' => array('BusinessPartner.id' => $id),
-			'contain' => array(),
-			'fields' => array('BusinessPartner.id', 'BusinessPartner.wallet')
-		));
-		
-		if (empty($business_partner)) {
-			return false;
-		}
-		
-		$wallet = $business_partner['BusinessPartner']['wallet'] + $amount;
-		$save = array(
-			'BusinessPartner' => array(
-				'id' => $id,
-				'wallet' => $wallet
-			)
-		);
-		
-		return $this->save($save);
 	}
 	
 	function contact_people($id) {

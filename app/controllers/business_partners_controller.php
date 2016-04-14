@@ -551,6 +551,29 @@ class BusinessPartnersController extends AppController {
 		$this->redirect($this->index_link);
 	}
 	
+	function user_wallet_test() {
+		$businessPartners = $this->BusinessPartner->find('all', array(
+			'conditions' => array('BusinessPartner.active' => true),
+			'contain' => array(
+				'Purchaser' => array(
+					'conditions' => array('Purchaser.active' => true)
+				)
+			)
+		));
+		
+		foreach ($businessPartners as $businessPartner) {
+			$businessPartnerWallet = $businessPartner['BusinessPartner']['wallet'];
+			$purchasersWallet = 0;
+			foreach ($businessPartner['Purchaser'] as $purchaser) {
+				$purchasersWallet += $purchaser['wallet'];
+			}
+			if ($businessPartnerWallet != $purchasersWallet) {
+				debug($businessPartner);
+			}
+		}
+		die('hotovo');
+	}
+	
 	function user_autocomplete_list() {
 		$term = null;
 		if ($_GET['term']) {

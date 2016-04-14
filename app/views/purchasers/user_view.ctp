@@ -48,6 +48,10 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo (isset($bonity[$purchaser['Purchaser']['bonity']]) ? $bonity[$purchaser['Purchaser']['bonity']] : '')?></td>
 			</tr>
 			<tr>
+				<th>Stav účtu</th>
+				<td><?php echo $purchaser['Purchaser']['wallet']?>&nbsp;Kč</td>
+			</tr>
+			<tr>
 				<th>Obchodní partner</th>
 				<td><?php echo $this->Html->link($purchaser['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $purchaser['BusinessPartner']['id']))?></td>
 			</tr>

@@ -6,7 +6,6 @@
 		<th><?php echo $this->Paginator->sort('DIČ', 'BusinessPartner.dic')?></th>
 		<th><?php echo $this->Paginator->sort('Email', 'BusinessPartner.email')?></th>
 		<th><?php echo $this->Paginator->sort('Telefon', 'BusinessPartner.phone')?></th>
-		<th><?php echo $this->Paginator->sort('Účet', 'BusinessPartner.wallet')?></th>
 		<th><?php echo $this->Paginator->sort('Ulice a č.p.', 'BusinessPartner.address_street_info')?></th>
 		<th><?php echo $this->Paginator->sort('Město', 'Address.city')?></th>
 		<th><?php echo $this->Paginator->sort('PSČ', 'Address.zip')?></th>
@@ -24,7 +23,6 @@
 		<td><?php echo $business_partner['BusinessPartner']['dic']?></td>
 		<td><?php echo $business_partner['BusinessPartner']['email']?></td>
 		<td><?php echo $business_partner['BusinessPartner']['phone']?></td>
-		<td align="right"><?php echo $business_partner['BusinessPartner']['wallet']?></td>
 		<td><?php echo $business_partner['BusinessPartner']['address_street_info']?></td>
 		<td><?php echo $business_partner['Address']['city']?></td>
 		<td><?php echo $business_partner['Address']['zip']?></td>

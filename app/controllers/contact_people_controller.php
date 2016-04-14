@@ -40,15 +40,11 @@ class ContactPeopleController extends AppController {
 		}
 
 		$this->ContactPerson->virtualFields['purchaser_name'] = $this->ContactPerson->Purchaser->virtualFields['name'];
-		$this->paginate['ContactPerson'] = array(
+		$this->paginate = array(
 			'conditions' => $conditions,
 			'limit' => 30,
-			'fields' => array('Purchaser.*', 'ContactPerson.*'),
-			'contain' => array(
-				'Anniversary' => array(
-					'fields' => array('id')
-				)
-			),
+			'fields' => array('*'),
+			'contain' => array(),
 			'joins' => array(
 				array(
 					'table' => 'purchasers',
@@ -57,18 +53,36 @@ class ContactPeopleController extends AppController {
 					'conditions' => $business_partner_conditions
 				),
 				array(
+					'table' => 'addresses',
+					'alias' => 'PurchaserAddress',
+					'type' => 'LEFT',
+					'conditions' => array('Purchaser.id = PurchaserAddress.purchaser_id')
+				),
+				array(
+					'table' => 'addresses',
+					'alias' => 'ContactPersonAddress',
+					'type' => 'LEFT',
+					'conditions' => array('ContactPerson.id = ContactPersonAddress.contact_person_id')	
+				),
+				array(
 					'table' => 'business_partners',
 					'alias' => 'BusinessPartner',
 					'type' => 'INNER',
 					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
+				),
+				array(
+					'table' => 'users',
+					'alias' => 'User',
+					'type' => 'LEFT',
+					'conditions' => array('User.id = Purchaser.user_id')
 				)
 			),
 		);
-		$contact_people = $this->paginate('ContactPerson');
+		$contact_people = $this->paginate();
 		unset($this->ContactPerson->virtualFields['purchaser_name']);
 		$this->set('contact_people', $contact_people);
 		
-		$find = $this->paginate['ContactPerson'];
+		$find = $this->paginate;
 		unset($find['limit']);
 		unset($find['fields']);
 		$this->set('find', $find);

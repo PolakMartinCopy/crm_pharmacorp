@@ -27,53 +27,22 @@ class Sale extends Transaction {
 				$wallet += $pt['education'] * (-$pt['quantity']);
 			}
 			
-			$purchaser = $this->Purchaser->find('first', array(
-				'conditions' => array('Purchaser.id' => $data['Sale']['purchaser_id']),
-				'contain' => array('BusinessPartner')
-			));
-			$wallet += $purchaser['BusinessPartner']['wallet'];
-			
-			$business_partner_wallet_save = array(
-				'BusinessPartner' => array(
-					'id' => $purchaser['BusinessPartner']['id'],
-					'wallet' => $wallet
-				)
-			);
-			
-			return $this->Purchaser->BusinessPartner->save($business_partner_wallet_save);
-			
-/*			if (isset($data['DeliveryNote'])) {
-				$delivery_note['DeliveryNote'] = $data['DeliveryNote'];
-				$delivery_note['DeliveryNote']['purchaser_id'] = $data['Sale']['purchaser_id'];
-				$delivery_note['DeliveryNote']['date'] = $data['Sale']['date'];
-				$delivery_note['DeliveryNote']['time'] = $data['Sale']['time'];
-				$delivery_note['ProductsTransaction'] = array();
-				if (isset($delivery_note['DeliveryNote']['ProductsTransaction'])) {
-					$delivery_note['ProductsTransaction'] = $delivery_note['DeliveryNote']['ProductsTransaction'];
-					unset($delivery_note['DeliveryNote']['ProductsTransaction']);
-				}
-					
-				// pridam informaci o kontaktni osobe, ke ktere naskladneni pridavam
-				foreach ($delivery_note['ProductsTransaction'] as $index => &$products_transaction) {
-					if ($products_transaction['quantity'] == 0) {
-						unset($delivery_note['ProductsTransaction'][$index]);
-					} else {
-						$products_transaction['purchaser_id'] = $delivery_note['DeliveryNote']['purchaser_id'];
-					}
-				}
-
-				if (!empty($delivery_note['ProductsTransaction'])) {
-					App::import('Model', 'DeliveryNote');
-					$this->DeliveryNote = new DeliveryNote;
-					if ($this->DeliveryNote->saveAll($delivery_note)) {
-						$this->delivery_note_created = $this->DeliveryNote->id;
-					} else {
-						return false;
-					}
-				}
-			} */
+			return $this->Purchaser->wallet_transaction($data['Sale']['purchaser_id'], $wallet);
 		}
 		return true;
+	}
+	
+	function getPrice($id) {
+		$sale = $this->find('first', array(
+			'conditions' => array('Sale.id' => $id),
+			'contain' => array('ProductsTransaction'),
+		));
+		$wallet = 0;
+		foreach ($sale['ProductsTransaction'] as $pt) {
+			$wallet += $pt['education'] * (-$pt['quantity']);
+		}
+		
+		return $wallet;
 	}
 	
 	function export_fields() {

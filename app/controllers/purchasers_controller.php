@@ -186,10 +186,28 @@ class PurchasersController extends AppController {
 					'conditions' => array('Purchaser.id = ContactPerson.purchaser_id')
 				),
 				array(
+					'table' => 'addresses',
+					'alias' => 'PurchaserAddress',
+					'type' => 'LEFT',
+					'conditions' => array('Purchaser.id = PurchaserAddress.purchaser_id')
+				),
+				array(
+					'table' => 'addresses',
+					'alias' => 'ContactPersonAddress',
+					'type' => 'LEFT',
+					'conditions' => array('ContactPerson.id = ContactPersonAddress.contact_person_id')
+				),
+				array(
 					'table' => 'business_partners',
 					'alias' => 'BusinessPartner',
 					'type' => 'INNER',
 					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
+				),
+				array(
+					'table' => 'users',
+					'alias' => 'User',
+					'type' => 'LEFT',
+					'conditions' => array('User.id = Purchaser.user_id')
 				)
 			),
 			'fields' => array(
@@ -1150,6 +1168,16 @@ class PurchasersController extends AppController {
 			$this->Session->setFlash('Odběratele se nepodařilo odstranit, opakujte prosím akci');
 		}
 		$this->redirect($redirect);
+	}
+	
+	function user_recount_all_wallets() {
+		$this->Purchaser->recountAllWallets();
+		die('hotovo');
+	}
+	
+	function user_recount_wallet($id = null) {
+		return $this->Purchaser->recountWallet($id);
+		die('hotovo');
 	}
 	
 	function user_autocomplete_list() {

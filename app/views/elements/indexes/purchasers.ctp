@@ -6,7 +6,6 @@
 		<th><?php echo $this->Paginator->sort('Email', 'Purchaser.email')?></th>
 		<th><?php echo $this->Paginator->sort('Telefon', 'Purchaser.phone')?></th>
 		<th><?php echo $this->Paginator->sort('Účet', 'Purchaser.wallet')?></th>
-		<th><?php echo $this->Paginator->sort('Účet1', 'Purchaser.wallet_old')?></th>
 		<th><?php echo $this->Paginator->sort('IČZ', 'Purchaser.icz')?></th>
 		<th>&nbsp;</th>
 	</tr>
@@ -22,7 +21,6 @@
 		<td><?php echo $purchaser['Purchaser']['email']?></td>
 		<td><?php echo $purchaser['Purchaser']['phone']?></td>
 		<td align="right"><?php echo $purchaser['Purchaser']['wallet']?></td>
-		<td align="right"><?php echo $purchaser['Purchaser']['wallet_old']?></td>
 		<td><?php echo $purchaser['Purchaser']['icz']?></td>
 		<td class="actions"><?php 
 			$back_link = (isset($business_partner['BusinessPartner']['id']) ? array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 3) : array('controller' => 'purchasers', 'action' => 'index'));

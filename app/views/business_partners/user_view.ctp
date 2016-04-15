@@ -49,10 +49,6 @@ if (isset($this->params['named']['tab'])) {
 		<td colspan="3"><?php echo $business_partner['BusinessPartner']['phone']?></td>
 	</tr>
 	<tr>
-		<th>Stav účtu</th>
-		<td colspan="7"><?php echo $business_partner['BusinessPartner']['wallet']?>&nbsp;Kč</td>
-	</tr>
-	<tr>
 		<th>Poznámka</th>
 		<td colspan="7"><?php echo str_replace("\n", '<br/>', $business_partner['BusinessPartner']['note'])?></td>
 	</tr>

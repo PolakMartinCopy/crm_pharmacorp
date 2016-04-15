@@ -456,7 +456,7 @@ class ContractsController extends AppController {
 		if ($this->Contract->save($contract)) {
 			// odectu penize z uctu obchodniho partnera
 			$purchaser = $this->Contract->ContactPerson->get_purchaser($contract['Contract']['contact_person_id']);
-			if (!$this->Contract->ContactPerson->Purchaser->wallet_transaction($purchaser['Purchaser']['id'], -$contract['Contract']['amount'])) {
+			if (!$this->Contract->ContactPerson->Purchaser->wallet_transaction($purchaser['Purchaser']['id'], -$contract['Contract']['amount_vat'])) {
 				$datasource->rollback($this->Contract);
 				$this->Session->setFlash('Dohoda nebyla schválena, nepodařilo se odečíst částku z peněženky obchodního partnera');
 			} else {

@@ -102,11 +102,12 @@ class Purchaser extends AppModel {
 		return $this->setWallet($id, $wallet);
 	}
 	
-	function setWallet($id, $wallet) {
+	function setWallet($id, $wallet, $walletOld = null) {
 		$save = array(
 			'Purchaser' => array(
 				'id' => $id,
-				'wallet' => $wallet
+				'wallet' => $wallet,
+				'wallet_old' => $walletOld
 			)
 		);
 		
@@ -133,21 +134,24 @@ class Purchaser extends AppModel {
 		}
 
 		$wallet = 0;
+		$walletOld = 0;
 		// prictu hodnoty poukazu
 		$sales = $this->getSales($id);
 //		debug($sales);
 		foreach ($sales as $sale) {
 			$wallet += $this->Sale->getPrice($sale['Sale']['id']);
+			$walletOld = $wallet;
 		}
 //		debug($wallet);
 		// odectu hodnoty schvalenych dohod
 		$contracts = $this->getContracts($id);
 //		debug($contracts);
 		foreach ($contracts as $contract) {
-			$wallet -= $contract['Contract']['amount'];
+			$wallet -= $contract['Contract']['amount_vat'];
+			$walletOld -= $contract['Contract']['amount'];
 		}
 //		debug($wallet);
-		return $this->setWallet($id, $wallet);
+		return $this->setWallet($id, $wallet, $walletOld);
 	}
 	
 	function getSales($id) {

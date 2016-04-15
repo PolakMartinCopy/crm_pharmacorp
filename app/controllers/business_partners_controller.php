@@ -565,7 +565,7 @@ class BusinessPartnersController extends AppController {
 			$businessPartnerWallet = $businessPartner['BusinessPartner']['wallet'];
 			$purchasersWallet = 0;
 			foreach ($businessPartner['Purchaser'] as $purchaser) {
-				$purchasersWallet += $purchaser['wallet'];
+				$purchasersWallet += $purchaser['wallet_old'];
 			}
 			if ($businessPartnerWallet != $purchasersWallet) {
 				debug($businessPartner);

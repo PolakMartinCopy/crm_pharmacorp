@@ -27,7 +27,7 @@ class Sale extends Transaction {
 				$wallet += $pt['education'] * (-$pt['quantity']);
 			}
 			
-			return $this->Purchaser->wallet_transaction($data['Sale']['purchaser_id'], $wallet);
+			return $this->Purchaser->wallet_transaction($data['Sale']['purchaser_id'], $wallet, 'sale', $this->id, $data['Sale']['user_id']);
 		}
 		return true;
 	}

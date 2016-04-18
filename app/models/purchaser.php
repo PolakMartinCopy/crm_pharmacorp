@@ -32,6 +32,7 @@ class Purchaser extends AppModel {
 		'Document' => array(
 			'dependent' => true
 		),
+		'WalletTransaction'
 	);
 	
 	var $validate = array(
@@ -45,6 +46,12 @@ class Purchaser extends AppModel {
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'Vyberte obchodního partnera'
+			)
+		),
+		'wallet_correction' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Zadejte hodnotu korekce'
 			)
 		)
 	);
@@ -86,7 +93,7 @@ class Purchaser extends AppModel {
 		return false;
 	}
 	
-	function wallet_transaction($id, $amount) {
+	function wallet_transaction($id, $amount, $type = null, $opId = null, $userId = null) {
 		$purchaser = $this->find('first', array(
 			'conditions' => array('Purchaser.id' => $id),
 			'contain' => array(),
@@ -96,10 +103,24 @@ class Purchaser extends AppModel {
 		if (empty($purchaser)) {
 			return false;
 		}
-	
+		
 		$wallet = $purchaser['Purchaser']['wallet'] + $amount;
 		
-		return $this->setWallet($id, $wallet);
+		if ($res = $this->setWallet($id, $wallet) && isset($type) && isset($opId) && isset($userId)) {
+			$walletTransactionSave = array(
+				'WalletTransaction' => array(
+					'purchaser_id' => $id,
+					'amount' => $amount,
+					'wallet_before' => $purchaser['Purchaser']['wallet'],
+					'wallet_after' => $wallet,
+					'user_id' => $userId,
+					$type . '_id' => $opId
+				)
+			);
+			$this->WalletTransaction->save($walletTransactionSave);
+		}
+		
+		return $res;
 	}
 	
 	function setWallet($id, $wallet) {

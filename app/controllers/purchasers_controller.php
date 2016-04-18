@@ -1190,6 +1190,40 @@ class PurchasersController extends AppController {
 		die();
 	}
 	
+	function user_wallet_correction($id = null) {
+		if (!$id) {
+			$this->Session->setFlash('Není zadán odběratel');
+			$this->redirect(array('controller' => 'purchasers', 'action' => 'index'));
+		}
+
+		$purchaser = $this->Purchaser->find('first', array(
+			'conditions' => array('Purchaser.id' => $id),
+			'contain' => array(),
+		));
+		
+		if (isset($this->data)) {
+			$this->Purchaser->set($this->data);
+			if ($this->Purchaser->validates()) {
+				$user = $this->Auth->user();
+				$dataSource = $this->Purchaser->getDataSource();
+				$dataSource->begin($this->Purchaser);
+				if ($this->Purchaser->wallet_transaction($id, $this->data['Purchaser']['wallet_correction'], 'correction', 0, $user['User']['id'])) {
+					$dataSource->commit($this->Purchaser);
+					$this->Session->setFlash('Korekce byla uložena');
+					$this->redirect(array('controller' => 'purchasers', 'action' => 'view', $id));
+				} else {
+					$dataSource->rollback($this->Purchaser);
+					$this->Session->setFlash('Korekci se nepodařilo uložit');
+				}
+			} else {
+				$this->Session->setFlash('Korekci se nepodařilo uložit, opravte chyby ve formuláři.');
+			}
+		} else {
+			$this->data = $purchaser;
+		}
+		$this->set('purchaser', $purchaser);
+	}
+	
 	function store_items($id = null) {
 		$res = array(
 			'success' => false,

@@ -13,4 +13,7 @@
 <?php if ($acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Purchasers/user_edit_user')) { ?>
 	<li><?php echo $html->link('Upravit uživatele', array('controller' => 'purchasers', 'action' => 'edit_user', $purchaser['Purchaser']['id']))?></li>
 <?php } ?>
+<?php if ($acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Purchasers/user_wallet_correction')) { ?>
+	<li><?php echo $html->link('Korekce peněženky', array('controller' => 'purchasers', 'action' => 'wallet_correction', $purchaser['Purchaser']['id']))?></li>
+<?php } ?>
 </ul>

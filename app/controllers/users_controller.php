@@ -568,6 +568,8 @@ class UsersController extends AppController {
 		$this->Acl->deny('manager', 'controllers/Purchasers/user_recount_wallet');
 		$this->Acl->deny('manager', 'controllers/Purchasers/user_recount_all_wallets');
 		$this->Acl->deny('manager', 'controllers/BusinessPartners/user_wallet_test');
+		// zakazu korekce uctu odberatele
+		$this->Acl->deny('manager', 'controllers/Purchasers/user_wallet_correction');
 		
 		$this->Acl->allow('user', 'controllers');
 		$this->Acl->deny('user', 'controllers/Users');
@@ -611,6 +613,8 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/Contracts/user_confirm');
 		// uzivatel nemuze zrusit pozadavek na schvaleni dohody
 		$this->Acl->deny('user', 'controllers/Contracts/user_cancel_confirm_requirement');
+		// zakazu korekce uctu odberatele
+		$this->Acl->deny('user', 'controllers/Purchasers/user_wallet_correction');
 
 		// zakazu vsechny metody v nastaveni
 		$this->Acl->deny('user', 'controllers/AnniversaryTypes');

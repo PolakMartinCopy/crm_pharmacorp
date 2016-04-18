@@ -932,6 +932,46 @@ class PurchasersController extends AppController {
 		$transactions_users = Set::combine($transactions_users, '{n}.User.id', array('{0} {1}', '{n}.User.first_name', '{n}.User.last_name'));
 		$this->set('transactions_users', $transactions_users);
 		
+		// KOREKCE PENEZENKY
+		if ($this->Acl->check(array('model' => 'User', 'foreign_key' => $this->Session->read('Auth.User.id')), 'controllers/Purchasers/user_wallet_correction')) {
+			$wallet_corrections_conditions = array(
+				'WalletTransaction.purchaser_id' => $id,
+				'WalletTransaction.sale_id' => 0,
+				'WalletTransaction.contract_id' => 0
+			);
+			
+			unset($this->passedArgs['sort']);
+			unset($this->passedArgs['direction']);
+			if (isset($this->params['named']['tab']) && $this->params['named']['tab'] == 13) {
+				$this->passedArgs['sort'] = $sort_field;
+				$this->passedArgs['direction'] = $sort_direction;
+			}
+			
+			$this->paginate['WalletTransaction'] = array(
+				'conditions' => $wallet_corrections_conditions,
+				'limit' => 30,
+				'contain' => array('User'),
+				'fields' => array('WalletTransaction.*'),
+				'order' => array(
+					'WalletTransaction.created' => 'desc'
+				)
+			);
+			$this->Purchaser->WalletTransaction->virtualFields['user_name'] = $this->Purchaser->WalletTransaction->User->full_name;
+			$wallet_transactions = $this->paginate('WalletTransaction');
+			$this->set('wallet_transactions_virtual_fields', $this->Purchaser->WalletTransaction->virtualFields);
+			unset($this->Purchaser->WalletTransaction->virtualFields['user_name']);
+			$this->set('wallet_transactions_paging', $this->params['paging']);
+			$wallet_transactions_find = $this->paginate['WalletTransaction'];
+			unset($wallet_transactions_find['limit']);
+			unset($wallet_transactions_find['fields']);
+			$this->set('wallet_transactions_find', $wallet_transactions_find);
+				
+			$wallet_transactions_export_fields = $this->Purchaser->WalletTransaction->export_fields;
+			$this->set('wallet_transactions_export_fields', $wallet_transactions_export_fields);
+			
+			$this->set('wallet_transactions', $wallet_transactions);
+		}
+		
 		$this->set('purchaser', $purchaser);
 		$this->set('contact_people', $contact_people);
 		$this->set('business_sessions', $business_sessions);

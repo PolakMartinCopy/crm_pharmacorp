@@ -21,6 +21,9 @@ if (isset($this->params['named']['tab'])) {
 		<li><a href="#tabs-10">Dod. listy</a></li>
 		<li><a href="#tabs-11">Poukazy</a></li>
 		<li><a href="#tabs-12">Pohyby</a></li>
+<?php if ($acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Purchasers/user_wallet_correction')) { ?>
+		<li><a href="#tabs-13">Korekce peněženky</a>
+<?php } ?>
 	</ul>
 	
 <?php /* TAB 1 ****************************************************************************************************************/ ?>
@@ -383,4 +386,50 @@ if (isset($this->params['named']['tab'])) {
 		?>
 
 	</div>
+	
+<?php if ($acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Purchasers/user_wallet_correction')) { ?>
+<?php /* TAB 13 ****************************************************************************************************************/ ?>
+	<div id="tabs-13">
+		<h2>Korekce peněženky</h2>
+<?php 
+		echo $form->create('CSV', array('url' => array('controller' => 'wallet_transactions', 'action' => 'xls_export')));
+		echo $form->hidden('data', array('value' => serialize($wallet_transactions_find)));
+		echo $form->hidden('fields', array('value' => serialize($wallet_transactions_export_fields)));
+		echo $form->hidden('virtual_fields', array('value' => serialize($wallet_transactions_virtual_fields)));
+		echo $form->submit('CSV');
+		echo $form->end();
+		
+		if (empty($wallet_transactions)) {
+?>
+		<p><em>V systému nejsou žádné korekce peněženky.</em></p>
+		<?php } else {
+			$paginator->options(array(
+				'url' => array('tab' => 13, 0 => $purchaser['Purchaser']['id'])
+			));
+			
+			$paginator->params['paging'] = $wallet_transactions_paging;
+			$paginator->__defaultModel = 'WalletTransaction';
+?>
+		
+		<table class="top_heading">
+			<tr>
+				<th><?php echo $paginator->sort('Datum', 'WalletTransaction.created')?></th>
+				<th><?php echo $paginator->sort('Hodnota', 'WalletTransaction.amount')?></th>
+				<th><?php echo $paginator->sort('Peněženka před', 'WalletTransaction.wallet_before')?></th>
+				<th><?php echo $paginator->sort('Peněženka po', 'WalletTransaction.wallet_after')?></th>
+				<th><?php echo $paginator->sort('Zadal', 'WalletTransaction.user_name')?></th>
+			</tr>
+			<?php foreach ($wallet_transactions as $wallet_transaction) { ?>
+			<tr>
+				<td><?php echo $wallet_transaction['WalletTransaction']['created']?></td>
+				<td align="right"><?php echo $wallet_transaction['WalletTransaction']['amount']?></td>
+				<td align="right"><?php echo $wallet_transaction['WalletTransaction']['wallet_before']?></td>
+				<td align="right"><?php echo $wallet_transaction['WalletTransaction']['wallet_after']?></td>
+				<td><?php echo $wallet_transaction['WalletTransaction']['user_name']?></td>
+			</tr>
+			<?php } ?>
+		</table>
+<?php } ?>
+	</div>
+<?php } ?>
 </div>

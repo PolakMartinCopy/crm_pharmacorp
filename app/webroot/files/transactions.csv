@@ -1,31 +1,21 @@
-ProductsTransaction.id;Transaction.date_day;Transaction.date_month;Transaction.date_year;Transaction.code;BusinessPartner.id;BusinessPartner.name;BusinessPartner.ico;Purchaser.id;Purchaser.name;Address.street;Address.number;Address.city;Address.zip;Address.region;Product.id;Product.name;Product.vzp_code;Product.group_code;ProductsTransaction.quantity;ProductsTransaction.unit_price;ProductsTransaction.total_price;Unit.shortcut;User.id;TransactionType.id;TransactionType.name;User.last_name
-40;28;08;2015;D201508015;14;TEST DIA, s.r.o.;11111111;19;MUDr. Jana První;Testovací;20;Brno;60200;Brno - mìsto;2;Testovací proužky One Touch Verio;0151652;VER;20;305,00;6100,00;bal.;16;1;dodací list;Ferenèáková
-39;27;08;2015;D201508014;13;Obchodni partner s odberatelem;456456;15;Ing. Petr Pavlik;;555;humpolec;;;2;Testovací proužky One Touch Verio;0151652;VER;1000;305,00;305000,00;bal.;16;1;dodací list;Ferenèáková
-38;27;08;2015;P201508005;14;TEST DIA, s.r.o.;11111111;20;Jana Druhá;Druhá;20;Brno;60200;Brno - mìsto;4;Testovací proužky One Touch Vita;0085536;VIT;-50;305,00;-15250,00;bal.;16;3;prodej;Ferenèáková
-37;27;08;2015;D201508013;14;TEST DIA, s.r.o.;11111111;20;Jana Druhá;Druhá;20;Brno;60200;Brno - mìsto;2;Testovací proužky One Touch Verio;0151652;VER;50;305,00;15250,00;bal.;16;1;dodací list;Ferenèáková
-36;27;08;2015;D201508012;3;MeaVita s.r.o.;29248400;4;Mgr. Martin Polák;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov;2;Testovací proužky One Touch Verio;0151652;VER;50;305,00;15250,00;bal.;16;1;dodací list;Ferenèáková
-35;27;08;2015;P201508004;14;TEST DIA, s.r.o.;11111111;20;Jana Druhá;Druhá;20;Brno;60200;Brno - mìsto;2;Testovací proužky One Touch Verio;0151652;VER;-10;305,00;-3050,00;bal.;16;3;prodej;Ferenèáková
-33;27;08;2015;D201508011;3;MeaVita s.r.o.;29248400;4;Mgr. Martin Polák;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov;2;Testovací proužky One Touch Verio;0151652;VER;100;305,00;30500,00;bal.;16;1;dodací list;Ferenèáková
-34;27;08;2015;D201508011;3;MeaVita s.r.o.;29248400;4;Mgr. Martin Polák;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov;4;Testovací proužky One Touch Vita;0085536;VIT;100;305,00;30500,00;bal.;16;1;dodací list;Ferenèáková
-32;27;08;2015;D201508010;14;TEST DIA, s.r.o.;11111111;20;Jana Druhá;Druhá;20;Brno;60200;Brno - mìsto;2;Testovací proužky One Touch Verio;0151652;VER;80;305,00;24400,00;bal.;16;1;dodací list;Ferenèáková
-31;27;08;2015;D201508009;14;TEST DIA, s.r.o.;11111111;20;Jana Druhá;Druhá;20;Brno;60200;Brno - mìsto;2;Testovací proužky One Touch Verio;0151652;VER;80;305,00;24400,00;bal.;16;1;dodací list;Ferenèáková
-30;27;08;2015;D201508008;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;5;Odbìrové pero One Touch Delica;0170282;OPD;2;185,00;370,00;bal.;16;1;dodací list;Ferenèáková
-29;27;08;2015;D201508007;15;MUDr. Jana Modrá;15555555;22;MUDr. Jana Modrá;Èerná;20;Plzeò;20000;Plzeò;2;Testovací proužky One Touch Verio;0151652;VER;100;305,00;30500,00;bal.;16;1;dodací list;Ferenèáková
-28;27;08;2015;P201508003;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;3;Testovací proužky One Touch Ultra;0085215;ULT;-15;305,00;-4575,00;bal.;1;3;prodej;Polák
-26;27;08;2015;P201508002;3;MeaVita s.r.o.;29248400;4;Mgr. Martin Polák;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov;3;Testovací proužky One Touch Ultra;0085215;ULT;-10;305,00;-3050,00;bal.;1;3;prodej;Polák
-27;27;08;2015;P201508002;3;MeaVita s.r.o.;29248400;4;Mgr. Martin Polák;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov;2;Testovací proužky One Touch Verio;0151652;VER;-10;305,00;-3050,00;bal.;1;3;prodej;Polák
-25;27;08;2015;P201508001;3;MeaVita s.r.o.;29248400;4;Mgr. Martin Polák;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov;2;Testovací proužky One Touch Verio;0151652;VER;-10;305,00;-3050,00;bal.;1;3;prodej;Polák
-23;27;08;2015;D201508006;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;10;305,00;3050,00;bal.;1;1;dodací list;Polák
-24;27;08;2015;D201508006;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;65;305,00;19825,00;bal.;1;1;dodací list;Polák
-22;26;08;2015;D201508005;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;1;305,00;305,00;bal.;1;1;dodací list;Polák
-20;26;08;2015;D201508004;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;10;305,00;3050,00;bal.;1;1;dodací list;Polák
-21;26;08;2015;D201508004;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;3;Testovací proužky One Touch Ultra;0085215;ULT;20;305,00;6100,00;bal.;1;1;dodací list;Polák
-19;26;08;2015;D201508003;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;3;305,00;915,00;bal.;1;1;dodací list;Polák
-18;26;08;2015;D201508002;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;5;305,00;1525,00;bal.;1;1;dodací list;Polák
-17;26;08;2015;D201508001;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;10;305,00;3050,00;bal.;1;1;dodací list;Polák
-15;26;08;2015;D;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;20;305,00;6100,00;bal.;1;1;dodací list;Polák
-16;26;08;2015;D;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;3;Testovací proužky One Touch Ultra;0085215;ULT;10;305,00;3050,00;bal.;1;1;dodací list;Polák
-14;26;08;2015;D;4;Martin Polak;123456;2;Mgr. Radovan Kramáø;Fillova;260/1;Brno - Lesná;63800;Brno;2;Testovací proužky One Touch Verio;0151652;VER;10;305,00;3050,00;bal.;1;1;dodací list;Polák
-12;26;08;2015;D;3;MeaVita s.r.o.;29248400;4;Mgr. Martin Polák;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov;4;Testovací proužky One Touch Vita;0085536;VIT;100;305,00;30500,00;bal.;16;1;dodací list;Ferenèáková
-13;26;08;2015;D;3;MeaVita s.r.o.;29248400;4;Mgr. Martin Polák;Mokrá;307;Mokrá - Horákov;66404;Brno - venkov;2;Testovací proužky One Touch Verio;0151652;VER;100;305,00;30500,00;bal.;16;1;dodací list;Ferenèáková
-9;25;08;2015;D;6;Diacentrum, s. r.  o. ;12121212;5;;Nová;25;Brno;60200;;4;Testovací proužky One Touch Vita;0085536;VIT;45;305,00;13725,00;bal.;16;1;dodací list;Ferenèáková
+ProductsTransaction.id;Transaction.date;Transaction.code;BusinessPartner.id;BusinessPartner.name;BusinessPartner.ico;Purchaser.id;Purchaser.name;Product.id;Product.name;Product.vzp_code;Product.group_code;ProductsTransaction.quantity;ProductsTransaction.unit_price;ProductsTransaction.total_price;Unit.shortcut;User.id;TransactionType.id;TransactionType.name;User.last_name
+1433;15.04.2016;P201604021;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-2;305,00;-610,00;bal.;1;3;prodej;Polák
+1432;15.04.2016;P201604020;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-8;305,00;-2440,00;bal.;1;3;prodej;Polák
+1435;15.04.2016;P201604023;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-5;305,00;-1525,00;bal.;1;3;prodej;Polák
+1434;15.04.2016;P201604022;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-5;305,00;-1525,00;bal.;1;3;prodej;Polák
+1431;13.04.2016;P201604019;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-10;305,00;-3050,00;bal.;1;3;prodej;Polák
+1269;29.03.2016;D201603078;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;12;Testovací proužky One Touch Select Plus;0171257;PL 04;12;305,00;3660,00;bal.;16;1;dodací list;Ferenèáková
+1268;29.03.2016;P201603075;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-23;305,00;-7015,00;bal.;16;3;prodej;Ferenèáková
+1087;15.03.2016;D201603034;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;24;305,00;7320,00;bal.;16;1;dodací list;Ferenèáková
+1086;15.03.2016;P201603031;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-30;305,00;-9150,00;bal.;16;3;prodej;Ferenèáková
+790;11.02.2016;D201602020;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;6;Lancety One Touch Delica;0170283;LL 01;20;55,00;1100,00;bal.;16;1;dodací list;Ferenèáková
+789;11.02.2016;D201602020;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;60;305,00;18300,00;bal.;16;1;dodací list;Ferenèáková
+788;11.02.2016;P201602018;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-69;305,00;-21045,00;bal.;16;3;prodej;Ferenèáková
+499;13.01.2016;D201601019;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;60;305,00;18300,00;bal.;16;1;dodací list;Ferenèáková
+498;13.01.2016;P201601015;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-39;305,00;-11895,00;bal.;16;3;prodej;Ferenèáková
+260;27.11.2015;P201511023;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-59;305,00;-17995,00;bal.;16;3;prodej;Ferenèáková
+244;27.11.2015;D201511037;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;42;305,00;12810,00;bal.;16;1;dodací list;Ferenèáková
+106;16.10.2015;P201510010;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;-38;305,00;-11590,00;bal.;16;3;prodej;Ferenèáková
+75;07.10.2015;D201510013;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;36;305,00;10980,00;bal.;;1;dodací list;
+74;07.10.2015;D201510013;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;24;305,00;7320,00;bal.;;1;dodací list;
+1;11.09.2015;D201509001;1;DIA Tišnov s.r.o.;29371503;2;MUDr. Veronika Pozdìnová;2;Testovací proužky One Touch Verio;0151652;PL 02;60;305,00;18300,00;bal.;20;1;dodací list;Vítková

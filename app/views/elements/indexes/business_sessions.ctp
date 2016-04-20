@@ -29,7 +29,7 @@
 				$links[] = $html->link('Uzavřít', array('controller' => 'business_sessions', 'action' => 'close', $business_session['BusinessSession']['id'], 'back_link' => $back_link), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' označit jako uzavřené?');
 				$links[] = $html->link('Storno', array('controller' => 'business_sessions', 'action' => 'storno', $business_session['BusinessSession']['id'], 'back_link' => $back_link), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' stornovat?');
 			}
-			if (($user['User']['user_type_id'] == 1 && $business_session['BusinessSession']['is_deletable']) {
+			if ($user['User']['user_type_id'] == 1 && $business_session['BusinessSession']['is_deletable']) {
 				$links[] = $this->Html->link('Smazat', array('controller' => 'business_sessions', 'action' => 'delete', $business_session['BusinessSession']['id'], 'back_link' => $back_link), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' smazat?');
 			}
 			echo implode('&nbsp| ', $links);

@@ -313,4 +313,22 @@ class BusinessSession extends AppModel {
 		}
 		return $events;
 	}
+	
+	// OJ je smazatelne, pokud nema zadne naklady, ani dohody
+	function isDeletable($id) {
+		$businessSession = $this->find('first', array(
+			'conditions' => array('BusinessSession.id' => $id),
+			'contain' => array(
+				'BusinessSessionsCost' => array(
+					'fields' => array('BusinessSessionsCost.id')
+				),
+				'Contract' => array(
+					'fields' => array('Contract.id')
+				),
+			),
+			'fields' => array('BusinessSession.id')
+		));
+		
+		return (empty($businessSession['BusinessSessionsCost']) && empty($businessSession['Contract']));
+	}
 }

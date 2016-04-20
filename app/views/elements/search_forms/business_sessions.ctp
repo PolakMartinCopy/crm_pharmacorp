@@ -15,7 +15,7 @@
 			<td colspan="6">Odběratel</td>
 		</tr>
 		<tr>
-			<th>Název</th>
+			<th>Příjmení</th>
 			<td><?php echo $form->input('BusinessSessionSearch.Purchaser.name', array('label' => false))?></td>
 			<th>Ulice</th>
 			<td><?php echo $form->input('BusinessSessionSearch.Address.street', array('label' => false))?></td>

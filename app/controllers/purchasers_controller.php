@@ -281,6 +281,10 @@ class PurchasersController extends AppController {
 		unset($this->Purchaser->BusinessSession->virtualFields['purchaser_name']);
 		$this->set('business_sessions_paging', $this->params['paging']);
 		$this->set('business_session_types', $this->Purchaser->BusinessSession->BusinessSessionType->find('list'));
+		// doplnim, jestli se da obchodni jednani smazat
+		foreach ($business_sessions as &$business_session) {
+			$business_session['BusinessSession']['is_deletable'] = $this->Purchaser->BusinessSession->isDeletable($business_session['BusinessSession']['id']);
+		}
 		
 		$business_sessions_find = $this->paginate['BusinessSession'];
 		unset($business_sessions_find['limit']);

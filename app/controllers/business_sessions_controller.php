@@ -74,7 +74,10 @@ class BusinessSessionsController extends AppController {
 		);
 		$business_sessions = $this->paginate();
 		unset($this->BusinessSession->virtualFields['purchaser_name']);
-
+		// doplnim, jestli se da obchodni jednani smazat
+		foreach ($business_sessions as &$business_session) {
+			$business_session['BusinessSession']['is_deletable'] = $this->BusinessSession->isDeletable($business_session['BusinessSession']['id']);
+		}
 		$this->set('business_sessions', $business_sessions);
 
 		$find = $this->paginate;
@@ -869,6 +872,17 @@ class BusinessSessionsController extends AppController {
 	}
 	
 	function user_delete($id = null) {
+		// nastavim akci pro presmerovani
+		$redirect = array('controller' => 'business_sessions', 'action' => 'index') + $this->passedArgs;
+		if (isset($this->params['named']['back_link'])) {
+			$redirect = base64_decode($this->params['named']['back_link']);
+			if (is_serialized($redirect)) {
+				$redirect = unserialize($redirect);
+			}
+		} elseif (isset($this->params['named']['purchaser_id'])) {
+			$redirect = array('controller' => 'purchasers', 'action' => 'view', $this->params['named']['purchaser_id'], 'tab' => 8);
+		}
+		
 		if (!$id) {
 			$this->Session->setFlash('Není určeno obchodní jednání, které chcete smazat.');
 			$this->redirect($this->index_link);
@@ -889,7 +903,7 @@ class BusinessSessionsController extends AppController {
 		} else {
 			$this->Session->setFlash('Obchodní jednání se nepodařilo odstranit.');
 		}
-		$this->redirect($this->index_link);
+		$this->redirect($redirect);
 	}
 	
 	function filter_not_checked($a) {

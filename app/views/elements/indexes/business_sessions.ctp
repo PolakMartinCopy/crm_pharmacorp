@@ -26,8 +26,11 @@
 			// editovat, uzavrit a stornovat muzu pouze, pokud je uzivatel admin anebo je jednani otevreno
 			if ($user['User']['user_type_id'] == 1 || $user['User']['user_type_id'] == 2 || $business_session['BusinessSession']['business_session_state_id'] == 1) {
 				$links[] = $html->link('Upravit', array('controller' => 'business_sessions', 'action' => 'edit', $business_session['BusinessSession']['id'], 'back_link' => $back_link));
-				$links[] = $html->link('Uzavřít', array('controller' => 'business_sessions', 'action' => 'close', $business_session['BusinessSession']['id'], 'back_link' => $back_link), null, 'Opravdu chcete obchnodní jednání ' . $business_session['BusinessSession']['id'] . ' označit jako uzavřené?');
+				$links[] = $html->link('Uzavřít', array('controller' => 'business_sessions', 'action' => 'close', $business_session['BusinessSession']['id'], 'back_link' => $back_link), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' označit jako uzavřené?');
 				$links[] = $html->link('Storno', array('controller' => 'business_sessions', 'action' => 'storno', $business_session['BusinessSession']['id'], 'back_link' => $back_link), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' stornovat?');
+			}
+			if (($user['User']['user_type_id'] == 1 && $business_session['BusinessSession']['is_deletable']) {
+				$links[] = $this->Html->link('Smazat', array('controller' => 'business_sessions', 'action' => 'delete', $business_session['BusinessSession']['id'], 'back_link' => $back_link), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' smazat?');
 			}
 			echo implode('&nbsp| ', $links);
 		?></td>

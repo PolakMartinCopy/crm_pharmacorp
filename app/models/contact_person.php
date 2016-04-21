@@ -53,24 +53,19 @@ class ContactPerson extends AppModel {
 	
 	var $export_file = 'contact_people.csv';
 	
-	function __construct($id = null, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
+	function setExportFields() {
 		$this->export_fields = array(
-			array('field' => 'ContactPerson.id', 'position' => '["ContactPerson"]["id"]', 'alias' => 'ContactPerson.id'),
-			array('field' => 'User.first_name', 'position' => '["User"]["first_name"]', 'alias' => 'User.first_name'),
-			array('field' => $this->Purchaser->virtualFields['name'], 'position' => '[0][\'' .  $this->Purchaser->virtualFields['name'] . '\']', 'alias' => 'Purchaser.name', 'escape_quotes' => false),
+			array('field' => 'Purchaser.id', 'position' => '["Purchaser"]["id"]', 'alias' => 'Purchaser.id'),
+			array('field' => $this->Purchaser->User->full_name . ' AS full_name', 'position' => '[0]["full_name"]', 'alias' => 'User.fullname'),
+			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
+			array('field' => $this->Purchaser->virtualFields['name'] . ' AS purchaser_name', 'position' => '[0]["purchaser_name"]', 'alias' => 'Purchaser.name'),
 			array('field' => 'ContactPerson.first_name', 'position' => '["ContactPerson"]["first_name"]', 'alias' => 'ContactPerson.first_name'),
 			array('field' => 'ContactPerson.last_name', 'position' => '["ContactPerson"]["last_name"]', 'alias' => 'ContactPerson.last_name'),
 			array('field' => 'ContactPerson.degree_before', 'position' => '["ContactPerson"]["degree_before"]', 'alias' => 'ContactPerson.degree_before'),
 			array('field' => 'ContactPerson.phone', 'position' => '["ContactPerson"]["phone"]', 'alias' => 'ContactPerson.phone'),
 			array('field' => 'ContactPerson.cellular', 'position' => '["ContactPerson"]["cellular"]', 'alias' => 'ContactPerson.cellular'),
 			array('field' => 'ContactPerson.email', 'position' => '["ContactPerson"]["email"]', 'alias' => 'ContactPerson.email'),
-			array('field' => 'ContactPerson.birthday', 'position' => '["ContactPerson"]["birthday"]', 'alias' => 'ContactPerson.birthday'),
-			array('field' => 'ContactPerson.birth_certificate_number', 'position' => '["ContactPerson"]["birth_certificate_number"]', 'alias' => 'ContactPerson.birth_certificate_number'),
-			array('field' => 'ContactPersonAddress.street', 'position' => '["ContactPersonAddress"]["street"]', 'alias' => 'ContactPersonAddress.street'),
-			array('field' => 'ContactPersonAddress.number', 'position' => '["ContactPersonAddress"]["number"]', 'alias' => 'ContactPersonAddress.number'),
-			array('field' => 'ContactPersonAddress.city', 'position' => '["ContactPersonAddress"]["city"]', 'alias' => 'ContactPersonAddress.city'),
-			array('field' => 'ContactPersonAddress.region', 'position' => '["ContactPersonAddress"]["region"]', 'alias' => 'ContactPersonAddress.region'),
+			array('field' => 'ContactPerson.note', 'position' => '["ContactPerson"]["note"]', 'alias' => 'ContactPerson.note'),
 		);
 	}
 	

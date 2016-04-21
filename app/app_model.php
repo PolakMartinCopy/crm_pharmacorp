@@ -115,6 +115,8 @@ class AppModel extends Model {
 					$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2})$/', '$3.$2.$1', $result);
 					// nahradim desetinnou tecku carkou
 					$result = preg_replace('/^(-?\d+)\.(\d+)$/', '$1,$2', $result);
+					// odstranim nove radky
+					$result = str_replace("\r\n", ' ', $result);
 				}
 				$results[] = $result;
 			}

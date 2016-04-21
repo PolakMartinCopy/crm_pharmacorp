@@ -87,6 +87,7 @@ class ContactPeopleController extends AppController {
 		unset($find['fields']);
 		$this->set('find', $find);
 		
+		$this->ContactPerson->setExportFields();
 		$this->set('export_fields', $this->ContactPerson->export_fields);
 		
 		$back_link = array('controller' => 'contact_people', 'action' => 'index') + $this->passedArgs;

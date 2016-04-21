@@ -225,6 +225,7 @@ class PurchasersController extends AppController {
 		unset($contact_people_find['fields']);
 		$this->set('contact_people_find', $contact_people_find);
 		
+		$this->Purchaser->ContactPerson->setExportFields();
 		$this->set('contact_people_export_fields', $this->Purchaser->ContactPerson->export_fields);
 		
 		$contact_people_back_link = array('controller' => 'purchasers', 'action' => 'view', $purchaser['Purchaser']['id'], 'tab' => 7) + $this->passedArgs;

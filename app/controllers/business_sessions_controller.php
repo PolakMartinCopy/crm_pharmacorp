@@ -55,12 +55,17 @@ class BusinessSessionsController extends AppController {
 		$this->paginate = array(
 			'conditions' => $conditions,
 			'contain' => array(
-				'Purchaser',
 				'BusinessSessionState',
 				'BusinessSessionType',
 				'User',
 			),
 			'joins' => array(
+				array(
+					'table' => 'purchasers',
+					'alias' => 'Purchaser',
+					'type' => 'LEFT',
+					'conditions' => array('Purchaser.id = BusinessSession.purchaser_id')	
+				),
 				array(
 					'table' => 'business_partners',
 					'alias' => 'BusinessPartner',
@@ -81,6 +86,34 @@ class BusinessSessionsController extends AppController {
 		$this->set('business_sessions', $business_sessions);
 
 		$find = $this->paginate;
+		// do vypisu CSV chci i naklady
+		$csv_export_joins = array(
+			array(
+				'table' => 'business_sessions_costs',
+				'alias' => 'BusinessSessionsCost',
+				'type' => 'LEFT',
+				'conditions' => array('BusinessSessionsCost.business_session_id = BusinessSession.id')
+			),
+			array(
+				'table' => 'cost_types',
+				'alias' => 'CostType',
+				'type' => 'LEFT',
+				'conditions' => array('CostType.id = BusinessSessionsCost.cost_type_id')
+			),
+			array(
+				'table' => 'contracts',
+				'alias' => 'Contract',
+				'type' => 'LEFT',
+				'conditions' => array('BusinessSession.id = Contract.business_session_id')
+			),
+			array(
+				'table' => 'contact_people',
+				'alias' => 'ContactPerson',
+				'type' => 'LEFT',
+				'conditions' => array('Contract.contact_person_id = ContactPerson.id')
+			)
+		);
+		$find['joins']= array_merge($find['joins'], $csv_export_joins);
 		unset($find['limit']);
 		unset($find['fields']);
 

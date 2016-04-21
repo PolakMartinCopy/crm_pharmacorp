@@ -54,17 +54,22 @@ class BusinessSession extends AppModel {
 	
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
-			$this->export_fields = $export_fields = array(
+			$this->export_fields = array(
 			array('field' => 'Purchaser.id', 'position' => '["Purchaser"]["id"]', 'alias' => 'Purchaser.id'),
+			array('field' => $this->User->full_name . ' AS full_name', 'position' => '[0]["full_name"]', 'alias' => 'User.fullname'),
 			array('field' => $this->Purchaser->virtualFields['name'], 'position' => '[0][\'' .  $this->Purchaser->virtualFields['name'] . '\']', 'alias' => 'Purchaser.name', 'escape_quotes' => false),
 			array('field' => 'BusinessSession.id', 'position' => '["BusinessSession"]["id"]', 'alias' => 'BusinessSession.id'),
-			array('field' => 'BusinessSession.date', 'position' => '["BusinessSession"]["date"]', 'alias' => 'BusinessSession.date'),
-			array('field' => 'BusinessSession.end_time', 'position' => '["BusinessSession"]["end_time"]', 'alias' => 'BusinessSession.end_time'),
-			array('field' => 'BusinessSession.created', 'position' => '["BusinessSession"]["created"]', 'alias' => 'BusinessSession.created'),
+			array('field' => 'BusinessSession.description', 'position' => '["BusinessSession"]["description"]', 'alias' => 'BusinessSession.description'),
+			array('field' => 'BusinessSessionsCost.name', 'position' => '["BusinessSessionsCost"]["name"]', 'alias' => 'BusinessSessionsCost.name'),
+			array('field' => 'CostType.name', 'position' => '["CostType"]["name"]', 'alias' => 'CostType.name'),
+			array('field' => 'BusinessSessionsCost.quantity', 'position' => '["BusinessSessionsCost"]["quantity"]', 'alias' => 'BusinessSessionsCost.quantity'),
+			array('field' => 'BusinessSessionsCost.price', 'position' => '["BusinessSessionsCost"]["price"]', 'alias' => 'BusinessSessionsCost.price'),
+			array('field' => $this->Contract->ContactPerson->full_name . ' AS cp_full_name', 'position' => '[0]["cp_full_name"]', 'alias' => 'ContactPerson.fullname'),
+			array('field' => 'Contract.month', 'position' => '["Contract"]["month"]', 'alias' => 'Contract.month'),
+			array('field' => 'Contract.year', 'position' => '["Contract"]["year"]', 'alias' => 'Contract.year'),
+			array('field' => 'Contract.amount_vat', 'position' => '["Contract"]["amount_vat"]', 'alias' => 'Contract.amount_vat'),
 			array('field' => 'BusinessSessionType.name', 'position' => '["BusinessSessionType"]["name"]', 'alias' => 'BusinessSessionType.name'),
 			array('field' => 'BusinessSessionState.name', 'position' => '["BusinessSessionState"]["name"]', 'alias' => 'BusinessSessionState.name'),
-			array('field' => 'CONCAT(User.last_name, " ", User.first_name) AS full_name', 'position' => '[0]["full_name"]', 'alias' => 'User.fullname'),
-			array('field' => 'SUM(Cost.amount) AS total_amount', 'position' => '[0]["total_amount"]', 'alias' => 'Cost.total_amount')
 		);
 	}
 	
@@ -136,6 +141,7 @@ class BusinessSession extends AppModel {
 	
 	function paginate($conditions, $fields, $order, $limit = 20, $page = 1, $recursive, $extra) {
 		$contain = $extra['contain'];
+		$joins = $extra['joins'];
 
 		$query = $this->basic_query($conditions);
 		
@@ -146,19 +152,10 @@ class BusinessSession extends AppModel {
 			'conditions' => array('BusinessSession.id' => $business_session_ids),
 			'contain' => $contain,
 			'order' => $order,
+			'joins' => $joins,
 			'fields' => $fields,
 			'limit' => $limit,
 			'group' => 'BusinessSession.id',
-			'joins' => array(
-				array(
-					'table' => 'costs',
-					'alias' => 'Cost',
-					'type' => 'LEFT',
-					'conditions' => array(
-						'Cost.business_session_id = BusinessSession.id'
-					)
-				)
-			),
 			'page' => $page
 		));
 		
@@ -178,60 +175,21 @@ class BusinessSession extends AppModel {
 		$business_session_ids = Set::extract('/BusinessSession/id', $business_session_ids);
 
 		$find['conditions'] = array('BusinessSession.id' => $business_session_ids);
-		$find['group'] = 'BusinessSession.id';
-		$find['joins'] = array(
-			array(
-				'table' => 'costs',
-				'alias' => 'Cost',
-				'type' => 'LEFT',
-				'conditions' => array(
-					'Cost.business_session_id = BusinessSession.id'
-				)
-			)
-		);
 			
 		// pole kde jsou data typu datetim
-		$datetime_fields = array(
-			'BusinessSession.date',
-			'BusinessSession.created',
-			'Imposition.created',
-			'Offer.created'
-		);
+		$datetime_fields = array();
 		
 		// pole kde jsou data typu date
-		$date_fields = array(
-			'Imposition.accomplishment_date',
-			'Cost.date'
-		);
+		$date_fields = array();
 		
 		// exportuju udaj o tom, ktera pole jsou soucasti vystupu
 		$find['fields'] = Set::extract('/field', $export_fields);
-
 		$data = $this->find('all', $find);
-
 		$file = fopen($this->export_file, 'w');
 
 		// zjistim aliasy, pod kterymi se vypisuji atributy v csv souboru
 		$aliases = Set::extract('/alias', $export_fields);
 		
-		// rozdelim datetime a date pole zvlast do sloupcu den, mesic, rok
-		$res_aliases = array();
-		foreach ($aliases as $alias) {
-			if (in_array($alias, $datetime_fields)) {
-				$res_aliases[] = $alias . '_day';
-				$res_aliases[] = $alias . '_month';
-				$res_aliases[] = $alias . '_year';
-				$res_aliases[] = $alias . '_time';
-			} elseif (in_array($alias, $date_fields)) {
-				$res_aliases[] = $alias . '_day';
-				$res_aliases[] = $alias . '_month';
-				$res_aliases[] = $alias . '_year';
-			} else {
-				$res_aliases[] = $alias;
-			}
-		}
-		$aliases = $res_aliases;
-
 		$line = implode(';', $aliases);
 		// do souboru zapisu hlavicku csv (nazvy sloupcu)
 		fwrite($file, iconv('utf-8', 'windows-1250', $line . "\r\n"));
@@ -244,6 +202,7 @@ class BusinessSession extends AppModel {
 			foreach ($positions as $index => $position) {
 				$expression = '$item' . $position;
 				$escape_quotes = true;
+				$escape_line_breaks = false;
 				if (array_key_exists('escape_quotes', $export_fields[$index])) {
 					$escape_quotes = $export_fields[$index]['escape_quotes'];
 				}
@@ -263,13 +222,15 @@ class BusinessSession extends AppModel {
 					$results[] = $matches[2];
 					$results[] = $matches[1];
 				} else {
-					if ($position == '[0]["total_amount"]' && empty($result)) {
+/*					if ($position == '[0]["total_amount"]' && empty($result)) {
 						$result = 0;
-					}
+					}*/
+					// odstranim nove radky
+					$result = str_replace("\r\n", ' ', $result);
+					// odstranim 
 					$results[] = $result;
 				}
 			}
-			
 			$line = implode(';', $results);
 			// ulozim radek
 			fwrite($file, iconv('utf-8', 'windows-1250', $line . "\n"));

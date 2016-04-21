@@ -296,6 +296,7 @@ class PurchasersController extends AppController {
 		// do vypisu CSV chci i dalsi data
 		$business_sessions_find['joins']= array_merge($business_sessions_find['joins'], $this->Purchaser->BusinessSession->export_joins);
 		$this->set('business_sessions_find', $business_sessions_find);
+		$this->Purchaser->BusinessSession->setExportFields();
 		$this->set('business_sessions_export_fields', $this->Purchaser->BusinessSession->export_fields);
 		
 		$business_sessions_back_link = array('controller' => 'purchasers', 'action' => 'view', $purchaser['Purchaser']['id'], 'tab' => 8) + $this->passedArgs;

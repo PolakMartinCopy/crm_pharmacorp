@@ -92,7 +92,7 @@ class BusinessSessionsController extends AppController {
 		unset($find['fields']);
 
 		$this->set('find', $find);
-		
+		$this->BusinessSession->setExportFields();
 		$this->set('export_fields', $this->BusinessSession->export_fields);
 		
 		$this->set('user', $this->user);

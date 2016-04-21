@@ -73,16 +73,15 @@ class BusinessSession extends AppModel {
 		)
 	);
 	
-	function __construct($id = null, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-			$this->export_fields = array(
+	function setExportFields() {
+		$this->export_fields = array(
 			array('field' => 'Purchaser.id', 'position' => '["Purchaser"]["id"]', 'alias' => 'Purchaser.id'),
 			array('field' => $this->User->full_name . ' AS full_name', 'position' => '[0]["full_name"]', 'alias' => 'User.fullname'),
 			array('field' => $this->Purchaser->virtualFields['name'] . ' AS purchaser_name', 'position' => '[0]["purchaser_name"]', 'alias' => 'Purchaser.name'),
 			array('field' => 'BusinessSession.id', 'position' => '["BusinessSession"]["id"]', 'alias' => 'BusinessSession.id'),
 			array('field' => 'BusinessSession.description', 'position' => '["BusinessSession"]["description"]', 'alias' => 'BusinessSession.description'),
 			array('field' => 'SUM(BusinessSessionsCost.price * BusinessSessionsCost.quantity) AS cost_total', 'position' => '[0]["cost_total"]', 'alias' => 'BusinessSession.cost_total'),
-			array('field' => $this->Contract->ContactPerson->full_name . ' AS cp_full_name', 'position' => '[0]["cp_full_name"]', 'alias' => 'ContactPerson.fullname'),
+			array('field' => $this->Contract->ContactPerson->virtualFields['name'] . ' AS cp_full_name', 'position' => '[0]["cp_full_name"]', 'alias' => 'ContactPerson.fullname'),
 			array('field' => 'Contract.month', 'position' => '["Contract"]["month"]', 'alias' => 'Contract.month'),
 			array('field' => 'Contract.year', 'position' => '["Contract"]["year"]', 'alias' => 'Contract.year'),
 			array('field' => 'Contract.amount_vat', 'position' => '["Contract"]["amount_vat"]', 'alias' => 'Contract.amount_vat'),

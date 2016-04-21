@@ -53,8 +53,6 @@ class ContactPerson extends AppModel {
 	
 	var $export_file = 'contact_people.csv';
 	
-	var $full_name = 'TRIM(CONCAT(ContactPerson.last_name, " ", ContactPerson.first_name))';
-	
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 		$this->export_fields = array(

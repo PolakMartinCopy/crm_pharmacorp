@@ -185,7 +185,7 @@ class ContractsController extends AppController {
 		$this->set('redirect', $redirect);
 		
 		$contract_taxes = $this->Contract->ContractTax->find('list', array(
-				'conditions' => array('ContractTax.active' => true)
+			'conditions' => array('ContractTax.active' => true)
 		));
 
 		if (isset($this->data)) {

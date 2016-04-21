@@ -44,7 +44,7 @@ class BusinessSession extends AppModel {
 		'purchaser_id' => array(
 			'rule' => 'numeric',
 			'allowEmpty' => false,
-			'message' => 'Není zvolen obchodní partner pro jednání'
+			'message' => 'Není zvolen odběratel'
 		)
 	);
 	

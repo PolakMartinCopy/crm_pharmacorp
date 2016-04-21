@@ -542,7 +542,7 @@ class BusinessSessionsController extends AppController {
 					$contract['admin_user_id'] = $contract['user_id'] = $this->user['User']['id'];
 					$contract['confirmed'] = false;
 					$contract['confirm_requirement'] = false;
-					$contract['amount_vat'] = ceil(price_vat($contract['amount'], $contract['vat']));
+					$contract['amount'] = floor(price_wout_vat($contract['amount_vat'], $contract['vat']));
 					// doplnim adresu
 					$contact_person_id = $contract['contact_person_id'];
 					$contact_person = $this->BusinessSession->Contract->ContactPerson->find('first', array(
@@ -574,12 +574,11 @@ class BusinessSessionsController extends AppController {
 		
 		
 		$cost_types = $this->BusinessSession->BusinessSessionsCost->CostType->find('list');
-		$this->set('cost_types', $cost_types);
-		
+		$contract_payments = $this->BusinessSession->Contract->ContractPayment->find('list');
 		$contract_types = $this->BusinessSession->Contract->ContractType->find('list', array(
 			'fields' => array('ContractType.id', 'ContractType.name')
 		));
-		$this->set('contract_types', $contract_types);
+		$this->set(compact('cost_types', 'contract_payments', 'contract_types'));
 		$this->set('user', $this->user);
 		$this->set('vat', $this->BusinessSession->Contract->vat);
 		$this->set('months', months());
@@ -671,7 +670,7 @@ class BusinessSessionsController extends AppController {
 						$contract['admin_user_id'] = $contract['user_id'] = $this->user['User']['id'];
 						$contract['confirmed'] = false;
 						$contract['confirm_requirement'] = false;
-						$contract['amount_vat'] = ceil(price_vat($contract['amount'], $contract['vat']));
+						$contract['amount'] = floor(price_wout_vat($contract['amount_vat'], $contract['vat']));
 						// doplnim adresu
 						$contact_person_id = $contract['contact_person_id'];
 						$contact_person = $this->BusinessSession->Contract->ContactPerson->find('first', array(
@@ -733,12 +732,11 @@ class BusinessSessionsController extends AppController {
 		}
 		
 		$cost_types = $this->BusinessSession->BusinessSessionsCost->CostType->find('list');
-		$this->set('cost_types', $cost_types);
-		
+		$contract_payments = $this->BusinessSession->Contract->ContractPayment->find('list');
 		$contract_types = $this->BusinessSession->Contract->ContractType->find('list', array(
 			'fields' => array('ContractType.id', 'ContractType.name')
 		));
-		$this->set('contract_types', $contract_types);
+		$this->set(compact('cost_types', 'contract_payments', 'contract_types'));
 		$this->set('user', $this->user);
 		$this->set('vat', $this->BusinessSession->Contract->vat);
 		$this->set('months', months());

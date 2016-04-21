@@ -334,8 +334,10 @@ function educationRow(count) {
 		<td colspan="4"><?php echo $this->Form->input('Contract.' . $i . '.contract_type_id', array('label' => false, 'options' => $contract_types, 'empty' => false))?></td>
 	</tr>
 	<tr class="education" data-education-count="<?php echo $i?>">
+		<th>Platba</th>
+		<td><?php echo $this->Form->input('Contract.' . $i . '.contract_payment_id', array('label' => false, 'options' => $contract_payments, 'empty' => false))?></td>
 		<th>Číslo bank. účtu</th>
-		<td colspan="4"><?php echo $this->Form->input('Contract.' . $i . '.bank_account', array('label' => false))?></td>
+		<td colspan="2"><?php echo $this->Form->input('Contract.' . $i . '.bank_account', array('label' => false))?></td>
 	</tr>
 	<tr class="education" data-education-count="<?php echo $i?>">
 		<th>Datum zahájení</th>
@@ -350,8 +352,8 @@ function educationRow(count) {
 		<td colspan="2"><?php echo $this->Form->input('Contract.' . $i . '.year', array('label' => false, 'size' => 5))?></td>
 	</tr>
 	<tr class="education" data-education-count="<?php echo $i?>">
-		<th>Částka</th>
-		<td><?php echo $this->Form->input('Contract.' . $i . '.amount', array('label' => false, 'size' => 5, 'after' => '&nbsp;Kč'))?></td>
+		<th>Částka vč. DPH</th>
+		<td><?php echo $this->Form->input('Contract.' . $i . '.amount_vat', array('label' => false, 'size' => 5, 'after' => '&nbsp;Kč'))?></td>
 		<th>Daň</th>
 		<td colspan="2"><?php
 			echo $this->Form->input('Contract.' . $i . '.vat_vis', array('label' => false, 'value' => $vat, 'size' => 3, 'after' => '&nbsp;%', 'disabled' => true));
@@ -381,8 +383,10 @@ function educationRow(count) {
 		<td colspan="4"><?php echo $this->Form->input('Contract.' . $i . '.contract_type_id', array('label' => false, 'options' => $contract_types, 'empty' => false))?></td>
 	</tr>
 	<tr class="education" data-education-count="<?php echo $i?>">
+		<th>Platba</th>
+		<td><?php echo $this->Form->input('Contract.' . $i . '.contract_payment_id', array('label' => false, 'options' => $contract_payments, 'empty' => false))?></td>
 		<th>Číslo bank. účtu</th>
-		<td colspan="4"><?php echo $this->Form->input('Contract.' . $i . '.bank_account', array('label' => false))?></td>
+		<td colspan="2"><?php echo $this->Form->input('Contract.' . $i . '.bank_account', array('label' => false))?></td>
 	</tr>
 	<tr class="education" data-education-count="<?php echo $i?>">
 		<th>Datum zahájení</th>
@@ -397,8 +401,8 @@ function educationRow(count) {
 		<td colspan="2"><?php echo $this->Form->input('Contract.' . $i . '.year', array('label' => false, 'size' => 5))?></td>
 	</tr>
 	<tr class="education" data-education-count="<?php echo $i?>">
-		<th>Částka</th>
-		<td><?php echo $this->Form->input('Contract.' . $i . '.amount', array('label' => false, 'size' => 5, 'after' => '&nbsp;Kč'))?></td>
+		<th>Částka vč. DPH</th>
+		<td><?php echo $this->Form->input('Contract.' . $i . '.amount_vat', array('label' => false, 'size' => 5, 'after' => '&nbsp;Kč'))?></td>
 		<th>Daň</th>
 		<td colspan="2"><?php
 			echo $this->Form->input('Contract.' . $i . '.vat_vis', array('label' => false, 'value' => $vat, 'size' => 3, 'after' => '&nbsp;%', 'disabled' => true));

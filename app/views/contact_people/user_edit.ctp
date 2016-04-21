@@ -118,6 +118,10 @@ if (isset($purchaser_id)) {
 		<th>PSČ</th>
 		<td colspan="3"><?php echo $form->input('Address.zip', array('label' => false, 'size' => 10))?></td>
 	</tr>
+	<tr>
+		<th>Okres</th>
+		<td colspan="7"><?php echo $form->input('Address.region', array('label' => false, 'size' => 30))?></td>
+	</tr>
 </table>
 <?php echo $form->hidden('Address.id')?>
 <?php echo $form->hidden('ContactPerson.id')?>

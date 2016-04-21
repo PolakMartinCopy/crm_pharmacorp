@@ -15,16 +15,20 @@
 			<td colspan="6">Odběratel</td>
 		</tr>
 		<tr>
-			<th>Název</th>
+			<th>Příjmení</th>
 			<td><?php echo $form->input('ContactPersonSearch.Purchaser.name', array('label' => false))?></td>
+			<th>IČZ</th>
+			<td><?php echo $form->input('ContactPersonSearch.Purchaser.icz', array('label' => false))?></td>
+			<th>Obchodník</th>
+			<td><?php echo $form->input('ContactPersonSearch.Purchaser.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
+		</tr>
+		<tr>
 			<th>Ulice</th>
 			<td><?php echo $form->input('ContactPersonSearch.PurchaserAddress.street', array('label' => false))?></td>
 			<th>Město</th>
 			<td><?php echo $form->input('ContactPersonSearch.PurchaserAddress.city', array('label' => false))?></td>
-		</tr>
-		<tr>
-			<th>Obchodník</th>
-			<td colspan="5"><?php echo $form->input('ContactPersonSearch.Purchaser.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
+			<th>Okres</th>
+			<td><?php echo $form->input('ContactPersonSearch.PurchaserAddress.region', array('label' => false))?></td>		
 		</tr>
 		<tr>
 			<td colspan="6">Kontaktní osoba</td>
@@ -39,7 +43,9 @@
 			<th>Ulice</th>
 			<td><?php echo $form->input('ContactPersonSearch.ContactPersonAddress.street', array('label' => false))?></td>
 			<th>Město</th>
-			<td colspan="3"><?php echo $form->input('ContactPersonSearch.ContactPersonAddress.city', array('label' => false))?></td>
+			<td><?php echo $form->input('ContactPersonSearch.ContactPersonAddress.city', array('label' => false))?></td>
+			<th>Okres</th>
+			<td><?php echo $form->input('ContactPersonSearch.ContactPersonAddress.region', array('label' => false))?></td>
 		</tr>
 		<tr>
 			<td colspan="6"><?php

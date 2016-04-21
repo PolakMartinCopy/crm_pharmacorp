@@ -226,11 +226,20 @@ class ContactPerson extends AppModel {
 		if (!empty($data['Purchaser']['name'])) {
 			$conditions[] = $this->Purchaser->virtualFields['name'] . ' LIKE \'%%' . $data['Purchaser']['name'] . '%%\'';
 		}
+		if (!empty($data['Purchaser']['icz'])) {
+			$conditions[] = 'Purchaser.icz LIKE \'%%' . $data['Purchaser']['icz'] . '%%\'';
+		}
+		if (!empty($data['Purchaser']['user_id'])) {
+			$conditions[] = array('Purchaser.user_id' => $data['Purchaser']['user_id']);
+		}
 		if (!empty($data['PurchaserAddress']['street'])) {
 			$conditions[] = 'PurchaserAddress.street LIKE \'%%' . $data['PurchaserAddress']['street'] . '%%\'';
 		}
 		if (!empty($data['PurchaserAddress']['city'])) {
 			$conditions[] = 'PurchaserAddress.city LIKE \'%%' . $data['PurchaserAddress']['city'] . '%%\'';
+		}
+		if (!empty($data['PurchaserAddress']['region'])) {
+			$conditions[] = 'PurchaserAddress.region LIKE \'%%' . $data['PurchaserAddress']['region'] . '%%\'';
 		}
 		if (!empty($data['ContactPerson']['first_name'])) {
 			$conditions[] = 'ContactPerson.first_name LIKE \'%%' . $data['ContactPerson']['first_name'] . '%%\'';
@@ -243,6 +252,9 @@ class ContactPerson extends AppModel {
 		}
 		if (!empty($data['ContactPersonAddress']['city'])) {
 			$conditions[] = 'ContactPersonAddress.city LIKE \'%%' . $data['ContactPersonAddress']['city'] . '%%\'';
+		}
+		if (!empty($data['ContactPersonAddress']['region'])) {
+			$conditions[] = 'ContactPersonAddress.region LIKE \'%%' . $data['ContactPersonAddress']['region'] . '%%\'';
 		}
 		
 		return $conditions;

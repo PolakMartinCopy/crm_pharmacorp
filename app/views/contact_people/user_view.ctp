@@ -36,6 +36,18 @@
 				<td><?php echo $html->link($contact_person['ContactPerson']['email'], 'mailto:' . $contact_person['ContactPerson']['email'])?></td>
 			</tr>
 			<tr>
+				<th>Číslo bank. účtu</th>
+				<td><?php echo $contact_person['ContactPerson']['bank_account']?></td>
+			</tr>
+			<tr>
+				<th>Datum narození</th>
+				<td><?php echo db2cal_date($contact_person['ContactPerson']['birthday'])?></td>
+			</tr>
+			<tr>
+				<th>Rodné číslo</th>
+				<td><?php echo $contact_person['ContactPerson']['birth_certificate_number']?></td>
+			</tr>
+			<tr>
 				<th>Poznámka</th>
 				<td><?php echo $contact_person['ContactPerson']['note']?></td>
 			</tr>

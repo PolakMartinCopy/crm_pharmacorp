@@ -93,10 +93,12 @@ if (isset($purchaser_id)) {
 		<td><?php echo $form->input('ContactPerson.cellular', array('label' => false, 'size' => 10))?></td>
 	</tr>
 	<tr>
+		<th>Číslo bank. účtu</th>
+		<td colspan="3"><?php echo $this->Form->input('ContactPerson.bank_account', array('label' => false))?></td>
 		<th>Datum narození</th>
-		<td colspan="3"><?php echo $this->Form->input('ContactPerson.birthday', array('label' => false, 'type' => 'text'))?></td>
+		<td><?php echo $this->Form->input('ContactPerson.birthday', array('label' => false, 'type' => 'text'))?></td>
 		<th>Rodné číslo</th>
-		<td colspan="3"><?php echo $this->Form->input('ContactPerson.birth_certificate_number', array('label' => false, 'size' => 15))?></td>
+		<td><?php echo $this->Form->input('ContactPerson.birth_certificate_number', array('label' => false, 'size' => 10))?></td>
 	</tr>
 	<tr>
 		<th>Poznámka</th>

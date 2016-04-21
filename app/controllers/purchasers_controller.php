@@ -262,20 +262,24 @@ class PurchasersController extends AppController {
 				'BusinessSessionState',
 				'BusinessSessionType',
 				'User',
-				'Purchaser'
 			),
 			'order' => array('BusinessSession.date' => 'desc'),
-			'fields' => array('*', 'SUM(Cost.amount) as celkem'),
+			'fields' => array('*'),
 			'limit' => 30,
-			'group' => 'BusinessSession.id',
 			'joins' => array(
 				array(
-					'table' => 'costs',
-					'alias' => 'Cost',
+					'table' => 'purchasers',
+					'alias' => 'Purchaser',
 					'type' => 'LEFT',
-					'conditions' => array('Cost.business_session_id = BusinessSession.id')
-				)
-			)
+					'conditions' => array('Purchaser.id = BusinessSession.purchaser_id')	
+				),
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'LEFT',
+					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
+				),
+			),
 		);
 		$business_sessions = $this->paginate('BusinessSession');
 		unset($this->Purchaser->BusinessSession->virtualFields['purchaser_name']);
@@ -289,6 +293,8 @@ class PurchasersController extends AppController {
 		$business_sessions_find = $this->paginate['BusinessSession'];
 		unset($business_sessions_find['limit']);
 		unset($business_sessions_find['fields']);
+		// do vypisu CSV chci i dalsi data
+		$business_sessions_find['joins']= array_merge($business_sessions_find['joins'], $this->Purchaser->BusinessSession->export_joins);
 		$this->set('business_sessions_find', $business_sessions_find);
 		$this->set('business_sessions_export_fields', $this->Purchaser->BusinessSession->export_fields);
 		

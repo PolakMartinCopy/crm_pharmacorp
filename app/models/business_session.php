@@ -52,6 +52,33 @@ class BusinessSession extends AppModel {
 	
 	var $export_file = 'files/business_sessions.csv';
 	
+	var $export_joins = array(
+		array(
+			'table' => 'business_sessions_costs',
+			'alias' => 'BusinessSessionsCost',
+			'type' => 'LEFT',
+			'conditions' => array('BusinessSessionsCost.business_session_id = BusinessSession.id')
+		),
+		array(
+			'table' => 'cost_types',
+			'alias' => 'CostType',
+			'type' => 'LEFT',
+			'conditions' => array('CostType.id = BusinessSessionsCost.cost_type_id')
+		),
+		array(
+			'table' => 'contracts',
+			'alias' => 'Contract',
+			'type' => 'LEFT',
+			'conditions' => array('BusinessSession.id = Contract.business_session_id')
+		),
+		array(
+			'table' => 'contact_people',
+			'alias' => 'ContactPerson',
+			'type' => 'LEFT',
+			'conditions' => array('Contract.contact_person_id = ContactPerson.id')
+		)
+	);
+	
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 			$this->export_fields = array(

@@ -260,7 +260,7 @@ class BusinessSession extends AppModel {
 			}
 			$line = implode(';', $results);
 			// ulozim radek
-			fwrite($file, iconv('utf-8', 'windows-1250', $line . "\n"));
+			fwrite($file, iconv('utf-8', 'windows-1250//IGNORE', $line . "\n"));
 		}
 
 		fclose($file);

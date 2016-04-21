@@ -127,4 +127,47 @@ class AppModel extends Model {
 		fclose($file);
 		return true;
 	}
+	
+	function getFieldValue($id, $field) {
+		$item = $this->find('first', array(
+				'conditions' => array('id' => $id),
+				'contain' => array(),
+				'fields' => array($field)
+		));
+	
+		if (empty($item)) {
+			return false;
+		}
+		return $item[$this->name][$field];
+	}
+	
+	function getIdByField($value, $field) {
+		$item = $this->find('first', array(
+				'conditions' => array($field => $value),
+				'contain' => array(),
+				'fields' => array('id')
+		));
+		if (empty($item)) {
+			return false;
+		}
+		return $item[$this->name]['id'];
+	}
+	
+	function getItemById($id) {
+		$item = $this->find('first', array(
+				'conditions' => array('id' => $id),
+				'contain' => array()
+		));
+		return $item;
+	}
+	
+	function setAttribute($id, $attName, $attValue) {
+		$save = array(
+				$this->name => array(
+						'id' => $id,
+						$attName => $attValue
+				)
+		);
+		return $this->save($save);
+	}
 }

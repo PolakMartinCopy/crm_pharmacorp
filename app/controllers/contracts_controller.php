@@ -219,6 +219,7 @@ class ContractsController extends AppController {
 			if (isset($this->params['named']['contact_person_id'])) {
 				$this->data['Contract']['contact_person_id'] = $this->params['named']['contact_person_id'];
 				$this->data['Contract']['contact_person_name'] = $this->Contract->ContactPerson->autocomplete_field_info($this->params['named']['contact_person_id']);
+				$this->data['Contract']['bank_account'] = $this->Contract->ContactPerson->getFieldValue($this->params['named']['contact_person_id'], 'bank_account');
 			}
 		}
 		

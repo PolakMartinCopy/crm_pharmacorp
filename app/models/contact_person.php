@@ -180,14 +180,15 @@ class ContactPerson extends AppModel {
 				)
 			),
 			'order' => array('ContactPerson.name' => 'asc'),
-			'fields' => array('ContactPerson.id', 'ContactPerson.name', 'Purchaser.*')
+			'fields' => array('ContactPerson.id', 'ContactPerson.name', 'Purchaser.*', 'ContactPerson.bank_account')
 		));
 
 		$autocomplete_contact_people = array();
 		foreach ($contact_people as $contact_person) {
 			$autocomplete_contact_people[] = array(
-					'label' => $this->autocomplete_field_info($contact_person['ContactPerson']['id']),
-					'value' => $contact_person['ContactPerson']['id']
+				'label' => $this->autocomplete_field_info($contact_person['ContactPerson']['id']),
+				'value' => $contact_person['ContactPerson']['id'],
+				'bank_account' => $contact_person['ContactPerson']['bank_account']
 			);
 		}
 		return json_encode($autocomplete_contact_people);

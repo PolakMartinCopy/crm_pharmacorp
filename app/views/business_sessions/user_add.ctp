@@ -118,8 +118,10 @@
 					count = $(this).closest('tr').attr('data-education-count');
 					var fieldName = '#Contract' + count + 'ContactPersonName';
 					var fieldId = '#Contract' + count + 'ContactPersonId';
+					var fieldBankAccount = '#Contract' + count + 'BankAccount';
 					$(fieldName).val(ui.item.label);
 					$(fieldId).val(ui.item.value);
+					$(fieldBankAccount).val(ui.item.bank_account);
 					return false;
 				}
 			});

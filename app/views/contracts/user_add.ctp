@@ -55,6 +55,7 @@
 			select: function(event, ui) {
 				$('#ContractContactPersonName').val(ui.item.label);
 				$('#ContractContactPersonId').val(ui.item.value);
+				$('#ContractBankAccount').val(ui.item.bank_account);
 				return false;
 			}
 		});

@@ -190,7 +190,7 @@ function educationRow(count) {
 	rowData += '<input name="data[Contract][' + count + '][contact_person_name]" type="text" size="50" id="Contract' + count + 'ContactPersonName" class="contact-person-name">';
 	rowData += '<input type="hidden" name="data[Contract][' + count + '][contact_person_id]" id="Contract' + count + 'ContactPersonId">';
 	rowData += '</td>';
-	rowData += '<td rowspan="6"><a href="#" class="addEducationRowButton">+</a>&nbsp;<a href="#" class="removeEducationRowButton">-</a></td>';
+	rowData += '<td rowspan="6"><a href="#" class="removeEducationRowButton">-</a></td>';
 	rowData += '</tr>';
 	rowData += '<tr class="education" data-education-count="' + count + '">';
 	rowData += '<th>Typ dohody</th>';
@@ -327,7 +327,7 @@ function educationRow(count) {
 			echo $this->Form->error('Contract.' . $i . '.birth_certificate_number');
 			echo $this->Form->hidden('Contract.' . $i . '.contact_person_id');
 		?></td>
-		<td rowspan="6"><a href="#" class="addEducationRowButton">+</a>&nbsp;<a href="#" class="removeEducationRowButton">-</a></td>
+		<td rowspan="6"><a href="#" class="removeEducationRowButton">-</a></td>
 	</tr>
 	<tr class="education" data-education-count="<?php echo $i?>">
 		<th>Typ dohody</th>
@@ -374,7 +374,7 @@ function educationRow(count) {
 			echo $this->Form->error('Contract.' . $i . '.birth_certificate_number');
 			echo $this->Form->hidden('Contract.' . $i . '.contact_person_id');
 		?></td>
-		<td rowspan="6"><a href="#" class="addEducationRowButton">+</a>&nbsp;<a href="#" class="removeEducationRowButton">-</a></td>
+		<td rowspan="6"><a href="#" class="removeEducationRowButton">-</a></td>
 	</tr>
 	<tr class="education" data-education-count="<?php echo $i?>">
 		<th>Typ dohody</th>

@@ -215,7 +215,8 @@ class ContractsController extends AppController {
 				$this->Session->setFlash('Dohodu se nepodařilo uložit, opravte chyby ve formuláři a uložte ji prosím znovu.');
 			}
 		} else {
-			$this->data['Contract']['year'] = 2015;
+			$this->data['Contract']['year'] = date('Y');
+			$this->data['Contract']['month'] = date('m');
 			if (isset($this->params['named']['contact_person_id'])) {
 				$this->data['Contract']['contact_person_id'] = $this->params['named']['contact_person_id'];
 				$this->data['Contract']['contact_person_name'] = $this->Contract->ContactPerson->autocomplete_field_info($this->params['named']['contact_person_id']);

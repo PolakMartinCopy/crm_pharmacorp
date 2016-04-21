@@ -570,6 +570,8 @@ class BusinessSessionsController extends AppController {
 				$this->data['BusinessSession']['purchaser_id'] = $this->params['named']['purchaser_id'];
 				$this->data['BusinessSession']['purchaser_name'] = $this->BusinessSession->Purchaser->autocomplete_field_info($this->params['named']['purchaser_id']);
 			}
+			$this->data['Contract'][0]['year'] = date('Y');
+			$this->data['Contract'][0]['month'] = date('m');
 		}
 		
 		
@@ -723,7 +725,10 @@ class BusinessSessionsController extends AppController {
 			$this->data['BusinessSession']['time'] = $time[1];
 			$this->data['BusinessSession']['date'] = db2cal_date($date);
 			$this->data['BusinessSession']['purchaser_name'] = $this->BusinessSession->Purchaser->autocomplete_field_info($business_session['BusinessSession']['purchaser_id']);
-			if (!empty($business_session['Contract'])) {
+			if (empty($business_session['Contract'])) {
+				$this->data['Contract'][0]['year'] = date('Y');
+				$this->data['Contract'][0]['month'] = date('m');
+			} else {
 				$this->data['BusinessSession']['is_education'] = true;
 				foreach ($this->data['Contract'] as &$contract) {
 					$contract['contact_person_name'] = $this->BusinessSession->Contract->ContactPerson->autocomplete_field_info($contract['contact_person_id']);

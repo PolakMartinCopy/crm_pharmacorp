@@ -141,6 +141,10 @@
 			<td colspan="5"><?php echo $this->Form->input('DeliveryNote.description', array('label' => false, 'cols' => 40, 'rows' => 5))?></td>
 		</tr>
 		<tr>
+			<th>Dodáno</th>
+			<td colspan="5"><?php echo $this->Form->input('DeliveryNote.shipping_id', array('label' => false, 'type' => 'select', 'options' => $shippings))?></td>
+		</tr>
+		<tr>
 			<th colspan="2">Zboží</th>
 			<th style="text-align:right">LOT</th>
 			<th style="text-align:right">EXP</th>

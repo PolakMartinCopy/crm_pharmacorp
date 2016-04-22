@@ -95,7 +95,7 @@ class TransactionsController extends AppController {
 					'alias' => 'User',
 					'type' => 'left',
 					'conditions' => array($model . '.user_id = User.id')
-				)
+				),
 			),
 			'fields' => array(
 				$model . '.id',
@@ -138,6 +138,7 @@ class TransactionsController extends AppController {
 		$find = $this->paginate;
 		unset($find['limit']);
 		unset($find['fields']);
+		$find = $this->$model->getCSVFind($find);
 		$this->set('find', $find);
 
 		// nastaveni textu (pohled je pro dodaci listy i prodeje stejny)

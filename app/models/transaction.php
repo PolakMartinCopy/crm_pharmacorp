@@ -176,6 +176,7 @@ class Transaction extends AppModel {
 			array('field' => 'ProductsTransaction.id', 'position' => '["ProductsTransaction"]["id"]', 'alias' => 'ProductsTransaction.id'),
 			array('field' => $this->alias . '.date', 'position' => '["' . $this->alias . '"]["date"]', 'alias' => $this->alias . '.date'),
 			array('field' => $this->alias . '.code', 'position' => '["' . $this->alias . '"]["code"]', 'alias' => $this->alias . '.code'),
+			array('field' => 'TRIM(CONCAT(PurchaserUser.last_name, " ", PurchaserUser.first_name)) AS purchaser_user_full_name', 'position' => '[0]["purchaser_user_full_name"]', 'alias' => 'PurchaserUser.fullname'),
 			array('field' => 'BusinessPartner.id', 'position' => '["BusinessPartner"]["id"]', 'alias' => 'BusinessPartner.id'),
 			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
 			array('field' => 'BusinessPartner.ico', 'position' => '["BusinessPartner"]["ico"]', 'alias' => 'BusinessPartner.ico'),
@@ -251,5 +252,18 @@ class Transaction extends AppModel {
 			return false;
 		}
 		return $transaction[$alias]['code'];
+	}
+	
+	function getCSVFind($find) {
+		$csv_joins = array(
+			array(
+				'table' => 'users',
+				'alias' => 'PurchaserUser',
+				'type' => 'left',
+				'conditions' => array('Purchaser.user_id = PurchaserUser.id')
+			)
+		);
+		$find['joins'] = array_merge($find['joins'], $csv_joins);
+		return $find;
 	}
 }

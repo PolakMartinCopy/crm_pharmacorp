@@ -645,6 +645,7 @@ class PurchasersController extends AppController {
 		$delivery_notes_find = $this->paginate['DeliveryNote'];
 		unset($delivery_notes_find['limit']);
 		unset($delivery_notes_find['fields']);
+		$delivery_notes_find = $this->Purchaser->DeliveryNote->getCSVFind($delivery_notes_find);
 		$this->set('delivery_notes_find', $delivery_notes_find);
 		
 		$delivery_notes_export_fields = $this->Purchaser->DeliveryNote->export_fields();
@@ -785,6 +786,7 @@ class PurchasersController extends AppController {
 		$sales_find = $this->paginate['Sale'];
 		unset($sales_find['limit']);
 		unset($sales_find['fields']);
+		$sales_find = $this->Purchaser->Sale->getCSVFind($sales_find);
 		$this->set('sales_find', $sales_find);
 		
 		$sales_export_fields = $this->Purchaser->Sale->export_fields();
@@ -926,6 +928,7 @@ class PurchasersController extends AppController {
 		$transactions_find = $this->paginate['Transaction'];
 		unset($transactions_find['limit']);
 		unset($transactions_find['fields']);
+		$transactions_find = $this->Purchaser->Transaction->getCSVFind($transactions_find);
 		$this->set('transactions_find', $transactions_find);
 		
 		$transactions_export_fields = $this->Purchaser->Transaction->export_fields();

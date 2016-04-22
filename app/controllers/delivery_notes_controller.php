@@ -68,6 +68,8 @@ class DeliveryNotesController extends TransactionsController {
 		}
 		
 		$this->set('user', $this->user);
+		$shippings = $this->DeliveryNote->Shipping->findList();
+		$this->set('shippings', $shippings);
 	}
 
 	function view_pdf($id = null) {

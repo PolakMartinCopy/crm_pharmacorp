@@ -57,7 +57,8 @@ if (empty($products)) { ?>
 		<th><?php echo $this->Paginator->sort('Kód skupiny', 'Product.group_code')?></th>
 		<th><?php echo $this->Paginator->sort('Název', 'Product.name')?></th>
 		<th><?php echo $this->Paginator->sort('Jednotka', 'Unit.name')?></th>
-		<th><?php echo $this->Paginator->sort('Cena', 'Product.price')?></th>
+		<th><?php echo $this->Paginator->sort('Cena<br/>bez DPH', 'Product.price', array('escape' => false))?></th>
+		<th><?php echo $this->Paginator->sort('Úhrada VZP', 'Product.price')?></th>
 		<th><?php echo $this->Paginator->sort('Edukace', 'Product.education')?></th>
 		<th>&nbsp;</th>
 	</tr>
@@ -68,6 +69,7 @@ if (empty($products)) { ?>
 		<td><?php echo $product['Product']['name']?></td>
 		<td><?php echo $product['Unit']['name']?></td>
 		<td align="right"><?php echo $product['Product']['price']?></td>
+		<td align="right"><?php echo $product['Product']['vzp_compensation']?></td>
 		<td align="right"><?php echo $product['Product']['education']?></td>
 		<td><?php
 			echo $this->Html->link('Upravit', array('action' => 'edit', $product['Product']['id'])) . ' | ';

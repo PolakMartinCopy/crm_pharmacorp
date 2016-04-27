@@ -28,6 +28,12 @@ class Product extends AppModel {
 				'message' => 'Zadejte cenu zboží'
 			)
 		),
+		'vzp_compensation' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Zadejte úhradu VZP'
+			)
+		),
 		'education' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
@@ -46,6 +52,7 @@ class Product extends AppModel {
 		array('field' => 'Product.group_code', 'position' => '["Product"]["group_code"]', 'alias' => 'Product.group_code'),
 		array('field' => 'Unit.name', 'position' => '["Unit"]["name"]', 'alias' => 'Unit.name'),
 		array('field' => 'Product.price', 'position' => '["Product"]["price"]', 'alias' => 'Product.price'),
+		array('field' => 'Product.vzp_compensation', 'position' => '["Product"]["vzp_compensation"]', 'alias' => 'Product.vzp_compensation'),
 		array('field' => 'Product.education', 'position' => '["Product"]["education"]', 'alias' => 'Product.education')
 	);
 	

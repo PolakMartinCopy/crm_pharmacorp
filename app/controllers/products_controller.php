@@ -36,7 +36,6 @@ class ProductsController extends AppController {
 		$this->paginate = array(
 			'conditions' => $conditions,
 			'contain' => array('Unit'),
-			'fields' => array('Product.id', 'Product.vzp_code', 'Product.group_code', 'Product.name', 'Product.price', 'Product.education', 'Unit.name'),
 			'order' => array('Product.name' => 'asc'),
 			'limit' => 40
 		);

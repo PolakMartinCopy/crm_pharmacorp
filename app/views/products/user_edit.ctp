@@ -18,8 +18,12 @@
 		<td><?php echo $this->Form->input('Product.unit_id', array('label' => false))?></td>
 	</tr>
 	<tr>
-		<th>Cena</th>
+		<th>Cena bez DPH</th>
 		<td><?php echo $this->Form->input('Product.price', array('label' => false, 'size' => 7, 'after' => '&nbsp;Kč'))?></td>
+	</tr>
+	<tr>
+		<th>Úhrada VZP</th>
+		<td><?php echo $this->Form->input('Product.vzp_compensation', array('label' => false, 'size' => 7, 'after' => '&nbsp;Kč'))?></td>
 	</tr>
 	<tr>
 		<th>Edukace</th>

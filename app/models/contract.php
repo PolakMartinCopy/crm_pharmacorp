@@ -200,7 +200,7 @@ class Contract extends AppModel {
 		return $date;
 	}
 	
-	// datum splatnosti je posledni den mesice, pro ktery byla dohoda vyhotovena
+	// datum splatnosti je prvni den mesice, pro ktery byla dohoda vyhotovena
 	function signature_date($id) {
 		$contract = $this->find('first', array(
 			'conditions' => array('Contract.id' => $id),
@@ -213,12 +213,7 @@ class Contract extends AppModel {
 			$month = '0' . $month;
 		}
 		// prvni den v mesici
-		$first_day_date = $contract['Contract']['year'] . '-' . $month . '-01';
-		// pocet dni v mesici
-		$number_of_days = $maxDays=date('t', strtotime($first_day_date));
-
-		$date = $contract['Contract']['year'] . '-' . $month . '-' . $number_of_days;
-		$date = date('d.m.Y', strtotime($date));
+		$date = '01.' . $month . '.' . $contract['Contract']['year'];
 		return $date;
 	}
 	

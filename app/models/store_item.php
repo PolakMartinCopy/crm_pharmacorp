@@ -83,4 +83,55 @@ class StoreItem extends AppModel {
 	
 		return $conditions;
 	}
+	
+	// vrati pocet tydnu, jak dlouho mu vystaci stavajici pocet daneho produktu (podle toho, jak v minulosti dany produkt prodaval)
+	function getWeekReserve($id = null) {
+		if (!$id) {
+			return false;
+		}
+		$virtualFields = $this->virtualFields;
+		$this->virtualFields = array();
+		$storeItem = $this->find('first', array(
+			'conditions' => array('StoreItem.id' => $id),
+			'contain' => array(),
+		));
+		$this->virtualFields = $virtualFields;
+		if (empty($storeItem)) {
+			return false;
+		}
+		
+		$defaultStartDate = '2016-01-01';
+		$startDate = date('Y-m-d', strtotime('-1 year'));
+		if ($startDate < $defaultStartDate) {
+			$startDate = $defaultStartDate;
+		}
+		$endDate = date('Y-m-d');
+		$weeksDiff = datediff('ww', $startDate, $endDate);
+		$weekReserveField = 'ABS(ROUND(' . $storeItem['StoreItem']['quantity'] . ' / (SUM(ProductsTransaction.quantity) / ' . $weeksDiff . ')))';
+
+		$productsTransactionVirtualFields = $this->Purchaser->Sale->ProductsTransaction->virtualFields;
+		$deliveryNoteVirtualFields = $this->Purchaser->Sale->virtualFields;
+		
+		$this->Purchaser->Sale->ProductsTransaction->virtualFields = array('reserve' => $weekReserveField);
+		$this->Purchaser->Sale->virtualFields = array();
+		// kolik techto produktu prodal odberatel v intervalu od pocatku do ted
+		$product = $this->Purchaser->Sale->ProductsTransaction->find('first', array(
+			'conditions' => array(
+				'ProductsTransaction.product_id' => $storeItem['StoreItem']['product_id'],
+				'Sale.date >=' => $startDate,
+				'Sale.date <' => $endDate,
+				'Sale.purchaser_id' => $storeItem['StoreItem']['purchaser_id'],
+				'Sale.transaction_type_id' => 3
+			),
+			'contain' => array('Sale'),
+			'group' => array('ProductsTransaction.product_id'),
+			'fields' => array('ProductsTransaction.product_id', 'ProductsTransaction.reserve')
+		));
+		$this->Purchaser->Sale->ProductsTransaction->virtualFields = $productsTransactionVirtualFields;
+		$this->Purchaser->Sale->virtualFields = $deliveryNoteVirtualFields;
+		if (empty($product)) {
+			return false;
+		}
+		return $product['ProductsTransaction']['reserve'];
+	}
 }

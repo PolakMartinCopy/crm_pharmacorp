@@ -1292,13 +1292,17 @@ class PurchasersController extends AppController {
 			$store_items = $this->Purchaser->StoreItem->find('all', array(
 				'conditions' => array(
 					'StoreItem.purchaser_id' => $id,
-					'StoreItem.quantity !=' => 0
+//					'StoreItem.quantity !=' => 0
 				),
 				'contain' => array(
 					'Product'
 				),
 				'order' => array('Product.name' => 'asc')
 			));
+			
+			foreach ($store_items as &$store_item) {
+				$store_item['StoreItem']['week_reserve'] = $this->Purchaser->StoreItem->getWeekReserve($store_item['StoreItem']['id']);
+			}
 
 			$res['success'] = true;
 			$res['data'] = $store_items;

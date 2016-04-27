@@ -100,11 +100,15 @@
 		var res = '<p><em>Sklad odběratele je prázdný</em></p>.';
 		if (storeItems.length > 0) {
 			res = '<table class="top_heading">';
-			res += '<tr><th>Název</th><th>Množství</th></tr>'
+			res += '<tr><th>Název</th><th>Množství</th><th>Zásoba</th></tr>'
 				
 			for (i=0; i<storeItems.length; i++) {
 				storeItem = storeItems[i];
-				res += '<tr><td>' + storeItem.Product.name + '</td><td align="right">' + storeItem.StoreItem.quantity + '</td></tr>';
+				reserveInfo = 'n/a';
+				if (typeof storeItem.StoreItem.week_reserve !== 'undefined' && storeItem.StoreItem.week_reserve != null && storeItem.StoreItem.week_reserve !== false) {
+					reserveInfo = storeItem.StoreItem.week_reserve;
+				}
+				res += '<tr><td>' + storeItem.Product.name + '</td><td align="right">' + storeItem.StoreItem.quantity + '</td><td align="right">' + reserveInfo + '</td></tr>';
 			}
 			res += '</table><br/>';
 		}

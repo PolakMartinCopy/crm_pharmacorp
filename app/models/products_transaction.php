@@ -52,14 +52,25 @@ class ProductsTransaction extends AppModel {
 			$product = $this->Product->find('first', array(
 				'conditions' => array('Product.id' => $data['ProductsTransaction']['product_id']),
 				'contain' => array(),
-				'fields' => array('Product.price')
+				'fields' => array('Product.price', 'Product.vzp_compensation')
+			));
+			
+			$transaction = $this->Transaction->find('first', array(
+				'conditions' => array('Transaction.id' => $data['ProductsTransaction']['transaction_id']),
+				'contain' => array(),
+				'fields' => array('Transaction.transaction_type_id')
 			));
 
-			if (empty($product)) {
+			if (empty($product) || empty($transaction)) {
 				return false;
 			} else {
-				// vyplnim si cenu a marzi produktu v dobe vytvoreni polozky
+				// vyplnim si cenu produktu v dobe vytvoreni polozky
+				// u dodacich listu je to cena produktu bez DPH
 				$this->data['ProductsTransaction']['unit_price'] = $product['Product']['price'];
+				// u poukazu / prodeju je to uhrada  vzp
+				if ($transaction['Transaction']['transaction_type_id'] == 3) {
+					$this->data['ProductsTransaction']['unit_price'] = $product['Product']['vzp_compensation'];
+				}
 				$this->save($this->data);
 			}
 			

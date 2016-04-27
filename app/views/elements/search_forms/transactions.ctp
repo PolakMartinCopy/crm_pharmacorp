@@ -15,7 +15,9 @@
 			<th>Název obchodního partnera</th>
 			<td><?php echo $form->input('TransactionForm.BusinessPartner.name', array('label' => false))?></td>
 			<th>IČO</th>
-			<td colspan="3"><?php echo $form->input('TransactionForm.BusinessPartner.ico', array('label' => false))?></td>
+			<td><?php echo $form->input('TransactionForm.BusinessPartner.ico', array('label' => false))?></td>
+			<th>Obchodník</th>
+			<td><?php echo $this->Form->input('TransactionForm.Purchaser.user_id', array('label' => false, 'empty' => true, 'options' => $users))?></td>
 		</tr>
 		<tr>
 			<th>Příjmení odběratele</th>
@@ -41,10 +43,6 @@
 			<td><?php echo $this->Form->input('TransactionForm.Transaction.date_from', array('label' => false, 'type' => 'text'))?></td>
 			<th>Datum do</th>
 			<td><?php echo $this->Form->input('TransactionForm.Transaction.date_to', array('label' => false, 'type' => 'text'))?></td>
-			<th>Obchodník</th>
-			<td><?php echo $this->Form->input('TransactionForm.Transaction.user_id', array('label' => false, 'empty' => true, 'options' => $users))?></td>
-		</tr>
-		<tr>
 			<th>Číslo dokladu</th>
 			<td colspan="5"><?php echo $this->Form->input('TransactionForm.Transaction.code', array('label' => false, 'type' => 'text'))?></td>
 		</tr>

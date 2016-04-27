@@ -123,6 +123,9 @@ class Transaction extends AppModel {
 		if (!empty($data['BusinessPartner']['ico'])) {
 			$conditions[] = 'BusinessPartner.ico LIKE \'%%' . $data['BusinessPartner']['ico'] . '%%\'';
 		}
+		if (!empty($data['Purchaser']['user_id'])) {
+			$conditions['Purchaser.user_id'] = $data['Purchaser']['user_id'];
+		}
 		if (!empty($data['Purchaser']['last_name'])) {
 			$conditions[] = 'Purchaser.last_name LIKE \'%%' . $data['Purchaser']['last_name'] . '%%\'';
 		}
@@ -153,9 +156,6 @@ class Transaction extends AppModel {
 		}
 		if (!empty($data[$this->alias]['code'])) {
 			$conditions[] = $this->virtualFields['code'] . ' LIKE \'%%' . $data[$this->alias]['code'] . '%%\'';
-		}
-		if (!empty($data[$this->alias]['user_id'])) {
-			$conditions[$this->alias . '.user_id'] = $data[$this->alias]['user_id'];
 		}
 		if (!empty($data['Product']['name'])) {
 			$conditions[] = 'Product.name LIKE \'%%' . $data['Product']['name'] . '%%\'';

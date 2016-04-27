@@ -90,12 +90,6 @@ class TransactionsController extends AppController {
 					'type' => 'LEFT',
 					'conditions' => array($model . '.transaction_type_id = TransactionType.id')
 				),
-				array(
-					'table' => 'users',
-					'alias' => 'User',
-					'type' => 'left',
-					'conditions' => array($model . '.user_id = User.id')
-				),
 			),
 			'fields' => array(
 				$model . '.id',

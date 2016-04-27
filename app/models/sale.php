@@ -77,7 +77,7 @@ class Sale extends Transaction {
 			array('field' => 'ProductsTransaction.id', 'position' => '["ProductsTransaction"]["id"]', 'alias' => 'ProductsTransaction.id'),
 			array('field' => $this->alias . '.date', 'position' => '["' . $this->alias . '"]["date"]', 'alias' => $this->alias . '.date'),
 			array('field' => $this->alias . '.code', 'position' => '["' . $this->alias . '"]["code"]', 'alias' => $this->alias . '.code'),
-			array('field' => 'TRIM(CONCAT(PurchaserUser.last_name, " ", PurchaserUser.first_name)) AS purchaser_user_full_name', 'position' => '[0]["purchaser_user_full_name"]', 'alias' => 'PurchaserUser.fullname'),
+			array('field' => $this->purchaserUserName . ' AS purchaser_user_full_name', 'position' => '[0]["purchaser_user_full_name"]', 'alias' => 'PurchaserUser.fullname'),
 			array('field' => 'BusinessPartner.id', 'position' => '["BusinessPartner"]["id"]', 'alias' => 'BusinessPartner.id'),
 			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
 			array('field' => 'BusinessPartner.ico', 'position' => '["BusinessPartner"]["ico"]', 'alias' => 'BusinessPartner.ico'),
@@ -91,8 +91,11 @@ class Sale extends Transaction {
 			array('field' => 'ProductsTransaction.unit_price', 'position' => '["ProductsTransaction"]["unit_price"]', 'alias' => 'ProductsTransaction.unit_price'),
 			array('field' => '`ProductsTransaction`.`unit_price` * `ProductsTransaction`.`quantity` AS `ProductsTransaction__total_price`', 'position' => '["ProductsTransaction"]["total_price"]', 'alias' => 'ProductsTransaction.total_price'),
 			array('field' => 'Unit.shortcut', 'position' => '["Unit"]["shortcut"]', 'alias' => 'Unit.shortcut'),
-			array('field' => 'User.id', 'position' => '["User"]["id"]', 'alias' => 'User.id'),
-			array('field' => 'User.last_name', 'position' => '["User"]["last_name"]', 'alias' => 'User.last_name')
+			array('field' => 'Address.street', 'position' => '["Address"]["street"]', 'alias' => 'Address.street'),
+			array('field' => 'Address.number', 'position' => '["Address"]["number"]', 'alias' => 'Address.number'),
+			array('field' => 'Address.city', 'position' => '["Address"]["city"]', 'alias' => 'Address.city'),
+			array('field' => 'Address.zip', 'position' => '["Address"]["zip"]', 'alias' => 'Address.zip'),
+			array('field' => 'Address.region', 'position' => '["Address"]["region"]', 'alias' => 'Address.region'),
 		);
 		
 		// u prodeju se chci zbavit zapornych hodnot u mnozstvi a celkove ceny

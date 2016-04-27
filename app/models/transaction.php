@@ -48,6 +48,8 @@ class Transaction extends AppModel {
 	
 	var $export_file = 'files/transactions.csv';
 	
+	var $purchaserUserName = 'TRIM(CONCAT(PurchaserUser.last_name, " ", PurchaserUser.first_name))';
+	
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 		$this->virtualFields['code'] = 'CONCAT(TransactionType.document_prefix, ' . $this->alias . '.year, ' . $this->alias . '.month, ' . $this->alias . '.order)';
@@ -190,10 +192,8 @@ class Transaction extends AppModel {
 			array('field' => 'ProductsTransaction.unit_price', 'position' => '["ProductsTransaction"]["unit_price"]', 'alias' => 'ProductsTransaction.unit_price'),
 			array('field' => '`ProductsTransaction`.`unit_price` * `ProductsTransaction`.`quantity` AS `ProductsTransaction__total_price`', 'position' => '["ProductsTransaction"]["total_price"]', 'alias' => 'ProductsTransaction.total_price'),
 			array('field' => 'Unit.shortcut', 'position' => '["Unit"]["shortcut"]', 'alias' => 'Unit.shortcut'),
-			array('field' => 'User.id', 'position' => '["User"]["id"]', 'alias' => 'User.id'),
 			array('field' => 'TransactionType.id', 'position' => '["TransactionType"]["id"]', 'alias' => 'TransactionType.id'),
 			array('field' => 'TransactionType.name', 'position' => '["TransactionType"]["name"]', 'alias' => 'TransactionType.name'),
-			array('field' => 'User.last_name', 'position' => '["User"]["last_name"]', 'alias' => 'User.last_name')
 		);
 		
 		return $export_fields;
@@ -261,7 +261,7 @@ class Transaction extends AppModel {
 				'alias' => 'PurchaserUser',
 				'type' => 'left',
 				'conditions' => array('Purchaser.user_id = PurchaserUser.id')
-			)
+			),
 		);
 		$find['joins'] = array_merge($find['joins'], $csv_joins);
 		return $find;

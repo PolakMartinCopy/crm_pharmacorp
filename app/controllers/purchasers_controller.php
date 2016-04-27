@@ -577,12 +577,6 @@ class PurchasersController extends AppController {
 					'type' => 'LEFT',
 					'conditions' => array('DeliveryNote.transaction_type_id = TransactionType.id')
 				),
-				array(
-					'table' => 'users',
-					'alias' => 'User',
-					'type' => 'left',
-					'conditions' => array('DeliveryNote.user_id = User.id')
-				)
 			),
 			'fields' => array(
 				'DeliveryNote.id',
@@ -723,11 +717,11 @@ class PurchasersController extends AppController {
 					'conditions' => array('Sale.transaction_type_id = TransactionType.id')
 				),
 				array(
-					'table' => 'users',
-					'alias' => 'User',
+					'table' => 'addresses',
+					'alias' => 'Address',
 					'type' => 'left',
-					'conditions' => array('Sale.user_id = User.id')
-				)
+					'conditions' => array('Address.purchaser_id = Purchaser.id')
+				),
 			),
 			'fields' => array(
 				'Sale.id',

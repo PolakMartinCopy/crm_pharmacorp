@@ -45,6 +45,33 @@ class Sale extends Transaction {
 		return $wallet;
 	}
 	
+	function getLast($purchaserId, $productId) {
+		$last = $this->ProductsTransaction->find('first', array(
+			'conditions' => array(
+				'Sale.purchaser_id' => $purchaserId,
+				'ProductsTransaction.product_id' => $productId,
+				// kdyz mam sale v contain, nebere to Sale::beforeFind, takze omezeni na to, ze je to typ "prodej" musim pridat implicitne
+				'Sale.transaction_type_id' => 3
+			),
+			'contain' => array('Sale'),
+			'fields' => array('Sale.date'),
+			'order' => array('Sale.date' => 'desc')
+		));
+		
+		return $last;
+	}
+	
+	function getLastDate($purchaserId, $productId, $czech = false) {
+		if ($last = $this->getLast($purchaserId, $productId)) {
+			if ($czech) {
+				return czech_date($last['Sale']['date']);
+			}
+			return $last['Sale']['date'];
+		}
+		
+		return false;
+	}
+	
 	function export_fields() {
 		$export_fields = array(
 			array('field' => 'ProductsTransaction.id', 'position' => '["ProductsTransaction"]["id"]', 'alias' => 'ProductsTransaction.id'),

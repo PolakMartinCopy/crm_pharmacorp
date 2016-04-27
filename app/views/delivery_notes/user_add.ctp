@@ -100,7 +100,7 @@
 		var res = '<p><em>Sklad odběratele je prázdný</em></p>.';
 		if (storeItems.length > 0) {
 			res = '<table class="top_heading">';
-			res += '<tr><th>Název</th><th>Množství</th><th>Zásoba</th></tr>'
+			res += '<tr><th>Název</th><th>Mn.</th><th>Zásoba</th><th>Posl. poukaz</th></tr>'
 				
 			for (i=0; i<storeItems.length; i++) {
 				storeItem = storeItems[i];
@@ -108,7 +108,12 @@
 				if (typeof storeItem.StoreItem.week_reserve !== 'undefined' && storeItem.StoreItem.week_reserve != null && storeItem.StoreItem.week_reserve !== false) {
 					reserveInfo = storeItem.StoreItem.week_reserve;
 				}
-				res += '<tr><td>' + storeItem.Product.name + '</td><td align="right">' + storeItem.StoreItem.quantity + '</td><td align="right">' + reserveInfo + '</td></tr>';
+
+				lastSaleInfo = 'n/a';
+				if (typeof storeItem.StoreItem.last_sale_date !== 'undefined' && storeItem.StoreItem.last_sale_date != null && storeItem.StoreItem.last_sale_date !== false) {
+					lastSaleInfo = storeItem.StoreItem.last_sale_date;
+				}
+				res += '<tr><td>' + storeItem.Product.name + '</td><td align="right">' + storeItem.StoreItem.quantity + '</td><td align="right">' + reserveInfo + '</td><td align="right">' + lastSaleInfo + '</td></tr>';
 			}
 			res += '</table><br/>';
 		}

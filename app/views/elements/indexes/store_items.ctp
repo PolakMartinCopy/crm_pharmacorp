@@ -22,12 +22,12 @@
 			<td><?php echo $store_item['StoreItem']['id']?></td>
 			<td><?php echo $store_item['Product']['vzp_code']?></td>
 			<td><?php echo $store_item['Product']['name']?></td>
-			<td><?php echo $store_item['StoreItem']['quantity']?></td>
+			<td align="right"><?php echo $store_item['StoreItem']['quantity']?></td>
 			<td><?php echo $store_item['Unit']['shortcut']?></td>
-			<td><?php echo $store_item['Product']['price']?></td>
-			<td><?php echo $store_item['StoreItem']['item_total_price']?></td>
+			<td align="right"><?php echo $store_item['Product']['price']?></td>
+			<td align="right"><?php echo $store_item['StoreItem']['item_total_price']?></td>
 			<td><?php echo $store_item['Product']['group_code']?></td>
-			<td><?php echo czech_date($store_item['StoreItem']['last_sale_date'])?></td>
+			<td align="right"><?php echo czech_date($store_item['StoreItem']['last_sale_date'])?></td>
 		</tr>
 	</tbody>
 <?php } ?>
@@ -35,9 +35,9 @@
 		<tr>
 			<th>Celkem</th>
 			<th colspan="2">&nbsp;</th>
-			<th><?php echo $store_items_quantity?></th>
+			<th align="right"><?php echo $store_items_quantity?></th>
 			<th colspan="2">&nbsp;</th>
-			<th><?php echo $store_items_price?></td>
+			<th align="right"><?php echo $store_items_price?></td>
 			<th colspan="2">&nbsp;</th>
 		</tr>
 	</tfoot>

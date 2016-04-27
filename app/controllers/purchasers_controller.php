@@ -483,23 +483,7 @@ class PurchasersController extends AppController {
 		foreach ($store_items as &$store_item) {
 			$store_items_quantity += $store_item['StoreItem']['quantity'];
 			$store_items_price += $store_item['StoreItem']['item_total_price'];
-			
-			$last_sale = $this->Purchaser->Sale->ProductsTransaction->find('first', array(
-				'conditions' => array(
-					'Sale.purchaser_id' => $id,
-					'ProductsTransaction.product_id' => $store_item['Product']['id'],
-					// kdyz mam sale v contain, nebere to Sale::beforeFind, takze omezeni na to, ze je to typ "prodej" musim pridat implicitne
-					'Sale.transaction_type_id' => 3
-				),
-				'contain' => array('Sale'),
-				'fields' => array('Sale.date'),
-				'order' => array('Sale.date' => 'desc')
-			));
-
-			$store_item['StoreItem']['last_sale_date'] = null;
-			if (!empty($last_sale)) {
-				$store_item['StoreItem']['last_sale_date'] = $last_sale['Sale']['date'];
-			}
+			$store_item['StoreItem']['last_sale_date'] = $this->Purchaser->Sale->getLastDate($id, $store_item['Product']['id']);
 		}
 		$this->set('store_items_quantity', $store_items_quantity);
 		$this->set('store_items_price', $store_items_price);
@@ -1302,6 +1286,7 @@ class PurchasersController extends AppController {
 			
 			foreach ($store_items as &$store_item) {
 				$store_item['StoreItem']['week_reserve'] = $this->Purchaser->StoreItem->getWeekReserve($store_item['StoreItem']['id']);
+				$store_item['StoreItem']['last_sale_date'] = $this->Purchaser->Sale->getLastDate($id, $store_item['StoreItem']['product_id'], true);
 			}
 
 			$res['success'] = true;

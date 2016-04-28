@@ -494,6 +494,7 @@ class PurchasersController extends AppController {
 		$store_items_find = $this->paginate['StoreItem'];
 		unset($store_items_find['limit']);
 		unset($store_items_find['fields']);
+		$store_items_find = $this->Purchaser->StoreItem->getCSVFind($store_items_find);
 		$this->set('store_items_find', $store_items_find);
 		
 		$this->set('store_items_export_fields', $this->Purchaser->StoreItem->export_fields);

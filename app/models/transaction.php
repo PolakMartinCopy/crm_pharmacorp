@@ -48,8 +48,6 @@ class Transaction extends AppModel {
 	
 	var $export_file = 'files/transactions.csv';
 	
-	var $purchaserUserName = 'TRIM(CONCAT(PurchaserUser.last_name, " ", PurchaserUser.first_name))';
-	
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 		$this->virtualFields['code'] = 'CONCAT(TransactionType.document_prefix, ' . $this->alias . '.year, ' . $this->alias . '.month, ' . $this->alias . '.order)';

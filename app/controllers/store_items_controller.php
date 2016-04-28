@@ -107,6 +107,9 @@ class StoreItemsController extends AppController {
 			$store['StoreItem']['last_sale_date'] = $this->StoreItem->Purchaser->Sale->getLastDate($store['Purchaser']['id'], $store['Product']['id'], true);
 		}
 
+		$find = $this->StoreItem->getCSVFind($find);
+		unset($find['limit']);
+		unset($find['fields']);
 		$this->set(compact('find', 'stores'));
 		$this->set('export_fields', $this->StoreItem->export_fields);
 		

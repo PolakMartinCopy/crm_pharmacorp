@@ -62,6 +62,8 @@ class Purchaser extends AppModel {
 	
 	var $full_title = 'TRIM(CONCAT(Purchaser.degree_before, " ", Purchaser.first_name, " ", Purchaser.last_name, " ", Purchaser.degree_after))';
 	
+	var $userName = 'TRIM(CONCAT(PurchaserUser.last_name, " ", PurchaserUser.first_name))';
+	
 	var $export_file = 'files/purchasers.csv';
 	
 	var $export_fields = array(

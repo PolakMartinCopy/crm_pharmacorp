@@ -20,6 +20,7 @@ class StoreItem extends AppModel {
 	function __construct($id = null, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 		$this->export_fields = array(
+			array('field' => $this->Purchaser->userName . ' AS purchaser_user_full_name', 'position' => '[0]["purchaser_user_full_name"]', 'alias' => 'PurchaserUser.fullname'),
 			array('field' => 'Purchaser.id', 'position' => '["Purchaser"]["id"]', 'alias' => 'Purchaser.id'),
 			array('field' => $this->Purchaser->virtualFields['name'], 'position' => '[0][\'' .  $this->Purchaser->virtualFields['name'] . '\']', 'alias' => 'Purchaser.name', 'escape_quotes' => false),
 			array('field' => 'BusinessPartner.id', 'position' => '["BusinessPartner"]["id"]', 'alias' => 'BusinessPartner.id'),
@@ -37,14 +38,6 @@ class StoreItem extends AppModel {
 			array('field' => 'Product.group_code', 'position' => '["Product"]["group_code"]', 'alias' => 'Product.group_code'),
 		);
 	}
-	
-/* 	function beforeSave() {
-		if (isset($this->data['StoreItem']['id']) && $this->data['StoreItem']['quantity'] == 0) {
-			$this->delete($this->data['StoreItem']['id']);
-			return false;
-		}
-		return true;
-	} */
 	
 	function do_form_search($conditions = array(), $data) {
 		if (!empty($data['BusinessPartner']['name'])) {
@@ -136,5 +129,87 @@ class StoreItem extends AppModel {
 			return false;
 		}
 		return $product['ProductsTransaction']['reserve'];
+	}
+	
+	function xls_export($find, $export_fields, $virtualFields = array()) {
+		// exportuju udaj o tom, ktera pole jsou soucasti vystupu
+		$find['fields'] = Set::extract('/field', $export_fields);
+	
+		// vyhledam data podle zadanych kriterii
+		if (!empty($virtualFields)) {
+			foreach ($virtualFields as  $key => $value) {
+				$this->virtualFields[$key] = $value;
+			}
+		}
+		$data = $this->find('all', $find);
+		// u skladu musim dopocist zasobu a posledni prodej
+		foreach ($data as &$item) {
+			$item['StoreItem']['week_reserve'] = $this->getWeekReserve($item['StoreItem']['id']);
+			$item['StoreItem']['last_sale_date'] = $this->Purchaser->Sale->getLastDate($item['Purchaser']['id'], $item['Product']['id'], true);
+		}
+
+		$file = fopen($this->export_file, 'w');
+	
+		// zjistim aliasy, pod kterymi se vypisuji atributy v csv souboru
+		$aliases = Set::extract('/alias', $export_fields);
+	
+		$line = implode(';', $aliases);
+		// do souboru zapisu hlavicku csv (nazvy sloupcu)
+		fwrite($file, iconv('utf-8', 'windows-1250', $line . "\r\n"));
+	
+		$positions = Set::extract('/position', $export_fields);
+		// do souboru zapisu data (radky vysledku)
+		foreach ($data as $item) {
+	
+			$line = '';
+			$results = array();
+			foreach ($positions as $index => $position) {
+				$expression = '$item' . $position;
+				$escape_quotes = true;
+				if (array_key_exists('escape_quotes', $export_fields[$index])) {
+					$escape_quotes = $export_fields[$index]['escape_quotes'];
+				}
+				if ($escape_quotes) {
+					$expression = str_replace('"', '\'', $expression);
+				}
+	
+				eval("\$result = ". $expression . ";");
+	
+				if (in_array($position, $month_fields)) {
+					$months = months();
+					$result = $months[$result];
+				} else {
+					// prevedu sloupce s datetime
+					$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2}) (.+)$/', '$3.$2.$1 $4', $result);
+					// prevedu sloupce s datem
+					$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2})$/', '$3.$2.$1', $result);
+					// nahradim desetinnou tecku carkou
+					$result = preg_replace('/^(-?\d+)\.(\d+)$/', '$1,$2', $result);
+					// odstranim nove radky
+					$result = str_replace("\r\n", ' ', $result);
+				}
+				$results[] = $result;
+			}
+			$line = implode(';', $results);
+	
+			// ulozim radek
+			fwrite($file, iconv('utf-8', 'windows-1250', $line . "\n"));
+		}
+	
+		fclose($file);
+		return true;
+	}
+	
+	function getCSVFind($find) {
+		$csv_joins = array(
+			array(
+				'table' => 'users',
+				'alias' => 'PurchaserUser',
+				'type' => 'left',
+				'conditions' => array('Purchaser.user_id = PurchaserUser.id')
+			),
+		);
+		$find['joins'] = array_merge($find['joins'], $csv_joins);
+		return $find;
 	}
 }

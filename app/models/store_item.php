@@ -53,6 +53,9 @@ class StoreItem extends AppModel {
 		if (!empty($data['BusinessPartner']['ico'])) {
 			$conditions[] = 'BusinessPartner.ico LIKE \'%%' . $data['BusinessPartner']['ico'] . '%%\'';
 		}
+		if (!empty($data['Purchaser']['user_id'])) {
+			$conditions['Purchaser.user_id'] = $data['Purchaser']['user_id'];
+		}
 		if (!empty($data['Purchaser']['last_name'])) {
 			$conditions[] = 'Purchaser.last_name LIKE \'%%' . $data['Purchaser']['last_name'] . '%%\'';
 		}		

@@ -103,7 +103,11 @@ class StoreItemsController extends AppController {
 		unset($this->StoreItem->virtualFields['purchaser_name']);
 		
 		$this->set(compact('find', 'stores'));
-		$this->set('export_fields', $this->StoreItem->export_fields);		
+		$this->set('export_fields', $this->StoreItem->export_fields);
+		
+		// seznam uzivatelu pro select ve filtru
+		$users = $this->StoreItem->Purchaser->User->users_filter_list($this->user['User']['user_type_id'], $this->user['User']['id']);
+		$this->set('users', $users);
 	}
 	
 	function user_pdf_export() {

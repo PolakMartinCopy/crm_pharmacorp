@@ -15,7 +15,9 @@
 			<th>Název obchodního partnera</th>
 			<td><?php echo $form->input('StoreItemForm.BusinessPartner.name', array('label' => false))?></td>
 			<th>IČO</th>
-			<td colspan="3"><?php echo $form->input('StoreItemForm.BusinessPartner.ico', array('label' => false))?></td>
+			<td><?php echo $form->input('StoreItemForm.BusinessPartner.ico', array('label' => false))?></td>
+			<th>Obchodník</th>
+			<td><?php echo $form->input('StoreItemForm.Purchaser.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
 		</tr>
 		<tr>
 			<th>Příjmení odběratele</th>

@@ -102,6 +102,11 @@ class StoreItemsController extends AppController {
 		$stores = $this->paginate();
 		unset($this->StoreItem->virtualFields['purchaser_name']);
 		
+		foreach ($stores as &$store) {
+			$store['StoreItem']['week_reserve'] = $this->StoreItem->getWeekReserve($store['StoreItem']['id']);
+			$store['StoreItem']['last_sale_date'] = $this->StoreItem->Purchaser->Sale->getLastDate($store['Purchaser']['id'], $store['Product']['id'], true);
+		}
+
 		$this->set(compact('find', 'stores'));
 		$this->set('export_fields', $this->StoreItem->export_fields);
 		

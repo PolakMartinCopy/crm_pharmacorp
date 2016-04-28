@@ -292,7 +292,7 @@ if (isset($this->params['named']['tab'])) {
 			$paginator->params['paging'] = $store_items_paging;
 			$paginator->__defaultModel = 'StoreItem';
 			
-			echo $this->element('indexes/store_items');
+			echo $this->element('indexes/store_items', array('stores' => $store_items));
 		} // end if ?>
 	</div>
 	

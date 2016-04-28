@@ -475,7 +475,7 @@ class PurchasersController extends AppController {
 		);
 		$store_items = $this->paginate('StoreItem');
 		unset($this->Purchaser->StoreItem->virtualFields['purchaser_name']);
-		
+	
 		// budu pocitat celkove soucty polozek a soucet ceny vsech polozek
 		$store_items_quantity = 0;
 		$store_items_price = 0;
@@ -483,7 +483,8 @@ class PurchasersController extends AppController {
 		foreach ($store_items as &$store_item) {
 			$store_items_quantity += $store_item['StoreItem']['quantity'];
 			$store_items_price += $store_item['StoreItem']['item_total_price'];
-			$store_item['StoreItem']['last_sale_date'] = $this->Purchaser->Sale->getLastDate($id, $store_item['Product']['id']);
+			$store_item['StoreItem']['week_reserve'] = $this->Purchaser->StoreItem->getWeekReserve($store_item['StoreItem']['id']);
+			$store_item['StoreItem']['last_sale_date'] = $this->Purchaser->Sale->getLastDate($id, $store_item['Product']['id'], true);
 		}
 		$this->set('store_items_quantity', $store_items_quantity);
 		$this->set('store_items_price', $store_items_price);

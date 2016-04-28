@@ -39,7 +39,7 @@ class StoreItemsController extends AppController {
 
 		$this->StoreItem->virtualFields['purchaser_name'] = $this->StoreItem->Purchaser->virtualFields['name'];
 		// pomoci strankovani (abych je mohl jednoduse radit) vyberu VSECHNY polozky skladu odberatele
-		$this->paginate['StoreItem'] = $find = array(
+		$this->paginate = $find = array(
 			'conditions' => $conditions,
 			'contain' => array(),
 			'joins' => array(
@@ -101,6 +101,11 @@ class StoreItemsController extends AppController {
 		);
 		$stores = $this->paginate();
 		unset($this->StoreItem->virtualFields['purchaser_name']);
+		
+		$store_items_quantity = $this->StoreItem->getTotalQuantity($this->paginate['conditions'], $this->paginate['contain'], $this->paginate['joins']);
+		$store_items_price = $this->StoreItem->getTotalPrice($this->paginate['conditions'], $this->paginate['contain'], $this->paginate['joins']);
+		$this->set('store_items_quantity', $store_items_quantity);
+		$this->set('store_items_price', $store_items_price);
 		
 		foreach ($stores as &$store) {
 			$store['StoreItem']['week_reserve'] = $this->StoreItem->getWeekReserve($store['StoreItem']['id']);

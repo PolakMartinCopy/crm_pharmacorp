@@ -208,4 +208,20 @@ class StoreItem extends AppModel {
 		$find['joins'] = array_merge($find['joins'], $csv_joins);
 		return $find;
 	}
+	
+	function getTotalQuantityOptions() {
+		return array('col_name' => 'total_quantity', 'col_expr' => 'StoreItem.quantity');
+	}
+	
+	function getTotalPriceOptions() {
+		return array('col_name' => 'total_price', 'col_expr' => $this->virtualFields['item_total_price']);
+	}
+	
+ 	function getTotalQuantity($conditions, $contain, $joins) {
+		return $this->getTotal($conditions, $contain, $joins, $this->getTotalQuantityOptions());
+	}
+	
+	function getTotalPrice($conditions, $contain, $joins) {
+		return $this->getTotal($conditions, $contain, $joins, $this->getTotalPriceOptions());
+	}
 }

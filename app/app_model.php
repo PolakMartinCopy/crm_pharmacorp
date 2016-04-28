@@ -172,4 +172,15 @@ class AppModel extends Model {
 		);
 		return $this->save($save);
 	}
+	
+	function getTotal($conditions, $contain, $joins, $options) {
+		$total = $this->find('first', array(
+			'conditions' => $conditions,
+			'contain' => $contain,
+			'joins' => $joins,
+			'fields' => array('SUM(' . $options['col_expr'] . ') AS ' . $options['col_name'])
+		));
+		
+		return $total[0][$options['col_name']];
+	}
 }

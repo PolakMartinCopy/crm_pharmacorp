@@ -379,38 +379,6 @@ class PurchasersController extends AppController {
 		App::import('Model', 'Unit');
 		$this->Purchaser->StoreItem->Unit = new Unit;
 		
-		// chci znat pocet polozek skladu odberatele
-		$count = $this->Purchaser->StoreItem->find('count', array(
-			'conditions' => $store_items_conditions,
-			'contain' => array(),
-			'joins' => array(
-				array(
-					'table' => 'purchasers',
-					'alias' => 'Purchaser',
-					'type' => 'left',
-					'conditions' => array('Purchaser.id = StoreItem.purchaser_id')
-				),
-				array(
-					'table' => 'business_partners',
-					'alias' => 'BusinessPartner',
-					'type' => 'left',
-					'conditions' => array('BusinessPartner.id = Purchaser.business_partner_id')
-				),
-				array(
-					'table' => 'addresses',
-					'alias' => 'Address',
-					'type' => 'left',
-					'conditions' => array('Purchaser.id = Address.purchaser_id')
-				),
-				array(
-					'table' => 'products',
-					'alias' => 'Product',
-					'type' => 'left',
-					'conditions' => array('StoreItem.product_id = Product.id')
-				),
-			)
-		));
-		
 		$this->Purchaser->StoreItem->virtualFields['purchaser_name'] = $this->Purchaser->virtualFields['name'];
 		// pomoci strankovani (abych je mohl jednoduse radit) vyberu VSECHNY polozky skladu odberatele
 		$this->paginate['StoreItem'] = array(
@@ -470,24 +438,23 @@ class PurchasersController extends AppController {
 					
 				'Unit.shortcut'
 			),
-			'limit' => $count,
+			'show' => 'all',
 			'order' => array('Product.vzp_code' => 'asc')
 		);
 		$store_items = $this->paginate('StoreItem');
 		unset($this->Purchaser->StoreItem->virtualFields['purchaser_name']);
-	
+
 		// budu pocitat celkove soucty polozek a soucet ceny vsech polozek
-		$store_items_quantity = 0;
-		$store_items_price = 0;
+		$store_items_quantity = $this->Purchaser->StoreItem->getTotalQuantity($this->paginate['StoreItem']['conditions'], $this->paginate['StoreItem']['contain'], $this->paginate['StoreItem']['joins']);
+		$store_items_price = $this->Purchaser->StoreItem->getTotalPrice($this->paginate['StoreItem']['conditions'], $this->paginate['StoreItem']['contain'], $this->paginate['StoreItem']['joins']);
+		$this->set('store_items_quantity', $store_items_quantity);
+		$this->set('store_items_price', $store_items_price);
+		
 		// k polozkam skladu doplnim datum posledniho prodeje, ve kterem byla polozka obsazena
 		foreach ($store_items as &$store_item) {
-			$store_items_quantity += $store_item['StoreItem']['quantity'];
-			$store_items_price += $store_item['StoreItem']['item_total_price'];
 			$store_item['StoreItem']['week_reserve'] = $this->Purchaser->StoreItem->getWeekReserve($store_item['StoreItem']['id']);
 			$store_item['StoreItem']['last_sale_date'] = $this->Purchaser->Sale->getLastDate($id, $store_item['Product']['id'], true);
 		}
-		$this->set('store_items_quantity', $store_items_quantity);
-		$this->set('store_items_price', $store_items_price);
 		
 		$this->set('store_items_paging', $this->params['paging']);
 		

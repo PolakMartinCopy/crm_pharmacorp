@@ -187,7 +187,7 @@ class Transaction extends AppModel {
 			array('field' => 'Product.group_code', 'position' => '["Product"]["group_code"]', 'alias' => 'Product.group_code'),
 			array('field' => 'ProductsTransaction.quantity', 'position' => '["ProductsTransaction"]["quantity"]', 'alias' => 'ProductsTransaction.quantity'),
 			array('field' => 'ProductsTransaction.unit_price', 'position' => '["ProductsTransaction"]["unit_price"]', 'alias' => 'ProductsTransaction.unit_price'),
-			array('field' => $this->ProductsTransaction->virtualFields['total_price'] . ' AS products_transaction_total_price', 'position' => '[0][products_transaction_total_price]', 'alias' => 'ProductsTransaction.total_price'),
+			array('field' => $this->ProductsTransaction->virtualFields['total_price'] . ' AS products_transaction_total_price', 'position' => '[0]["products_transaction_total_price"]', 'alias' => 'ProductsTransaction.total_price'),
 			array('field' => 'Unit.shortcut', 'position' => '["Unit"]["shortcut"]', 'alias' => 'Unit.shortcut'),
 			array('field' => 'TransactionType.id', 'position' => '["TransactionType"]["id"]', 'alias' => 'TransactionType.id'),
 			array('field' => 'TransactionType.name', 'position' => '["TransactionType"]["name"]', 'alias' => 'TransactionType.name'),

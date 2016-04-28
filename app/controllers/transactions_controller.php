@@ -129,6 +129,11 @@ class TransactionsController extends AppController {
 		unset($this->$model->virtualFields['purchaser_name']);
 		$this->set('transactions', $transactions);
 		
+		$total_quantity = $this->$model->getTotalQuantity($this->paginate['conditions'], $this->paginate['contain'], $this->paginate['joins']);
+		$total_price = $this->$model->getTotalPrice($this->paginate['conditions'], $this->paginate['contain'], $this->paginate['joins']);
+		$this->set('transactions_total_quantity', $total_quantity);
+		$this->set('transactions_total_price', $total_price);
+		
 		$find = $this->paginate;
 		unset($find['limit']);
 		unset($find['fields']);

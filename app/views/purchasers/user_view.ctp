@@ -322,7 +322,7 @@ if (isset($this->params['named']['tab'])) {
 			
 			$paginator->params['paging'] = $delivery_notes_paging;
 			$paginator->__defaultModel = 'DeliveryNote'; 
-			echo $this->element('indexes/transactions', array('model' => 'DeliveryNote', 'transactions' => $delivery_notes));
+			echo $this->element('indexes/transactions', array('model' => 'DeliveryNote', 'transactions' => $delivery_notes, 'transactions_total_quantity' => $delivery_notes_total_quantity, 'transactions_total_price' => $delivery_notes_total_price));
 		} ?>
 		
 	</div>
@@ -355,7 +355,7 @@ if (isset($this->params['named']['tab'])) {
 			$paginator->params['paging'] = $sales_paging;
 			$paginator->__defaultModel = 'Sale';
 
-			echo $this->element('indexes/transactions', array('model' => 'Sale', 'transactions' => $sales));
+			echo $this->element('indexes/transactions', array('model' => 'Sale', 'transactions' => $sales, 'transactions_total_quantity' => $sales_total_quantity, 'transactions_total_price' => $sales_total_price));
 		} ?>
 	</div>
 	

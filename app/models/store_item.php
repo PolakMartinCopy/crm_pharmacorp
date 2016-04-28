@@ -216,12 +216,4 @@ class StoreItem extends AppModel {
 	function getTotalPriceOptions() {
 		return array('col_name' => 'total_price', 'col_expr' => $this->virtualFields['item_total_price']);
 	}
-	
- 	function getTotalQuantity($conditions, $contain, $joins) {
-		return $this->getTotal($conditions, $contain, $joins, $this->getTotalQuantityOptions());
-	}
-	
-	function getTotalPrice($conditions, $contain, $joins) {
-		return $this->getTotal($conditions, $contain, $joins, $this->getTotalPriceOptions());
-	}
 }

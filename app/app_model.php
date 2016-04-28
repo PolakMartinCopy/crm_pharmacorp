@@ -173,6 +173,14 @@ class AppModel extends Model {
 		return $this->save($save);
 	}
 	
+	function getTotalQuantity($conditions, $contain, $joins) {
+		return $this->getTotal($conditions, $contain, $joins, $this->getTotalQuantityOptions());
+	}
+	
+	function getTotalPrice($conditions, $contain, $joins) {
+		return $this->getTotal($conditions, $contain, $joins, $this->getTotalPriceOptions());
+	}
+	
 	function getTotal($conditions, $contain, $joins, $options) {
 		$total = $this->find('first', array(
 			'conditions' => $conditions,

@@ -263,4 +263,12 @@ class Transaction extends AppModel {
 		$find['joins'] = array_merge($find['joins'], $csv_joins);
 		return $find;
 	}
+	
+	function getTotalQuantityOptions() {
+		return array('col_name' => 'total_quantity', 'col_expr' => $this->virtualFields['quantity']);
+	}
+	
+	function getTotalPriceOptions() {
+		return array('col_name' => 'total_price', 'col_expr' => $this->virtualFields['total_price']);
+	}
 }

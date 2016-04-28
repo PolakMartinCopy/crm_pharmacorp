@@ -586,6 +586,11 @@ class PurchasersController extends AppController {
 		);
 		$delivery_notes = $this->paginate('DeliveryNote');
 		unset($this->Purchaser->DeliveryNote->virtualFields['purchaser_name']);
+		
+		$delivery_notes_total_quantity = $this->Purchaser->DeliveryNote->getTotalQuantity($this->paginate['DeliveryNote']['conditions'], $this->paginate['DeliveryNote']['contain'], $this->paginate['DeliveryNote']['joins']);
+		$delivery_notes_total_price = $this->Purchaser->DeliveryNote->getTotalPrice($this->paginate['DeliveryNote']['conditions'], $this->paginate['DeliveryNote']['contain'], $this->paginate['DeliveryNote']['joins']);
+		$this->set('delivery_notes_total_quantity', $delivery_notes_total_quantity);
+		$this->set('delivery_notes_total_price', $delivery_notes_total_price);
 
 		$this->set('delivery_notes_paging', $this->params['paging']);
 		
@@ -727,6 +732,11 @@ class PurchasersController extends AppController {
 		);
 		$sales = $this->paginate('Sale');
 		unset($this->Purchaser->Sale->virtualFields['purchaser_name']);
+		
+		$sales_total_quantity = $this->Purchaser->Sale->getTotalQuantity($this->paginate['Sale']['conditions'], $this->paginate['Sale']['contain'], $this->paginate['Sale']['joins']);
+		$sales_total_price = $this->Purchaser->Sale->getTotalPrice($this->paginate['Sale']['conditions'], $this->paginate['Sale']['contain'], $this->paginate['Sale']['joins']);
+		$this->set('sales_total_quantity', $sales_total_quantity);
+		$this->set('sales_total_price', $sales_total_price);
 
 		$this->set('sales_paging', $this->params['paging']);
 		
@@ -869,6 +879,11 @@ class PurchasersController extends AppController {
 		);
 		$transactions = $this->paginate('Transaction');
 		unset($this->Purchaser->Transaction->virtualFields['purchaser_name']);
+		
+		$transactions_total_quantity = $this->Purchaser->Transaction->getTotalQuantity($this->paginate['Transaction']['conditions'], $this->paginate['Transaction']['contain'], $this->paginate['Transaction']['joins']);
+		$transactions_total_price = $this->Purchaser->Transaction->getTotalPrice($this->paginate['Transaction']['conditions'], $this->paginate['Transaction']['contain'], $this->paginate['Transaction']['joins']);
+		$this->set('transactions_total_quantity', $transactions_total_quantity);
+		$this->set('transactions_total_price', $transactions_total_price);
 
 		$this->set('transactions_paging', $this->params['paging']);
 		

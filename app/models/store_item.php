@@ -30,12 +30,14 @@ class StoreItem extends AppModel {
 			array('field' => 'Product.id', 'position' => '["Product"]["id"]', 'alias' => 'Product.id'),
 			array('field' => 'Product.vzp_code', 'position' => '["Product"]["vzp_code"]', 'alias' => 'Product.vzp_code'),
 			array('field' => 'Product.name', 'position' => '["Product"]["name"]', 'alias' => 'Product.name'),
+			array('field' => false, 'position' => '["StoreItem"]["week_reserve"]', 'alias' => 'StoreItem.week_reserve'),
 			array('field' => 'StoreItem.id', 'position' => '["StoreItem"]["id"]', 'alias' => 'StoreItem.id'),
 			array('field' => 'StoreItem.quantity', 'position' => '["StoreItem"]["quantity"]', 'alias' => 'StoreItem.quantity'),
 			array('field' => 'Unit.shortcut', 'position' => '["Unit"]["shortcut"]', 'alias' => 'Unit.shortcut'),
 			array('field' => 'Product.price', 'position' => '["Product"]["price"]', 'alias' => 'Product.price'),
 			array('field' => 'StoreItem.item_total_price', 'position' => '["StoreItem"]["item_total_price"]', 'alias' => 'StoreItem.item_total_price'),
 			array('field' => 'Product.group_code', 'position' => '["Product"]["group_code"]', 'alias' => 'Product.group_code'),
+			array('field' => false, 'position' => '["StoreItem"]["last_sale_date"]', 'alias' => 'StoreItem.last_sale_date'),
 		);
 	}
 	
@@ -134,7 +136,7 @@ class StoreItem extends AppModel {
 	function xls_export($find, $export_fields, $virtualFields = array()) {
 		// exportuju udaj o tom, ktera pole jsou soucasti vystupu
 		$find['fields'] = Set::extract('/field', $export_fields);
-
+		$find['fields'] = array_filter($find['fields']);
 		// vyhledam data podle zadanych kriterii
 		if (!empty($virtualFields)) {
 			foreach ($virtualFields as  $key => $value) {

@@ -134,7 +134,7 @@ class StoreItem extends AppModel {
 	function xls_export($find, $export_fields, $virtualFields = array()) {
 		// exportuju udaj o tom, ktera pole jsou soucasti vystupu
 		$find['fields'] = Set::extract('/field', $export_fields);
-	
+
 		// vyhledam data podle zadanych kriterii
 		if (!empty($virtualFields)) {
 			foreach ($virtualFields as  $key => $value) {
@@ -142,11 +142,6 @@ class StoreItem extends AppModel {
 			}
 		}
 		$data = $this->find('all', $find);
-		// u skladu musim dopocist zasobu a posledni prodej
-		foreach ($data as &$item) {
-			$item['StoreItem']['week_reserve'] = $this->getWeekReserve($item['StoreItem']['id']);
-			$item['StoreItem']['last_sale_date'] = $this->Purchaser->Sale->getLastDate($item['Purchaser']['id'], $item['Product']['id'], true);
-		}
 
 		$file = fopen($this->export_file, 'w');
 	
@@ -160,7 +155,10 @@ class StoreItem extends AppModel {
 		$positions = Set::extract('/position', $export_fields);
 		// do souboru zapisu data (radky vysledku)
 		foreach ($data as $item) {
-	
+			// u skladu musim dopocist zasobu a posledni prodej
+			$item['StoreItem']['week_reserve'] = $this->getWeekReserve($item['StoreItem']['id']);
+			$item['StoreItem']['last_sale_date'] = $this->Purchaser->Sale->getLastDate($item['Purchaser']['id'], $item['Product']['id'], true);	
+
 			$line = '';
 			$results = array();
 			foreach ($positions as $index => $position) {
@@ -175,19 +173,15 @@ class StoreItem extends AppModel {
 	
 				eval("\$result = ". $expression . ";");
 	
-				if (in_array($position, $month_fields)) {
-					$months = months();
-					$result = $months[$result];
-				} else {
-					// prevedu sloupce s datetime
-					$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2}) (.+)$/', '$3.$2.$1 $4', $result);
-					// prevedu sloupce s datem
-					$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2})$/', '$3.$2.$1', $result);
-					// nahradim desetinnou tecku carkou
-					$result = preg_replace('/^(-?\d+)\.(\d+)$/', '$1,$2', $result);
-					// odstranim nove radky
-					$result = str_replace("\r\n", ' ', $result);
-				}
+				// prevedu sloupce s datetime
+				$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2}) (.+)$/', '$3.$2.$1 $4', $result);
+				// prevedu sloupce s datem
+				$result = preg_replace('/^(\d{4})-(\d{2})-(\d{2})$/', '$3.$2.$1', $result);
+				// nahradim desetinnou tecku carkou
+				$result = preg_replace('/^(-?\d+)\.(\d+)$/', '$1,$2', $result);
+				// odstranim nove radky
+				$result = str_replace("\r\n", ' ', $result);
+
 				$results[] = $result;
 			}
 			$line = implode(';', $results);

@@ -1,9 +1,9 @@
-<?php 
-$quantity_field = 'abs_quantity';
-$total_price_field = 'abs_total_price';
-if ($model == 'Transaction') {
-	$quantity_field = 'quantity';
-	$total_price_field = 'total_price';
+<?php
+$quantity_field = 'quantity';
+$total_price_field = 'total_price'; 
+if ($model == 'Sale') {
+	$quantity_field = 'abs_quantity';
+	$total_price_field = 'abs_total_price';
 }
 ?>
 

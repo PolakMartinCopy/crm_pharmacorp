@@ -419,6 +419,7 @@ class PurchasersController extends AppController {
 			'fields' => array(
 				'StoreItem.id',
 				'StoreItem.quantity',
+				'StoreItem.price',
 				'StoreItem.item_total_price',
 				'StoreItem.purchaser_name',
 					
@@ -434,7 +435,6 @@ class PurchasersController extends AppController {
 				'Product.name',
 				'Product.vzp_code',
 				'Product.group_code',
-				'Product.price',
 					
 				'Unit.shortcut'
 			),

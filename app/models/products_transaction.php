@@ -32,6 +32,16 @@ class ProductsTransaction extends AppModel {
 				'message' => 'Zadejte množství zboží'
 			)
 		),
+		'unit_price' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Zadejte jednotkovou cenu zboží'
+			),
+			'notZero' => array(
+				'rule' => array('comparison', 'not equal', 0),
+				'message' => 'Zadejte jednotkovou cenu zboží'
+			)
+		),
 		'product_id' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
@@ -65,41 +75,52 @@ class ProductsTransaction extends AppModel {
 				return false;
 			} else {
 				// vyplnim si cenu produktu v dobe vytvoreni polozky
-				// u dodacich listu je to cena produktu bez DPH
-				$this->data['ProductsTransaction']['unit_price'] = $product['Product']['price'];
+				// u dodacich listu to mam zadano ve formulari
 				// u poukazu / prodeju je to uhrada  vzp
 				if ($transaction['Transaction']['transaction_type_id'] == 3) {
 					$this->data['ProductsTransaction']['unit_price'] = $product['Product']['vzp_compensation'];
 				}
 				$this->save($this->data);
+			
+				// musim upravit stav polozek ve skladu odberatele
+				$store_item = $this->Transaction->Purchaser->StoreItem->find('first', array(
+					'conditions' => array(
+						'StoreItem.product_id' => $data['ProductsTransaction']['product_id'],
+						'StoreItem.purchaser_id' => $data['ProductsTransaction']['purchaser_id']
+					),
+					'contain' => array(),
+					'fields' => array('StoreItem.id', 'StoreItem.quantity', 'StoreItem.price')
+				));
+				
+				if (empty($store_item)) {
+					$store_item = array(
+						'StoreItem' => array(
+							'product_id' => $data['ProductsTransaction']['product_id'],
+							'quantity' => $data['ProductsTransaction']['quantity'],
+							'purchaser_id' => $data['ProductsTransaction']['purchaser_id'],
+							'price' => $data['ProductsTransaction']['unit_price']
+						)
+					);
+				} else {
+					// celkem kusu po pricteni zbozi na sklad
+					$quantity = $store_item['StoreItem']['quantity'] + $data['ProductsTransaction']['quantity'];
+					// cena polozky na sklade pred prictenim kusu
+					$current_store_price = $store_item['StoreItem']['quantity'] * $store_item['StoreItem']['price'];
+					// cena pricitanych ks dane polozky
+					$increment_store_price = $data['ProductsTransaction']['quantity'] * $data['ProductsTransaction']['unit_price'];
+					// nova cena za jednotku u dane polozky
+					$price = ROUND(($current_store_price + $increment_store_price) / $quantity);
+					// nastavim aktualni hodnoty
+					$store_item['StoreItem']['quantity'] = $quantity;
+					$store_item['StoreItem']['price'] = $price;
+										
+				}
+				// ulozim aktualni stav skladu polozky
+				$this->Transaction->Purchaser->StoreItem->create();
+				$this->Transaction->Purchaser->StoreItem->save($store_item);
+				
+				$this->active[] = $this->id;
 			}
-			
-			// musim upravit stav polozek ve skladu odberatele
-			$store_item = $this->Transaction->Purchaser->StoreItem->find('first', array(
-				'conditions' => array(
-					'StoreItem.product_id' => $data['ProductsTransaction']['product_id'],
-					'StoreItem.purchaser_id' => $data['ProductsTransaction']['purchaser_id']
-				),
-				'contain' => array(),
-				'fields' => array('StoreItem.id', 'StoreItem.quantity')
-			));
-			
-			if (empty($store_item)) {
-				$store_item = array(
-					'StoreItem' => array(
-						'product_id' => $data['ProductsTransaction']['product_id'],
-						'quantity' => $data['ProductsTransaction']['quantity'],
-						'purchaser_id' => $data['ProductsTransaction']['purchaser_id']
-					)
-				);
-			} else {
-				$store_item['StoreItem']['quantity'] += $data['ProductsTransaction']['quantity'];					
-			}
-			
-			$this->Transaction->Purchaser->StoreItem->create();
-			$this->Transaction->Purchaser->StoreItem->save($store_item);
-			
-			$this->active[] = $this->id;
 		}
 
 		return true;

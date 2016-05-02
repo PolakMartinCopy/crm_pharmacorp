@@ -11,8 +11,8 @@ class StoreItem extends AppModel {
 	
 	var $virtualFields = array(
 		'total_quantity' => 'SUM(StoreItem.quantity)',
-		'total_price' => 'SUM(Product.price * StoreItem.quantity)',
-		'item_total_price' => 'Product.price * StoreItem.quantity'
+		'total_price' => 'SUM(StoreItem.price * StoreItem.quantity)',
+		'item_total_price' => 'StoreItem.price * StoreItem.quantity'
 	);
 	
 	var $export_file = 'files/store_items.csv';
@@ -106,7 +106,6 @@ class StoreItem extends AppModel {
 		$endDate = date('Y-m-d');
 		$weeksDiff = datediff('ww', $startDate, $endDate);
 		$weekReserveField = 'ABS(ROUND(' . $storeItem['StoreItem']['quantity'] . ' / (SUM(ProductsTransaction.quantity) / ' . $weeksDiff . ')))';
-
 		$productsTransactionVirtualFields = $this->Purchaser->Sale->ProductsTransaction->virtualFields;
 		$deliveryNoteVirtualFields = $this->Purchaser->Sale->virtualFields;
 		
@@ -117,7 +116,7 @@ class StoreItem extends AppModel {
 			'conditions' => array(
 				'ProductsTransaction.product_id' => $storeItem['StoreItem']['product_id'],
 				'Sale.date >=' => $startDate,
-				'Sale.date <' => $endDate,
+				'Sale.date <=' => $endDate,
 				'Sale.purchaser_id' => $storeItem['StoreItem']['purchaser_id'],
 				'Sale.transaction_type_id' => 3
 			),

@@ -109,7 +109,6 @@ class Product extends AppModel {
 		$products = $this->find('all', array(
 			'conditions' => $conditions,
 			'contain' => array(),
-			'fields' => array('Product.id', 'Product.info', 'Product.name', 'Product.education')
 		));
 		
 		$autocomplete_list = array();
@@ -118,7 +117,8 @@ class Product extends AppModel {
 				'label' => $product['Product']['info'],
 				'name' => $product['Product']['name'],
 				'value' => $product['Product']['id'],
-				'education' => $product['Product']['education']
+				'education' => $product['Product']['education'],
+				'price' => $product['Product']['price']
 			);
 		}
 		return json_encode($autocomplete_list);

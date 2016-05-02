@@ -4,6 +4,10 @@ class StoreItemsController extends AppController {
 	
 	var $left_menu_list = array('store_items');
 	
+	function beforeFilter() {
+		$this->Auth->allow('repair');
+	}
+	
 	function beforeRender() {
 		parent::beforeRender();
 		$this->set('active_tab', 'store_items');
@@ -77,6 +81,7 @@ class StoreItemsController extends AppController {
 			'fields' => array(
 				'StoreItem.id',
 				'StoreItem.quantity',
+				'StoreItem.price',
 				'StoreItem.item_total_price',
 				'StoreItem.purchaser_name',
 				
@@ -92,7 +97,6 @@ class StoreItemsController extends AppController {
 				'Product.name',
 				'Product.vzp_code',
 				'Product.group_code',
-				'Product.price',
 							
 				'Unit.shortcut'
 			),
@@ -174,5 +178,24 @@ class StoreItemsController extends AppController {
 		$this->set(compact('purchaser', 'user', 'store_items'));
 		
 		$this->layout = 'pdf'; //this will use the pdf.ctp layout
+	}
+	
+	function repair() {
+		$storeItems = $this->StoreItem->find('all', array(
+			'conditions' => array('StoreItem.price' => 0),
+			'contain' => array('Product'),
+			'fields' => array('StoreItem.id', 'Product.price')
+		));
+		
+		$save = array();
+		foreach ($storeItems as &$storeItem) {
+			$storeItem['StoreItem']['price'] = $storeItem['Product']['price'];
+			$save[] = $storeItem['StoreItem'];
+		}
+		
+		echo $this->StoreItem->saveAll($save);
+		die('jhere');
+		
+		
 	}
 }

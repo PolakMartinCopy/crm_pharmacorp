@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	$(function() {
 		purchaserId = false;
-<?php 	if (isset($this->data['DeliveryNote']['purchaser_id'])) { ?>
+<?php 	if (isset($this->data['DeliveryNote']['purchaser_id']) && !empty($this->data['DeliveryNote']['purchaser_id'])) { ?>
 		purchaserId = <?php echo $this->data['DeliveryNote']['purchaser_id']?>;
 <?php 	} elseif (isset($purchaser['Purchaser']['id'])) { ?>
 		purchaserId = <?php echo $purchaser['Purchaser']['id']?>;
@@ -36,6 +36,7 @@
 					var count = tableRow.attr('rel');
 					$(this).val(ui.item.name);
 					$('#ProductsTransaction' + count + 'ProductId').val(ui.item.value);
+					$('#ProductsTransaction' + count + 'UnitPrice').val(ui.item.price);
 					return false;
 				}
 			});
@@ -71,6 +72,7 @@
 		rowData += '<td align="right"><input name="data[ProductsTransaction][' + count + '][lot]" type="text" size="5" maxlength="20" id="ProductsTransaction' + count + 'Lot" />';
 		rowData += '<td align="right"><input name="data[ProductsTransaction][' + count + '][exp]" type="text" size="5" maxlength="20" id="ProductsTransaction' + count + 'Exp" />';
 		rowData += '<td align="right"><input name="data[ProductsTransaction][' + count + '][quantity]" type="text" size="3" maxlength="10" id="ProductsTransaction' + count + 'Quantity" />';
+		rowData += '<td align="right"><input name="data[ProductsTransaction][' + count + '][unit_price]" type="text" size="3" maxlength="10" id="ProductsTransaction' + count + 'UnitPrice" />&nbsp;Kč';
 		rowData += '</td>';
 		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
 		rowData += '</tr>';
@@ -130,12 +132,12 @@
 <?php } ?>
 </ul>
 
-<div style="width:50%;float:left">
+<div>
 	<?php echo $this->Form->create('DeliveryNote', array('url' => $this->passedArgs));?>
-	<table class="left_heading" style="width:50%">
+	<table class="left_heading">
 		<tr>
 			<th style="width:100px">Odběratel</th>
-			<td colspan="5"><?php 
+			<td colspan="6"><?php 
 				if (isset($purchaser)) {
 					echo $this->Form->input('DeliveryNote.purchaser_name', array('label' => false, 'size' => 30, 'disabled' => true));
 				} else {
@@ -147,17 +149,18 @@
 		</tr>
 		<tr>
 			<th>Popis</th>
-			<td colspan="5"><?php echo $this->Form->input('DeliveryNote.description', array('label' => false, 'cols' => 40, 'rows' => 5))?></td>
+			<td colspan="6"><?php echo $this->Form->input('DeliveryNote.description', array('label' => false, 'cols' => 40, 'rows' => 5))?></td>
 		</tr>
 		<tr>
 			<th>Dodáno</th>
-			<td colspan="5"><?php echo $this->Form->input('DeliveryNote.shipping_id', array('label' => false, 'type' => 'select', 'options' => $shippings))?></td>
+			<td colspan="6"><?php echo $this->Form->input('DeliveryNote.shipping_id', array('label' => false, 'type' => 'select', 'options' => $shippings))?></td>
 		</tr>
 		<tr>
 			<th colspan="2">Zboží</th>
 			<th style="text-align:right">LOT</th>
 			<th style="text-align:right">EXP</th>
 			<th style="text-align:right">Množství</th>
+			<th style="text-align:right">Kč/J</th>
 			<th>&nbsp;</th>
 		</tr>
 		<?php if (empty($this->data['ProductsTransaction'])) { ?>
@@ -170,6 +173,7 @@
 			<td align="right"><?php echo $this->Form->input('ProductsTransaction.0.lot', array('label' => false, 'size' => 5))?></td>
 			<td align="right"><?php echo $this->Form->input('ProductsTransaction.0.exp', array('label' => false, 'size' => 5))?></td>
 			<td align="right"><?php echo $this->Form->input('ProductsTransaction.0.quantity', array('label' => false, 'size' => 3))?></td>
+			<td align="right"><?php echo $this->Form->input('ProductsTransaction.0.unit_price', array('label' => false, 'size' => 3, 'after' => '&nbsp;Kč'))?></td>
 			<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
 		</tr>
 		<?php } else { ?>
@@ -183,6 +187,7 @@
 			<td align="right"><?php echo $this->Form->input('ProductsTransaction.' . $index . '.lot', array('label' => false, 'size' => 5))?></td>
 			<td align="right"><?php echo $this->Form->input('ProductsTransaction.' . $index . '.exp', array('label' => false, 'size' => 5))?></td>
 			<td align="right"><?php echo $this->Form->input('ProductsTransaction.' . $index . '.quantity', array('label' => false, 'size' => 3))?></td>
+			<td align="right"><?php echo $this->Form->input('ProductsTransaction.' . $index . '.unit_price', array('label' => false, 'size' => 3, 'after' => '&nbsp;Kč'))?></td>
 			<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
 		</tr>
 		<?php } ?>
@@ -201,5 +206,5 @@
 	<?php } ?>
 	</ul>
 </div>
-<div id="StoreItems" style="width:50%;float:left"></div>
+<div id="StoreItems"></div>
 <div style="clear:both"></div>

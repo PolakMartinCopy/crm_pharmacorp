@@ -398,9 +398,12 @@ if (isset($this->params['named']['tab'])) {
 		echo $form->hidden('virtual_fields', array('value' => serialize($wallet_transactions_virtual_fields)));
 		echo $form->submit('CSV');
 		echo $form->end();
-		
-		if (empty($wallet_transactions)) {
 ?>
+		<ul>
+			<li><?php echo $this->Html->link('Přidat korekci', array('controller' => 'purchasers', 'action' => 'wallet_correction', $purchaser['Purchaser']['id']))?></li>
+		</ul>
+
+<?php	if (empty($wallet_transactions)) { ?>
 		<p><em>V systému nejsou žádné korekce peněženky.</em></p>
 		<?php } else {
 			$paginator->options(array(
@@ -413,19 +416,21 @@ if (isset($this->params['named']['tab'])) {
 		
 		<table class="top_heading">
 			<tr>
-				<th><?php echo $paginator->sort('Datum', 'WalletTransaction.created')?></th>
+				<th><?php echo $paginator->sort('ID', 'WalletTransaction.id')?></th>
 				<th><?php echo $paginator->sort('Hodnota', 'WalletTransaction.amount')?></th>
 				<th><?php echo $paginator->sort('Peněženka před', 'WalletTransaction.wallet_before')?></th>
 				<th><?php echo $paginator->sort('Peněženka po', 'WalletTransaction.wallet_after')?></th>
-				<th><?php echo $paginator->sort('Zadal', 'WalletTransaction.user_name')?></th>
+				<th><?php echo $paginator->sort('Datum', 'WalletTransaction.date')?></th>
+				<th><?php echo $paginator->sort('Komentář', 'WalletTransaction.comment')?></th>
 			</tr>
 			<?php foreach ($wallet_transactions as $wallet_transaction) { ?>
 			<tr>
-				<td><?php echo $wallet_transaction['WalletTransaction']['created']?></td>
+				<td align="right"><?php echo $wallet_transaction['WalletTransaction']['id']?></td>
 				<td align="right"><?php echo $wallet_transaction['WalletTransaction']['amount']?></td>
 				<td align="right"><?php echo $wallet_transaction['WalletTransaction']['wallet_before']?></td>
 				<td align="right"><?php echo $wallet_transaction['WalletTransaction']['wallet_after']?></td>
-				<td><?php echo $wallet_transaction['WalletTransaction']['user_name']?></td>
+				<td><?php echo ($wallet_transaction['WalletTransaction']['date'] != '0000-00-00'? czech_date($wallet_transaction['WalletTransaction']['date']) : '')?></td>
+				<td><?php echo $wallet_transaction['WalletTransaction']['comment']?></td>
 			</tr>
 			<?php } ?>
 		</table>

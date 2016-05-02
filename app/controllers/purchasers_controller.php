@@ -930,7 +930,7 @@ class PurchasersController extends AppController {
 				'contain' => array('User'),
 				'fields' => array('WalletTransaction.*'),
 				'order' => array(
-					'WalletTransaction.created' => 'desc'
+					'WalletTransaction.id' => 'desc'
 				)
 			);
 			$this->Purchaser->WalletTransaction->virtualFields['user_name'] = $this->Purchaser->WalletTransaction->User->full_name;
@@ -1222,12 +1222,17 @@ class PurchasersController extends AppController {
 			$this->Purchaser->set($this->data);
 			if ($this->Purchaser->validates()) {
 				$user = $this->Auth->user();
+				
+				if ($this->data['WalletTransaction'][0]['date']) {
+					$this->data['WalletTransaction'][0]['date'] = cal2db_date($this->data['WalletTransaction'][0]['date']);
+				}
+				
 				$dataSource = $this->Purchaser->getDataSource();
 				$dataSource->begin($this->Purchaser);
-				if ($this->Purchaser->wallet_transaction($id, $this->data['Purchaser']['wallet_correction'], 'correction', 0, $user['User']['id'])) {
+				if ($this->Purchaser->wallet_transaction($id, $this->data['Purchaser']['wallet_correction'], 'correction', 0, $user['User']['id'], $this->data['WalletTransaction'][0]['date'], $this->data['WalletTransaction'][0]['comment'])) {
 					$dataSource->commit($this->Purchaser);
 					$this->Session->setFlash('Korekce byla uložena');
-					$this->redirect(array('controller' => 'purchasers', 'action' => 'view', $id));
+					$this->redirect(array('controller' => 'purchasers', 'action' => 'view', $id, 'tab' => 13));
 				} else {
 					$dataSource->rollback($this->Purchaser);
 					$this->Session->setFlash('Korekci se nepodařilo uložit');

@@ -20,5 +20,7 @@ class WalletTransaction extends AppModel {
 		array('field' => 'WalletTransaction.wallet_before', 'position' => '["WalletTransaction"]["wallet_before"]', 'alias' => 'WalletTransaction.wallet_before'),
 		array('field' => 'WalletTransaction.wallet_after', 'position' => '["WalletTransaction"]["wallet_after"]', 'alias' => 'WalletTransaction.wallet_after'),
 		array('field' => 'WalletTransaction.user_name', 'position' => '["WalletTransaction"]["user_name"]', 'alias' => 'WalletTransaction.user_name'),
+		array('field' => 'WalletTransaction.date', 'position' => '["WalletTransaction"]["date"]', 'alias' => 'WalletTransaction.date'),
+		array('field' => 'WalletTransaction.comment', 'position' => '["WalletTransaction"]["comment"]', 'alias' => 'WalletTransaction.comment'),
 	);
 }

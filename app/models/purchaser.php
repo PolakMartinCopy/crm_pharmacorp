@@ -95,7 +95,7 @@ class Purchaser extends AppModel {
 		return false;
 	}
 	
-	function wallet_transaction($id, $amount, $type = null, $opId = null, $userId = null) {
+	function wallet_transaction($id, $amount, $type = null, $opId = null, $userId = null, $date = null, $comment = null) {
 		$purchaser = $this->find('first', array(
 			'conditions' => array('Purchaser.id' => $id),
 			'contain' => array(),
@@ -116,7 +116,9 @@ class Purchaser extends AppModel {
 					'wallet_before' => $purchaser['Purchaser']['wallet'],
 					'wallet_after' => $wallet,
 					'user_id' => $userId,
-					$type . '_id' => $opId
+					$type . '_id' => $opId,
+					'date' => $date,
+					'comment' => $comment
 				)
 			);
 			$this->WalletTransaction->save($walletTransactionSave);
